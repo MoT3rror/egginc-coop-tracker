@@ -16,6 +16,10 @@ class Home extends Controller
             $guilds = $user->discordGuilds();
 
             $playerInfo = $user->getEggPlayerInfo();
+
+            if (!$guilds) {
+                $guilds = new \StdClass;
+            }
         }
 
         return Inertia::render('Home', [
