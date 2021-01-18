@@ -32,6 +32,7 @@ class Rank extends Base
         $username = $user->getEggPlayerInfo()->userName;
         $soulEggs = $user->getSoulEggsFormattedAttribute();
         $goldenEggs = $user->getEggsOfProphecyAttribute();
+        $earningBonus = $user->getPlayerEarningBonusFormatted();
         $farmerRole = $user->getPlayerEggRankAttribute();
         $soulEggsNeeded = $user->getSoulEggsNeededForNextRankFormattedAttribute();
         $goldenEggsNeeded = $user->getPENeededForNextRankAttribute();
@@ -46,11 +47,12 @@ class Rank extends Base
 ```
 $username
 Soul Eggs: $soulEggs
-Golden Eggs: $goldenEggs
+Prestige Eggs: $goldenEggs
+Earning Bonus: $earningBonus
 Farmer Role: $farmerRole
 Group Role: $roles
 Total Soul Eggs Needed for Next Rank: $soulEggsNeeded
-Total Golden Eggs Needed for Next Rank: $goldenEggsNeeded
+Total Prestige Eggs Needed for Next Rank: $goldenEggsNeeded
 ```
 RANK;
     }

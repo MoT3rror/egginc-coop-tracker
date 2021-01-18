@@ -29,7 +29,7 @@
                         </p>
 
                         <p>
-                            Golden Eggs:
+                            Prestige Eggs:
                             {{ playerInfo.game.eggsOfProphecy }}
                         </p>
 
@@ -44,7 +44,7 @@
                         </p>
 
                         <p>
-                            Golden Eggs Needed for Next Rank:
+                            Prestige Eggs Needed for Next Rank:
                             {{ user.p_e_needed_for_next_rank }}
                         </p>
 

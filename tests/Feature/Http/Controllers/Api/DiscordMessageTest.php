@@ -485,11 +485,12 @@ PLAYERS;
 ```
 MoT3rror
 Soul Eggs: 932.264q
-Golden Eggs: 127
+Prestige Eggs: 127
+Earning Bonus: 25.263S
 Farmer Role: Zettafarmer 3
 Group Role: 
 Total Soul Eggs Needed for Next Rank: 3.690Q
-Total Golden Eggs Needed for Next Rank: 142
+Total Prestige Eggs Needed for Next Rank: 142
 ```
 RANK;
         $this->assertEquals($expect, $message);
