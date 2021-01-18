@@ -42,7 +42,7 @@
                                 </a>
                             </li>
                             <li class="nav-item" v-if="$parent.$page.user">
-                                <a class="nav-link" href="#">Sign out</a>
+                                <a class="nav-link" :href="route('logout')">Sign out</a>
                             </li>
                         </ul>
                     </div>

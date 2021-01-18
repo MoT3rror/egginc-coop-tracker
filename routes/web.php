@@ -39,4 +39,4 @@ Route::get('login/discord/callback', 'Discord@callback');
 Route::get('logout', function () {
     Auth::logout();
     return redirect('/');
-});
+})->name('logout');
