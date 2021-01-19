@@ -13,6 +13,8 @@ use kbATeam\MarkdownTable\Table;
 
 class Status extends Base
 {
+    protected $middlewares = ['requiresGuild'];
+    
     private function coops(string $contract): Collection
     {
         return Coop::contract($contract)

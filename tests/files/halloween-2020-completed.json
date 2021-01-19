@@ -1,0 +1,154 @@
+{
+    "contract": "halloween-2020",
+    "coop": "test",
+    "league": "standard",
+    "eggs": 1473693624261632,
+    "totalRate": 25899347019.905,
+    "timeLeft": -355916.03755807877,
+    "members": [
+        {
+            "name": "[unknown]",
+            "id": "G:1332732408",
+            "eggs": 620735980047605,
+            "rate": 12407006234.7,
+            "soulPower": 10.512830465957013,
+            "boostTokens": 7,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "BPod-14",
+            "id": "G:174674696",
+            "eggs": 603985311574237,
+            "rate": 8016633240.000001,
+            "soulPower": 10.48526675942006,
+            "boostTokens": 17,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "ConfusingPlank81",
+            "id": "a_3537186566085947099",
+            "eggs": 60054057123714,
+            "rate": 875899332.0000001,
+            "soulPower": 7.812767357438059,
+            "boostTokens": 4,
+            "platform": "ANDROID",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "Draygeth",
+            "id": "G:123961631",
+            "eggs": 57901342488494,
+            "rate": 1669335937.5,
+            "soulPower": 7.570696257060993,
+            "boostTokens": 12,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "50fish 40",
+            "id": "G:351431595",
+            "eggs": 45025799594142,
+            "rate": 980544494.1600001,
+            "soulPower": 10.872604060265662,
+            "boostTokens": 23,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "CaptainTorncy",
+            "id": "U:9a99613879a0c09b0d81d67d437b1aee",
+            "eggs": 39221955820938,
+            "rate": 556427450.964,
+            "soulPower": 8.659364729898671,
+            "boostTokens": 27,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "DarkFierPhoenix880",
+            "id": "g13087504666415556990",
+            "eggs": 19469467517127,
+            "rate": 396633352.5,
+            "soulPower": 9.329282911211601,
+            "boostTokens": 12,
+            "platform": "ANDROID",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "[android-unknown]",
+            "id": "a13657fd5fd09f03",
+            "eggs": 11367175362205,
+            "rate": 400931765.8500001,
+            "soulPower": 9.410231463080803,
+            "boostTokens": 14,
+            "platform": "ANDROID",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "OakPony5005",
+            "id": "g08968507668640062186",
+            "eggs": 10863895125078,
+            "rate": 355846802.04150003,
+            "soulPower": 9.98031394506176,
+            "boostTokens": 14,
+            "platform": "ANDROID",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "[unknown]",
+            "id": "G:1381123028",
+            "eggs": 4990796089242,
+            "rate": 228867187.6,
+            "soulPower": 10.540851270531345,
+            "boostTokens": 8,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "GreenNinjaMV89",
+            "id": "102145581065604174908",
+            "eggs": 75313968647,
+            "rate": 9097237.957500001,
+            "soulPower": 7.662617314598388,
+            "boostTokens": 4,
+            "platform": "ANDROID",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "colinob77",
+            "id": "G:1647606833",
+            "eggs": 2513476735,
+            "rate": 1964054.0920000004,
+            "soulPower": 7.377759648701047,
+            "boostTokens": 0,
+            "platform": "IOS",
+            "active": true,
+            "timeCheatDetected": false
+        },
+        {
+            "name": "NikitaaSmirnov",
+            "id": "g09442172560510649965",
+            "eggs": 16073468,
+            "rate": 159930.54000000004,
+            "soulPower": 9.236510450271215,
+            "boostTokens": 0,
+            "platform": "ANDROID",
+            "active": true,
+            "timeCheatDetected": false
+        }
+    ],
+    "pb_public": true
+}

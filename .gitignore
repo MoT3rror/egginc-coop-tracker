@@ -8,6 +8,7 @@
 /public/vendor
 /resources/js/ziggy.js
 /storage/*.key
+/tmp
 /vendor
 .env
 .env.backup

@@ -61,7 +61,10 @@ class Coop extends Model
 
     public function getProjectedEggs(): int
     {
-        return $this->getCurrentEggs() + ($this->getTotalRate() * $this->getTimeLeft());
+        if ($this->getTimeLeft() < 0) { // if no time left to make more eggs, return what is available
+            return $this->getCurrentEggs();
+        }
+        return $this->getCurrentEggs() + ($this->getTotalRate() * $this->getTimeLeft()); // make a projection
     }
 
     public function getProjectedEggsFormatted(): string
