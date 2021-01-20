@@ -1,0 +1,323 @@
+syntax = "proto3";
+
+option go_package = "github.com/fanaticscripter/EggContractor/api";
+
+// http://www.auxbrain.com/ei/first_contact
+message FirstContactRequestPayload {
+  int32 api_version = 2;
+  int32 platform = 3;
+  string player_id = 4;
+  string _5 = 5;
+  string _6 = 6;
+  string _7 = 7;
+
+  message UserInfo {
+    string player_id = 1;
+    int32 api_version = 2;
+    string client_version = 3;
+    string _4 = 4;
+    string platform = 5;
+  }
+
+  UserInfo userInfo = 8;
+}
+
+// Partially reverse engineered.
+message FirstContact {
+  message Payload {
+    string player_id = 1;
+    string player_name = 2;
+
+    message Settings {
+      int32 sfx = 1;
+      int32 music = 2;
+      int32 notifications = 6;
+      int32 low_performance = 10;
+      int32 advertising = 14;
+      int32 developer_analytics_1 = 22;  // Both toggle together
+      int32 developer_analytics_2 = 23;
+      double backup_timestamp = 24;  // epoch timestamp
+    }
+    Settings settings = 4;
+
+    message Stats {
+      int32 drone_takedowns = 6;
+      repeated double farm_eggs_laid = 8;  // One entry for each egg type.
+      int32 prestiges = 9;
+      int32 elite_drone_takedowns = 10;
+      int32 piggy_level = 11;
+      int32 boosts_used = 13;
+    }
+    Stats stats = 6;
+
+    message Progress {
+      int32 lifefime_golden_eggs = 2;
+      int32 lifetime_golden_eggs_spent = 3;
+      double prestige_earnings = 5;
+      double lifetime_earnings = 6;
+      int32 piggy_bank = 7;
+      repeated EpicResearch epic_researches = 9;
+      repeated int64 max_farm_populations_reached = 18;  // One entry for
+                                                         // each egg type.
+      repeated TrophyType farm_trophy_level = 19;        // One entry for
+                                                         // each egg type.
+      int32 prophecy_eggs = 23;
+      int32 num_daily_gifts_collected = 28;
+      message Boost {
+        string id = 1;
+        int32 count = 2;
+      }
+      repeated Boost boosts = 30;
+      double soul_eggs = 34;
+    }
+    Progress progress = 7;
+
+    repeated Farm farms = 12;
+
+    message Contracts {
+      repeated Contract active_contracts = 1;
+      repeated Contract past_contracts = 2;
+      repeated string contract_ids = 3;
+      repeated CoopStatus active_coop_statuses = 4;
+    }
+    Contracts contracts = 13;
+  }
+  Payload data = 1;
+}
+
+message Farm {
+  EggType egg_type = 1;
+  double prestige_earnings = 2;
+  double _3 = 3;          // on the same order of prestige_earnings but smaller,
+                          // not sure what it is; gift earnings maybe?
+  double last_saved = 5;  // epoch timestamp
+  int64 chicken_count = 6;
+  double eggs_laid = 9;
+  double eggs_paid_for = 10;  // the only difference with eggs_laid seems to be
+                              // that eggs_laid is not rounded, and this is
+                              // rounded down.
+  int32 silos_owned = 11;
+  repeated int32 habitat_types = 12;
+  repeated int64 habitat_populations = 13;
+  repeated int32 vehicle_types = 17;
+  repeated int32 train_lengths = 21;
+  repeated Research researches = 18;
+  string contract_id = 20;  // empty for home farm
+
+  // 22 is a list of active boosts
+}
+
+enum EggType {
+  INVALID_EGG = 0;  // proto3 requires first enum value to be 0.
+
+  EDIBLE = 1;
+  SUPERFOOD = 2;
+  MEDICAL = 3;
+  ROCKET_FUEL = 4;
+  SUPER_MATERIAL = 5;
+  FUSION = 6;
+  QUANTUM = 7;
+  IMMORTALITY = 8;
+  TACHYON = 9;
+  GRAVITON = 10;
+  DILITHIUM = 11;
+  PRODIGY = 12;
+  TERRAFORM = 13;
+  ANTIMATTER = 14;
+  DARK_MATTER = 15;
+  AI = 16;
+  NEBULA = 17;
+  UNIVERSE = 18;
+  ENLIGHTENMENT = 19;
+
+  // Contract-only eggs.
+  CHOCOLATE = 100;
+  EASTER = 101;
+  WATERBALLOON = 102;
+  FIREWORK = 103;
+  PUMPKIN = 104;
+
+  // Placeholder for undiscovered eggs.
+  UNKNOWN = 1000;
+}
+
+enum TrophyType {
+  NO_TROPHY = 0;
+  BRONZE = 1;
+  SILVER = 2;
+  GOLD = 3;
+  PLATINUM = 4;
+  DIAMOND = 5;
+}
+
+message Research {
+  string id = 1;
+  int32 level = 2;
+}
+
+message EpicResearch {
+  string id = 1;
+  int32 level = 2;
+}
+
+message Contract {
+  ContractProperties props = 1;
+  string code = 2;
+  double started = 3;              // epoch timestamp
+  int32 _4 = 4;                    // unknown; example: 1
+  double production_deadline = 5;  // epoch timestamp
+  double completed_goal = 6;
+  int32 _7 = 7;                    // unknown; example: 1
+  double collection_deadline = 9;  // epoch timestamp
+                                   // 2 days after production deadline
+  int32 _10 = 10;                  // unknown; example: 10
+  double player_contribution = 11;
+  string player_id = 13;
+  int32 num_goals_completed = 14;
+  int32 _15 = 15;  // unknown; example: 1
+}
+
+// ContractProperties contains player/session-agnostic properties of a contract.
+message ContractProperties {
+  string id = 1;
+  EggType egg_type = 2;
+  repeated Reward rewards = 3;  // seems always for elite
+                                // for standard rewards, check reward_tiers[1]
+  bool coop_allowed = 4;
+  int32 max_coop_size = 5;
+  double expiry_timestamp = 6;
+  double duration_seconds = 7;  // total time to complete
+  string name = 9;
+  string description = 10;
+  bool debug = 11;
+  int32 max_boosts = 12;
+  double max_soul_eggs = 13;
+  int32 min_client_version = 14;
+  double token_interval_minutes = 15;
+  message RewardTier {
+    repeated Reward rewards = 1;
+  }
+  repeated RewardTier reward_tiers = 16;
+}
+
+message Reward {
+  int32 _1 = 1;
+  double goal = 2;
+  RewardType type = 3;
+  string name = 4;
+  double count = 5;
+  double _6 = 6;  // unknown; maybe a difficulty indicator?
+}
+
+enum RewardType {
+  INVALID_REWARD = 0;  // proto3 requires first enum value to be 0.
+
+  // Never encountered 1.
+  GOLDEN_EGG = 2;
+  SOUL_EGG = 3;
+  PROPHECY_EGG = 4;
+  EPIC_RESEARCH = 5;
+  PIGGY_GOLDEN_EGG = 6;
+  PIGGY_MULTIPLY = 7;  // e.g. xmas-trash "Quantum Trash Bag"
+                       // (type:7, name:"subtype", count:2)
+  PIGGY_LEVEL_UP = 8;
+  BOOST = 9;
+}
+
+// http://www.auxbrain.com/ei/coop_status
+message CoopStatusRequestPayload {
+  string contract_id = 1;
+  string code = 2;
+  string player_id = 3;
+}
+
+message CoopStatus {
+  string contract_id = 1;
+  double eggs_laid = 2;
+  string code = 3;
+  message Member {
+    string id = 1;
+    string name = 2;
+    double eggs_laid = 3;
+    bool active = 4;  // "snoozers" who haven't reported in in 24 hours
+                      // have this field set to false
+    int32 _5 = 5;     // unknown; example: 1 or 2
+    double eggs_per_second = 6;
+    int32 _7 = 7;                   // unknown; example: 7
+    double earning_bonus_oom = 11;  // EB is 10^(earning_bonus_oom + 2)%
+    int32 tokens = 12;
+  }
+  repeated Member members = 4;
+  double seconds_until_production_deadline = 5;
+  int32 _6 = 6;  // unknown, maybe bool; example: 0
+  double seconds_until_collection_deadline = 7;
+  int32 _8 = 8;  // unknown, maybe bool; example: 0
+  string creator_id = 9;
+  int32 _10 = 10;  // unknown, maybe bool; example: 0
+  message TokenGift {
+    string gifter_id = 1;
+    int32 tokens = 2;
+    string gifter_name = 3;
+  }
+  // token_gifts is only available if player_id is specified in
+  // CoopStatusRequestPayload, and only gifts for the requested player are
+  // returned.
+  //
+  // WARNING: gifts are only returned once, meaning that if you intercept a
+  // response carrying gifts without feeding it to the game, the gifts would
+  // simply vanish from game state unless you MITM /coop_status and edit the
+  // response (which is also an obvious cheating vector to bypass the chore of
+  // token griding).
+  repeated TokenGift token_gifts = 11;
+}
+
+// http://www.auxbrain.com/ei/get_periodicals
+message GetPeriodicalsRequestPayload {
+  string player_id = 1;
+  int32 _2 = 2;   // unknown, maybe bool; example: 1
+  int32 _3 = 3;   // unknown, maybe bool; example: 0
+  double _4 = 4;  // Number of seconds since <milestone>, not sure what yet;
+                  // E.g. at the time of writing (2020-12-31), the milestone
+                  // is 2020-12-20T02:14:29+08:00 for me.
+  double _5 = 5;  // Number of seconds since <milestone>, probably the last
+                  // prestige. E.g. at the time of writing (2020-12-31), the
+                  // milestone is 2020-12-28T00:16:45+08:00 for me.
+  double earning_bonus = 8;
+  int32 client_version = 10;
+  int32 _11 = 11;  // unknown, maybe bool; example: 0
+}
+
+message Periodicals {
+  message Sales {
+    repeated Sale sales = 1;
+  }
+  Sales sales = 1;
+  message Events {
+    repeated Event events = 1;
+  }
+  Events events = 2;
+  message Contracts {
+    repeated ContractProperties contracts = 1;
+    double response_timestamp = 2;  // epoch seconds; as to why the hell the
+                                    // response timestamp is nested in such an
+                                    // awkward position, I have no damn clue.
+  }
+  Contracts contracts = 3;
+}
+
+message Sale {
+  string sale_type = 1;  // Example: "piggy_break"
+  double seconds_remaining = 2;
+  string sale_amount = 3;  // Example: "40%"; no equivalent numeric field
+  string id = 4;           // Example: "gametime-piggy-sale"
+                           // I'm not actually sure this is an ID
+}
+
+message Event {
+  string id = 1;
+  double seconds_remaining = 2;
+  string event_type = 3;
+  double multiplier = 4;  // For discount events, this is the final price
+                          // multiplier, e.g. 0.3 for 70% off research.
+  string message = 5;
+}
