@@ -1,8 +1,6 @@
-// const eggIncApi = require('./egg-inc-api/egginc_api.js')
-// const ei = require('./egg-inc-api/egginc_pb')
 const b = require('base64-arraybuffer')
 const axios = require('axios')
-const ei2 = require('./egg-inc-api2/myproto_libs')
+var protobuf = require("protobufjs")
 
 function ei_request(path, message, responsePB) {
     return new Promise((resolve, reject) => {
@@ -14,7 +12,6 @@ function ei_request(path, message, responsePB) {
             options.method = 'post';
             options.data = 'data=' + b.encode(message.serializeBinary())
         }
-        console.log(b.encode(message.serializeBinary()))
         axios(options).then((response) => {
             let byteArray = b.decode(response.data);
             let msgInstance = responsePB.deserializeBinary(byteArray);
@@ -56,24 +53,52 @@ require('yargs')
         })
     })
     .command('test', 'Test', (yargs) => {}, (argv) => {
-        let message = new ei2.FirstContactRequestPayload()
-        
-        message.setApiVersion(27)
-        message.setPlatform(2)
-        message.setPlayerId('EI6411720689451008')
-        message.set5('91cd4c812d1bc300')
-        message.set6('')
-        message.set7('a_46273246726295594')
+        protobuf.load('js/Proto/egginc.proto', function(err, root) {
+            if (err)
+                throw err;
 
-        let userInfo = new ei2.FirstContactRequestPayload.UserInfo()
-        userInfo.setPlayerId('EI6411720689451008')
-        userInfo.setApiVersion(27)
-        userInfo.setClientVersion('1.20.0')
-        userInfo.setPlatform('ANDROID')
-        message.setUserinfo(userInfo)
+            var FirstContact = root.lookupType("FirstContactRequestPayload")
 
-        ei_request('first_contact', message, ei2.FirstContact.Payload)
-            .then(response => { console.log(response)});
+            var payload = {
+                apiVersion: 27,
+                platform: 2,
+                playerId: 'EI4529978912276480',
+                '_5': '1',
+                '_6': '',
+                '_7': 'a_1',
+                userInfo: {
+                    playerId: 'EI4529978912276480',
+                    apiVersion: 27,
+                    clientVersion: '1.20.0',
+                    platform: 'ANDROID'
+                }
+            }
+            var errMsg = FirstContact.verify(payload);
+            if (errMsg)
+                throw Error(errMsg)
+
+            var message = FirstContact.create(payload)
+
+            var buffer = FirstContact.encode(message).finish();
+
+            let options = {
+                url : `http://afx-2-dot-auxbrainhome.appspot.com/ei/first_contact`,
+                method : 'post',
+                data: 'data=' + b.encode(buffer)
+            }
+
+            axios(options).then((response) => {
+                let byteArray = new Array(0)
+                protobuf.util.base64.decode(response.data, byteArray, 0)
+
+                var FirstContactResponse = root.lookupType('FirstContact');
+
+                console.log(JSON.stringify(FirstContactResponse.decode(byteArray)))
+                return;
+            }).catch(err => {
+                console.log(err)
+            })
+        })
     })
     .help()
     .argv
