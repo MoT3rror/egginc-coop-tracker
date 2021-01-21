@@ -57,19 +57,19 @@ require('yargs')
             if (err)
                 throw err;
 
-            var FirstContact = root.lookupType("FirstContactRequestPayload")
+            var FirstContact = root.lookupType('FirstContactRequestPayload')
 
             var payload = {
-                apiVersion: 27,
+                clientVersion: 27,
                 platform: 2,
-                playerId: 'EI4529978912276480',
-                '_5': '1',
-                '_6': '',
-                '_7': 'a_1',
-                userInfo: {
-                    playerId: 'EI4529978912276480',
-                    apiVersion: 27,
-                    clientVersion: '1.20.0',
+                eiUserId: 'EI4529978912276480',
+                deviceId: '1',
+                username: '',
+                gamesServicesId: 'a_1',
+                rinfo: {
+                    eiUserId: 'EI4529978912276480',
+                    clientVersion: 27,
+                    version: '1.20.0',
                     platform: 'ANDROID'
                 }
             }
@@ -77,9 +77,7 @@ require('yargs')
             if (errMsg)
                 throw Error(errMsg)
 
-            var message = FirstContact.create(payload)
-
-            var buffer = FirstContact.encode(message).finish();
+            var buffer = FirstContact.encode(FirstContact.create(payload)).finish()
 
             let options = {
                 url : `http://afx-2-dot-auxbrainhome.appspot.com/ei/first_contact`,
@@ -91,7 +89,7 @@ require('yargs')
                 let byteArray = new Array(0)
                 protobuf.util.base64.decode(response.data, byteArray, 0)
 
-                var FirstContactResponse = root.lookupType('FirstContact');
+                var FirstContactResponse = root.lookupType('FirstContactResponsePayload');
 
                 console.log(JSON.stringify(FirstContactResponse.decode(byteArray)))
                 return;
