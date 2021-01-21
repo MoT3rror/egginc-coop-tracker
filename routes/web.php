@@ -28,8 +28,13 @@ Route::get('current-contract-status/{guildId}/{contractId}', 'CurrentContracts@g
 ;
 
 Route::get('guild/{guildId}', 'Guild@index')
-    ->name('guild.index')
     ->middleware('auth')
+    ->name('guild.index')
+;
+
+Route::get('guild/{guildId}/settings', 'Guild@settings')
+    ->middleware('auth')
+    ->name('guild.settings')
 ;
 
 Route::get('login/discord', 'Discord@redirect')->name('discord-login');

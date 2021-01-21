@@ -21,12 +21,26 @@ class Guild extends Controller
         }
 
         $guildModel = GuildModel::findByDiscordGuild($guild);
-        $guildModel->sync();
 
         return Inertia::render('Guild', [
             'guild'            => $guild,
             'guildModel'       => $guildModel,
             'currentContracts' => $this->getContractsInfo(),
         ]);
+    }
+
+    public function settings(Request $request, $guildId)
+    {
+        $guilds = $request->user()->discordGuilds();
+        $guild = collect($guilds)
+            ->where('id', $guildId)
+            ->first()
+        ;
+
+        if (!$guild) {
+            return redirect()->route('home');
+        }
+
+
     }
 }

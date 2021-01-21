@@ -15,6 +15,9 @@
 
                     <div class="list-group">
                         <a v-for="guild in guilds" class="list-group-item list-group-item-action flex-column" :href="route('guild.index', {'guildId': guild.id})">
+                            <a :href="route('guild.settings', {'guildId': guild.id})" class="float-right">
+                                <i class="fa fa-cog" aria-hidden="true" v-if="guild.isAdmin"></i>
+                            </a>
                             <h5 class="mb-1">{{ guild.name }}</h5>
                         </a>
                     </div>

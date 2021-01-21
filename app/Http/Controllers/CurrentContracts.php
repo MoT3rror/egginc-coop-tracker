@@ -91,4 +91,22 @@ class CurrentContracts extends Controller
 
         return $contract->raw_data;
     }
+
+    public function makeCoops($guildId, $contractId)
+    {
+        $guilds = $request->user()->discordGuilds();
+        $guild = collect($guilds)
+            ->where('id', $guildId)
+            ->first()
+        ;
+
+        if (!$guild) {
+            return redirect()->route('home');
+        }
+
+        return Inertia::render('MakeCoops', [
+            'contractInfo' => $this->getContractInfo($contractId),
+            'guild'        => $guild,
+        ]);
+    }
 }

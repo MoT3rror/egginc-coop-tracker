@@ -56,13 +56,19 @@ class User extends Authenticatable
         $guilds = $discord->user->getCurrentUserGuilds();
 
         foreach ($guilds as $key => $guild) {
-            $guild->isAdmin = $guild->permissions & 8;
+            $guild->isAdmin = ($guild->permissions & 8) == 8;
             // weird bug with vue or something that causes this number to change
             $guild->id = (string) $guild->id;
             $guildModel = Guild::findByDiscordGuild($guild);
 
             if (!$guild->isAdmin && !$guildModel->getIsBotMemberOfAttribute()) {
                 unset($guilds[$key]);
+                continue;
+            }
+            $guildModel->sync();
+
+            if (!$guild->isAdmin) {
+                $guild->isAdmin = $this->roles()->get()->where('is_admin', true)->count() >= 1;
             }
         }
         return $guilds;
