@@ -1,21 +1,29 @@
 const b = require('base64-arraybuffer')
 const axios = require('axios')
 var protobuf = require("protobufjs")
+var root = protobuf.loadSync('js/Proto/egginc.proto');
 
-function ei_request(path, message, responsePB) {
+function ei_request(path, payload, requestPB, responsePB) {
     return new Promise((resolve, reject) => {
+        var errMsg = requestPB.verify(payload);
+        if (errMsg)
+            throw Error(errMsg)
+        
+        var buffer = requestPB.encode(requestPB.create(payload)).finish()
+
         let options = {
-            url : `http://afx-2-dot-auxbrainhome.appspot.com/ei/${path}`,
-            method : 'get'
+            url : `http://afx-2-dot-auxbrainhome.appspot.com/${path}`,
+            method : 'post',
+            data: 'data=' + b.encode(buffer),
         }
-        if (message) {
-            options.method = 'post';
-            options.data = 'data=' + b.encode(message.serializeBinary())
-        }
+
         axios(options).then((response) => {
-            let byteArray = b.decode(response.data);
-            let msgInstance = responsePB.deserializeBinary(byteArray);
-            resolve(msgInstance.toObject());
+            let byteArray = new Array(0)
+            protobuf.util.base64.decode(response.data, byteArray, 0)
+
+            var FirstContactResponse = root.lookupType('FirstContactResponsePayload');
+
+            resolve(responsePB.decode(byteArray))
         }).catch(err => {
             reject(err);
         })
@@ -43,8 +51,28 @@ require('yargs')
         yargs
             .positional('playerId', {type: 'string'})
     }, (argv) => {
-        eggIncApi.getPlayerData(argv.playerId).then((player) => {
-            console.log(JSON.stringify(player))
+        var payload = {
+            clientVersion: 27,
+            platform: 2,
+            eiUserId: argv.playerId,
+            deviceId: '1',
+            username: '',
+            gamesServicesId: 'a_1',
+            rinfo: {
+                eiUserId: argv.playerId,
+                clientVersion: 27,
+                version: '1.20.1',
+                platform: 'ANDROID'
+            }
+        }
+
+        ei_request(
+            'ei/first_contact',
+            payload,
+            root.lookupType('FirstContactRequestPayload'),
+            root.lookupType('FirstContactResponsePayload')
+        ).then((data) => {
+            console.log(JSON.stringify(data))
         })
     })
     .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
@@ -53,49 +81,28 @@ require('yargs')
         })
     })
     .command('test', 'Test', (yargs) => {}, (argv) => {
-        protobuf.load('js/Proto/egginc.proto', function(err, root) {
-            if (err)
-                throw err;
-
-            var FirstContact = root.lookupType('FirstContactRequestPayload')
-
-            var payload = {
-                clientVersion: 27,
-                platform: 2,
+        var payload = {
+            clientVersion: 27,
+            platform: 2,
+            eiUserId: 'EI4529978912276480',
+            deviceId: '1',
+            username: '',
+            gamesServicesId: 'a_1',
+            rinfo: {
                 eiUserId: 'EI4529978912276480',
-                deviceId: '1',
-                username: '',
-                gamesServicesId: 'a_1',
-                rinfo: {
-                    eiUserId: 'EI4529978912276480',
-                    clientVersion: 27,
-                    version: '1.20.0',
-                    platform: 'ANDROID'
-                }
+                clientVersion: 27,
+                version: '1.20.1',
+                platform: 'ANDROID'
             }
-            var errMsg = FirstContact.verify(payload);
-            if (errMsg)
-                throw Error(errMsg)
+        }
 
-            var buffer = FirstContact.encode(FirstContact.create(payload)).finish()
-
-            let options = {
-                url : `http://afx-2-dot-auxbrainhome.appspot.com/ei/first_contact`,
-                method : 'post',
-                data: 'data=' + b.encode(buffer)
-            }
-
-            axios(options).then((response) => {
-                let byteArray = new Array(0)
-                protobuf.util.base64.decode(response.data, byteArray, 0)
-
-                var FirstContactResponse = root.lookupType('FirstContactResponsePayload');
-
-                console.log(JSON.stringify(FirstContactResponse.decode(byteArray)))
-                return;
-            }).catch(err => {
-                console.log(err)
-            })
+        ei_request(
+            'ei/first_contact',
+            payload,
+            root.lookupType('FirstContactRequestPayload'),
+            root.lookupType('FirstContactResponsePayload')
+        ).then((data) => {
+            console.log(JSON.stringify(data))
         })
     })
     .help()
