@@ -52,7 +52,7 @@ class EggInc
     {
         return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 1, function () use ($playerId) {
             $appInfoCommand = new Command([
-                'command' => 'node ./js/egg-inc.js getPlayerInfo --playerId ' . $playerId,
+                'command' => 'node ./js/egg-inc.js getPlayerInfo --playerId ' . strtoupper($playerId),
                 'procCwd' => base_path(),
             ]);
 
