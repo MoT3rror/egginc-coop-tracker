@@ -72,7 +72,7 @@ require('yargs')
             root.lookupType('FirstContactRequestPayload'),
             root.lookupType('FirstContactResponsePayload')
         ).then((data) => {
-            console.log(JSON.stringify(data))
+            console.log(JSON.stringify(data.payload.data))
         })
     })
     .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
@@ -102,7 +102,7 @@ require('yargs')
             root.lookupType('FirstContactRequestPayload'),
             root.lookupType('FirstContactResponsePayload')
         ).then((data) => {
-            console.log(JSON.stringify(data))
+            console.log(JSON.stringify(data.payload.data))
         })
     })
     .help()
