@@ -21,8 +21,6 @@ function ei_request(path, payload, requestPB, responsePB) {
             let byteArray = new Array(0)
             protobuf.util.base64.decode(response.data, byteArray, 0)
 
-            var FirstContactResponse = root.lookupType('FirstContactResponsePayload');
-
             resolve(responsePB.decode(byteArray))
         }).catch(err => {
             reject(err);
