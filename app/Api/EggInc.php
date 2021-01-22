@@ -62,7 +62,7 @@ class EggInc
 
             $player = json_decode($appInfoCommand->getOutput());
 
-            if (!$player->version) {
+            if (!$player->approxTimestamp) {
                 throw new UserNotFoundException('User not found');
             }
 
