@@ -436,7 +436,7 @@ PLAYERS;
 ```
 Discord | Rank   
 ------- | -------
-Test    | Zetta 3
+Test    | Yotta 2
 ```
 PLAYERS;
 
@@ -460,9 +460,9 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus');
         $expect = <<<PLAYERS
 ```
-Discord | EB     
-------- | -------
-Test    | 25.263S
+Discord | EB    
+------- | ------
+Test    | 3.415o
 ```
 PLAYERS;
 
@@ -486,9 +486,9 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus rank');
         $expect = <<<PLAYERS
 ```
-Discord | EB      | Rank   
-------- | ------- | -------
-Test    | 25.263S | Zetta 3
+Discord | EB     | Rank   
+------- | ------ | -------
+Test    | 3.415o | Yotta 2
 ```
 PLAYERS;
 
@@ -513,13 +513,13 @@ PLAYERS;
         $expect = <<<RANK
 ```
 MoT3rror
-Soul Eggs: 932.264q
-Prestige Eggs: 127
-Earning Bonus: 25.263S
-Farmer Role: Zettafarmer 3
+Soul Eggs: 18.732Q
+Prestige Eggs: 147
+Earning Bonus: 3.415o
+Farmer Role: Yottafarmer 2
 Group Role: 
-Total Soul Eggs Needed for Next Rank: 3.690Q
-Total Prestige Eggs Needed for Next Rank: 142
+Total Soul Eggs Needed for Next Rank: 54.850Q
+Total Prestige Eggs Needed for Next Rank: 159
 ```
 RANK;
         $this->assertEquals($expect, $message);
