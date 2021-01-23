@@ -45,7 +45,7 @@ class EggInc
         if (!$contracts) {
             throw new \Exception('Could not load contracts');
         }
-        return $contracts;
+        return $contracts->contracts;
     }
 
     public function getPlayerInfo(string $playerId): \StdClass
