@@ -3,7 +3,7 @@ const axios = require('axios')
 var protobuf = require("protobufjs")
 var root = protobuf.loadSync('js/Proto/egginc.proto');
 
-function ei_request(path, payload, requestPB, responsePB) {
+let ei_request = (path, payload, requestPB, responsePB) => {
     return new Promise((resolve, reject) => {
         var errMsg = requestPB.verify(payload);
         if (errMsg)
@@ -28,25 +28,30 @@ function ei_request(path, payload, requestPB, responsePB) {
     })
 }
 
+let getPeriodicals = () => {
+    var payload = {
+        currentClientVersion: 99,
+        rinfo: {
+            clientVersion: 99,
+            version: '1.20.1',
+            platform: 'ANDROID'
+        }
+    }
+
+    return ei_request(
+        'ei/get_periodicals',
+        payload,
+        root.lookupType('GetPeriodicalsRequestPayload'),
+        root.lookupType('GetPeriodicalsResponsePayload')
+    )
+}
+
+
 require('yargs')
     .scriptName('Egg Inc API')
     .usage('$0 <cmd> [args]')
     .command('getAllActiveContracts', 'Get All Active Contracts', (yargs) => {}, (argv) => {
-        var payload = {
-            currentClientVersion: 99,
-            rinfo: {
-                clientVersion: 99,
-                version: '1.20.1',
-                platform: 'ANDROID'
-            }
-        }
-
-        ei_request(
-            'ei/get_periodicals',
-            payload,
-            root.lookupType('GetPeriodicalsRequestPayload'),
-            root.lookupType('GetPeriodicalsResponsePayload')
-        ).then((data) => {
+        getPeriodicals().then((data) => {
             console.log(JSON.stringify(data.periodicals.contracts))
         })
     })
@@ -98,8 +103,8 @@ require('yargs')
         })
     })
     .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
-        eggIncApi.getPeriodicals().then((data) => {
-            console.log(JSON.stringify(data))
+        return getPeriodicals().then((data) => {
+            console.log(JSON.stringify(data.periodicals.events))
         })
     })
     .help()
