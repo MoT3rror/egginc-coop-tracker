@@ -86,7 +86,7 @@
                         / hr
                     </td>
                     <td>
-                        {{ Math.round(member.eggs / totalSum * 10000) / 100 }}%
+                        {{ Math.round(member.eggsLaid / totalSum * 10000) / 100 }}%
                     </td>
                     <td>
                         <EggFormater :eggs="Math.pow(10, member.earningBonusOom) * 100" />
