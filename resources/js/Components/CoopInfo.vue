@@ -1,17 +1,17 @@
 <template>
     <div>
         <h3>
-            {{ coop.coop }}
+            {{ coop.code }}
             <i
                 class="fas fa-user-plus"
-                v-if="coop.pb_public"
+                v-if="coop.public"
                 title="Public"
             ></i>
         </h3>
 
         <p class="text-center">
             Time Left:
-            <TimeLeft :seconds-left="coop.timeLeft" />
+            <TimeLeft :seconds-left="coop.secondsUntilProductionDeadline" />
         </p>
 
         <div class="text-center">
@@ -39,7 +39,7 @@
 
         <p class="text-center">
             Progress:
-            <EggFormater :eggs="coop.eggs" />
+            <EggFormater :eggs="coop.eggsLaid" />
             /
             <EggFormater :eggs="eggsTotalNeeded" />
         </p>
@@ -66,7 +66,7 @@
             <tbody>
                 <tr v-for="member in coop.members">
                     <td>
-                        {{ member.name }} - {{ member.boostTokens }}
+                        {{ member.name }} - {{ member.tokens }}
                         <i
                             class="fas fa-suitcase-rolling"
                             v-if="!member.active"
@@ -79,19 +79,19 @@
                         ></i>
                     </td>
                     <td>
-                        <EggFormater :eggs="member.eggs" />
+                        <EggFormater :eggs="member.eggsLaid" />
                     </td>
                     <td>
-                        <EggFormater :eggs="member.rate * 60 * 60" />
+                        <EggFormater :eggs="member.eggsPerSecond * 60 * 60" />
                         / hr
                     </td>
                     <td>
                         {{ Math.round(member.eggs / totalSum * 10000) / 100 }}%
                     </td>
                     <td>
-                        <EggFormater :eggs="Math.pow(10, member.soulPower) * 100" />
+                        <EggFormater :eggs="Math.pow(10, member.earningBonusOom) * 100" />
                         -
-                        <PlayerRole :soul-power="member.soulPower" />
+                        <PlayerRole :soul-power="member.earningBonusOom" />
                     </td>
                 </tr>
             </tbody>
@@ -142,32 +142,38 @@
         },
         computed: {
             percentDone() {
-                return Math.round(this.coop.eggs / this.eggsTotalNeeded * 100)
+                return Math.round(this.coop.eggsLaid / this.eggsTotalNeeded * 100)
+            },
+            coopType() {
+                // elite = 0, standard = 1
+                return 0
             },
             eggsTotalNeeded() {
-                return this.contractInfo.goalsList[this.contractInfo.goalsList.length - 1].targetAmount
+                let rewards = this.contractInfo.rewardTiers[this.coopType].rewards
+                console.log(rewards)
+                return rewards[rewards.length - 1].goal
             },
             eggsLeftToGet() {
-                return this.eggsTotalNeeded - this.coop.eggs
+                return this.eggsTotalNeeded - this.coop.eggsLaid
             },
             totalSum() {
                 let total = 0
                 this.coop.members.forEach((member) => {
-                    total += member.eggs
+                    total += member.eggsLaid
                 })
                 return total
             },
             totalRate() {
                 let total = 0
                 this.coop.members.forEach((member) => {
-                    total += member.rate
+                    total += member.eggsPerSecond
                 })
                 return total
             },
             totalBoosts() {
                 let total = 0
                 this.coop.members.forEach((member) => {
-                    total += member.boostTokens ? member.boostTokens : 0
+                    total += member.tokens ? member.tokens : 0
                 })
                 return total
             },
@@ -176,7 +182,7 @@
                     return 0;
                 }
 
-                return this.eggsLeftToGet / Math.abs(Math.floor(this.coop.timeLeft))
+                return this.eggsLeftToGet / Math.abs(Math.floor(this.coop.secondsUntilProductionDeadline))
             },
             estimateCompletion() {
                 if (this.eggsLeftToGet < 0) {
@@ -198,7 +204,7 @@
                 return 'not-close'
             },
             projectedEggs() {
-                return this.coop.eggs + (this.totalRate * this.coop.timeLeft)
+                return this.coop.eggs + (this.totalRate * this.coop.secondsUntilProductionDeadline)
             }
         },
     }

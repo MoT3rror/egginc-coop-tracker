@@ -9,7 +9,7 @@
                 <h4>Current Contracts</h4>
                 <ul>
                     <li v-for="contract in currentContracts">
-                        <a :href="route('contract-guild-status', {'guildId': guild.id, 'contractId': contract.identifier})">
+                        <a :href="route('contract-guild-status', {'guildId': guild.id, 'contractId': contract.id})">
                             {{ contract.name }}
                         </a>
                     </li>
