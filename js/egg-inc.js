@@ -32,8 +32,22 @@ require('yargs')
     .scriptName('Egg Inc API')
     .usage('$0 <cmd> [args]')
     .command('getAllActiveContracts', 'Get All Active Contracts', (yargs) => {}, (argv) => {
-        eggIncApi.getContractAll().then((contracts) => {
-            console.log(JSON.stringify(contracts))
+        var payload = {
+            currentClientVersion: 99,
+            rinfo: {
+                clientVersion: 99,
+                version: '1.20.1',
+                platform: 'ANDROID'
+            }
+        }
+
+        ei_request(
+            'ei/get_periodicals',
+            payload,
+            root.lookupType('GetPeriodicalsRequestPayload'),
+            root.lookupType('GetPeriodicalsResponsePayload')
+        ).then((data) => {
+            console.log(JSON.stringify(data.periodicals.contracts))
         })
     })
     .command('getCoopStatus', 'Get Coop Status', (yargs) => {
@@ -41,8 +55,18 @@ require('yargs')
             .positional('contract', {type: 'string'})
             .positional('coop', {type: 'string'})
     }, (argv) => {
-        eggIncApi.getContract(argv.contract, argv.coop).then((coopInfo) => {
-            console.log(JSON.stringify(coopInfo))
+        var payload = {
+            contractId: argv.contract,
+            code: argv.coop
+        }
+
+        ei_request(
+            'ei/coop_status',
+            payload,
+            root.lookupType('CoopStatusRequestPayload'),
+            root.lookupType('CoopStatusResponsePayload')
+        ).then((data) => {
+            console.log(JSON.stringify(data.status))
         })
     })
     .command('getPlayerInfo', 'Get Player Info', (yargs) => {
@@ -50,7 +74,7 @@ require('yargs')
             .positional('playerId', {type: 'string'})
     }, (argv) => {
         var payload = {
-            clientVersion: 27,
+            clientVersion: 99,
             platform: 2,
             eiUserId: argv.playerId,
             deviceId: '1',
@@ -58,7 +82,7 @@ require('yargs')
             gamesServicesId: 'a_1',
             rinfo: {
                 eiUserId: argv.playerId,
-                clientVersion: 27,
+                clientVersion: 99,
                 version: '1.20.1',
                 platform: 'ANDROID'
             }
@@ -76,31 +100,6 @@ require('yargs')
     .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
         eggIncApi.getPeriodicals().then((data) => {
             console.log(JSON.stringify(data))
-        })
-    })
-    .command('test', 'Test', (yargs) => {}, (argv) => {
-        var payload = {
-            clientVersion: 27,
-            platform: 2,
-            eiUserId: 'EI4529978912276480',
-            deviceId: '1',
-            username: '',
-            gamesServicesId: 'a_1',
-            rinfo: {
-                eiUserId: 'EI4529978912276480',
-                clientVersion: 27,
-                version: '1.20.1',
-                platform: 'ANDROID'
-            }
-        }
-
-        ei_request(
-            'ei/first_contact',
-            payload,
-            root.lookupType('FirstContactRequestPayload'),
-            root.lookupType('FirstContactResponsePayload')
-        ).then((data) => {
-            console.log(JSON.stringify(data.payload.data))
         })
     })
     .help()
