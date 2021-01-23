@@ -160,6 +160,30 @@ HELP;
         $this->assertEquals('Hello <@123456>!', $message);
     }
 
+    public function testHiWithParams()
+    {
+        $message = $this->sendDiscordMessage('hi FriendA FriendB');
+
+        $expect = <<<HI_MULTI_LINE
+Hello <@123456>!
+Hello <@FriendA>!
+Hello <@FriendB>!
+HI_MULTI_LINE;
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testHiWithParamsNewLine()
+    {
+        $message = $this->sendDiscordMessage('hi FriendA' . PHP_EOL . 'FriendB');
+
+        $expect = <<<HI_MULTI_LINE
+Hello <@123456>!
+Hello <@FriendA>!
+Hello <@FriendB>!
+HI_MULTI_LINE;
+        $this->assertEquals($expect, $message);
+    }
+
     public function testCurrentContracts()
     {
         $contract = $this->makeSampleContract(['expiration' => now()->addDays(7)]);
@@ -202,6 +226,37 @@ CONTRACTS;
         $contract = $this->makeSampleContract();
 
         $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test test2');
+        $expect = 'Coops added successfully.';
+
+        $this->assertEquals($expect, $message);
+
+        $coops = Coop::contract($contract->identifier)
+            ->guild($this->guildId)
+            ->orderBy('position')
+            ->get()
+        ;
+        $this->assertEquals(2, $coops->count());
+
+        foreach ($coops as $coop) {
+            switch ($coop->position) {
+                case 1:
+                    $this->assertEquals('test', $coop->coop);
+                    break;
+                case 2:
+                    $this->assertEquals('test2', $coop->coop);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @depends testAdd
+     */
+    public function testAddMultipleMultiLine()
+    {
+        $contract = $this->makeSampleContract();
+
+        $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test' . PHP_EOL . 'test2');
         $expect = 'Coops added successfully.';
 
         $this->assertEquals($expect, $message);
