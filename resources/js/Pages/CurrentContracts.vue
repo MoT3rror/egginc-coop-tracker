@@ -10,7 +10,7 @@
             <tbody>
                 <tr v-for="contract in contracts">
                     <td>
-                        <a :href="route('contract-status', {'contractId': contract.identifier})">
+                        <a :href="route('contract-status', {'contractId': contract.id})">
                             {{ contract.name }}
                         </a>
                     </td>

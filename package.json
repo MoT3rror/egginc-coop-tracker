@@ -11,28 +11,30 @@
     },
     "devDependencies": {
         "axios": "^0.19",
-        "bootstrap": "^4.0.0",
-        "cross-env": "^7.0",
+        "bootstrap": "^4.6.0",
+        "cross-env": "^7.0.3",
         "jquery": "^3.2",
-        "laravel-mix": "^5.0.1",
-        "lodash": "^4.17.13",
+        "laravel-mix": "^5.0.9",
+        "lodash": "^4.17.20",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.20.1",
+        "sass": "^1.32.5",
         "sass-loader": "^8.0.0",
-        "vue": "^2.5.17",
-        "vue-template-compiler": "^2.6.10"
+        "vue": "^2.6.12",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.0",
+        "@fortawesome/fontawesome-free": "^5.15.2",
         "@inertiajs/inertia": "^0.1.9",
         "@inertiajs/inertia-vue": "^0.1.4",
         "base64-arraybuffer": "^0.2.0",
-        "discord.js": "^12.2.0",
+        "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
-        "google-protobuf": "^3.12.4",
+        "google-protobuf": "^3.14.0",
+        "long": "^4.0.0",
+        "protobufjs": "^6.10.2",
         "vue-simple-progress": "^1.1.1",
-        "vuetify": "^2.3.16",
+        "vuetify": "^2.4.2",
         "yargs": "^15.4.1"
     }
 }

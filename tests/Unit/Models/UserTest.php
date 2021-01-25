@@ -39,9 +39,9 @@ class UserTest extends TestCase
         return [
             [
                 'mot3rror',
-                27099562,
+                182312303,
             ],
-            [
+            /*[
                 '1132Ace',
                 1683,
             ],
@@ -56,7 +56,7 @@ class UserTest extends TestCase
             [
                 'oobebanoobe',
                 449859,
-            ],
+            ],*/
         ];
     }
 
@@ -77,13 +77,13 @@ class UserTest extends TestCase
         return [
             [
                 'mot3rror',
-                2.5263954836751094E+25,
+                3.415223350099561E+27,
             ],
             /*[
                 '1132Ace',
                 1.1734311252202E+17,
             ],*/
-            [
+            /*[
                 'ladykojac',
                 1.1557447998440884E+20,
             ],
@@ -94,7 +94,7 @@ class UserTest extends TestCase
             [
                 'oobebanoobe',
                 9.650462683552914E+21,
-            ],
+            ],*/
         ];
     }
 
@@ -115,10 +115,10 @@ class UserTest extends TestCase
         return [
             [
                 'mot3rror',
-                'Zettafarmer 3',
-                '25.263S',
+                'Yottafarmer 2',
+                '3.415o',
             ],
-            [
+            /*[
                 '1132Ace',
                 'Petafarmer',
                 '117.343q',
@@ -137,7 +137,7 @@ class UserTest extends TestCase
                 'oobebanoobe',
                 'Exafarmer 2',
                 '9.650s',
-            ],
+            ],*/
         ];
     }
 

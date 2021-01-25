@@ -5,8 +5,8 @@
                 <div class="col-md-6">
                     <h2>Your Contracts</h2>
                     <div class="list-group" v-if="playerInfo">
-                        <div class="list-group-item" v-for="contract in playerInfo.contracts.contractsList">
-                            <h3>{{ contract.contract.name }} - {{ contract.coopIdentifier }}</h3>
+                        <div class="list-group-item" v-for="contract in playerInfo.contracts.activeContracts">
+                            <h3>{{ contract.props.name }} - {{ contract.id }}</h3>
                             
                         </div>
                     </div>
@@ -25,12 +25,12 @@
                     <div class="list-group-item" v-if="playerInfo">
                         <p>
                             Soul Eggs:
-                            <EggFormater :eggs="playerInfo.game.soulEggsD" />
+                            <EggFormater :eggs="playerInfo.progress.soulEggs" />
                         </p>
 
                         <p>
                             Prestige Eggs:
-                            {{ playerInfo.game.eggsOfProphecy }}
+                            {{ playerInfo.progress.prophecyEggs }}
                         </p>
 
                         <p>

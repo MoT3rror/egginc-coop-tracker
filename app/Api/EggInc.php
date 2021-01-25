@@ -45,14 +45,15 @@ class EggInc
         if (!$contracts) {
             throw new \Exception('Could not load contracts');
         }
-        return $contracts;
+        return $contracts->contracts;
     }
 
     public function getPlayerInfo(string $playerId): \StdClass
     {
         return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 1, function () use ($playerId) {
             $appInfoCommand = new Command([
-                'command' => 'node ./js/egg-inc.js getPlayerInfo --playerId ' . $playerId,
+                // this might come back to hunt us but we will roll with it for now. Would require change to discord commands for lowercasing everything
+                'command' => 'node ./js/egg-inc.js getPlayerInfo --playerId ' . strtoupper($playerId),
                 'procCwd' => base_path(),
             ]);
 
@@ -62,7 +63,7 @@ class EggInc
 
             $player = json_decode($appInfoCommand->getOutput());
 
-            if (!$player->version) {
+            if (!$player || !$player->approxTimestamp) {
                 throw new UserNotFoundException('User not found');
             }
 
