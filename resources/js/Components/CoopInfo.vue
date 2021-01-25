@@ -150,7 +150,6 @@
             },
             eggsTotalNeeded() {
                 let rewards = this.contractInfo.rewardTiers[this.coopType].rewards
-                console.log(rewards)
                 return rewards[rewards.length - 1].goal
             },
             eggsLeftToGet() {
