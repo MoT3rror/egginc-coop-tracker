@@ -203,7 +203,7 @@
                 return 'not-close'
             },
             projectedEggs() {
-                if (this.coop.secondsUntilProductionDeadline || this.eggsLeftToGet <= 0) {
+                if (!this.coop.secondsUntilProductionDeadline || this.eggsLeftToGet <= 0) {
                     return this.coop.eggsLaid
                 }
                 return this.coop.eggsLaid + (this.totalRate * this.coop.secondsUntilProductionDeadline)
