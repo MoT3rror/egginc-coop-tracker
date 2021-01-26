@@ -256,7 +256,7 @@ CONTRACTS;
     {
         $contract = $this->makeSampleContract();
 
-        $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test' . PHP_EOL . 'test2');
+        $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test' . PHP_EOL . ' test2 ');
         $expect = 'Coops added successfully.';
 
         $this->assertEquals($expect, $message);
