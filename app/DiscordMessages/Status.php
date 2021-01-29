@@ -91,6 +91,9 @@ class Status extends Base
     public function message(): string
     {
         $coops = $this->validate();
+        if (is_string($coops)) {
+            return $coops;
+        }
         $parts = $this->parts;
         $contract = $this->getContractInfo($parts[1]);
 
