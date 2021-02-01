@@ -48,15 +48,12 @@ class Coop extends Model
 
     public function getCurrentEggs(): int
     {
-        return $this->getCoopInfo()->eggs;
+        return $this->getCoopInfo()->eggsLaid;
     }
 
     public function getEggsNeeded(): int
     {
-        if (!$this->getContractInfo()) {
-            return 0;
-        }
-        return end($this->getContractInfo()->goalsList)->targetAmount;
+        return $this->contractModel()->getEggsNeeded();
     }
 
     public function getProjectedEggs(): int
@@ -106,12 +103,18 @@ class Coop extends Model
 
     public function getTotalRate(): int
     {
-        return $this->getCoopInfo()->totalRate ?: 1;
+        $rate = 0;
+
+        foreach ($this->getCoopInfo()->members as $member) {
+            $rate += $member->eggsPerSecond;
+        }
+
+        return $rate;
     }
 
     public function getTimeLeft(): int
     {
-        return $this->getCoopInfo()->timeLeft;
+        return $this->getCoopInfo()->secondsUntilProductionDeadline;
     }
 
     public function getMembers(): int

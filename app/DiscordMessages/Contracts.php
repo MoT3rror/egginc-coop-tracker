@@ -12,7 +12,7 @@ class Contracts extends Base
         $message[] = '```';
 
         foreach ($contracts as $contract) {
-            $message[] = $contract->identifier . '(' . $contract->name . ')';
+            $message[] = $contract->id . '(' . $contract->name . ')';
         }
         $message[] = '```';
 

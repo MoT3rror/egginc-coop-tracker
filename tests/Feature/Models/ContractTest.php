@@ -36,6 +36,6 @@ class ContractTest extends TestCase
 
         $contracts = Contract::getAllActiveContracts();
 
-        $this->assertEquals([json_decode(file_get_contents(base_path('tests/files/halloween-2020.json')))], $contracts->getInRawFormat());
+        $this->assertEquals([json_decode(file_get_contents(base_path('tests/files/ion-production-2021.json')))], $contracts->getInRawFormat());
     }
 }

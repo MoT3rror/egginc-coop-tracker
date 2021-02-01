@@ -15,6 +15,18 @@ class Remind extends Base
         $hours = (int) Arr::get($parts, 2);
         $minutes = (int) Arr::get($parts, 3);
 
+        if (!$contract) {
+            return 'No contract set';
+        }
+
+        if (!$hours || $hours > 24) {
+            return 'Please set hours or hours should be less than 24.';
+        }
+
+        if (!$minutes || $minutes <= 5) {
+            return 'Please set minutes or should be greater than 5';
+        }
+
         for ($i = $minutes; $i <= ($hours * 60); $i += $minutes) {
             RemindCoopStatus::dispatch(
                 $this->authorId,

@@ -327,7 +327,7 @@ CONTRACTS;
     public function testStatus()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-test.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -341,12 +341,12 @@ CONTRACTS;
         $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
-Last Minute Decoration
+Ion Drive II
 {$url}
 ```
-Coop 13 | 1.0Q | E Time  | Proj
-------- | ---- | ------- | ----
-test 13 | 1q   | 446d 6h | 10q 
+Coop 5 | 600q | E Time | Proj
+------ | ---- | ------ | ----
+test 5 | 746q | CPLT   | 746q
 ```
 STATUS;
 
@@ -356,7 +356,7 @@ STATUS;
     public function testStatusCompletedCoop()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-completed.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -370,12 +370,12 @@ STATUS;
         $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
-Last Minute Decoration
+Ion Drive II
 {$url}
 ```
-Coop 13 | 1.0Q | E Time  | Proj
-------- | ---- | ------- | ----
-test 13 | 1q   | 446d 6h | 1q  
+Coop 5 | 600q | E Time | Proj
+------ | ---- | ------ | ----
+test 5 | 746q | CPLT   | 746q
 ```
 STATUS;
 
@@ -387,7 +387,7 @@ STATUS;
         \Queue::fake();
 
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-test.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -405,7 +405,7 @@ STATUS;
     public function testShortStatus()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-test.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -420,13 +420,13 @@ STATUS;
 
         $message = $this->sendDiscordMessage('s ' . $contract->identifier);
         $expect = <<<STATUS
-Last Minute Decoration
+Ion Drive II
 ```
-C 13 | 1.0Q | E Time  | Proj
----- | ---- | ------- | ----
-1 13 | 1q   | 446d 6h | 10q 
-2 13 | 1q   | 446d 6h | 10q 
-3 13 | 1q   | 446d 6h | 10q 
+C 5 | 600q | E Time | Proj
+--- | ---- | ------ | ----
+1 5 | 746q | CPLT   | 746q
+2 5 | 746q | CPLT   | 746q
+3 5 | 746q | CPLT   | 746q
 ```
 STATUS;
 
