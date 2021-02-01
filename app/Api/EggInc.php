@@ -50,6 +50,10 @@ class EggInc
 
     public function getPlayerInfo(string $playerId): \StdClass
     {
+        if (!$playerId || substr($playerId, 0, 2) != 'ei') {
+            throw new UserNotFoundException('User not found');
+        }
+
         return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 1, function () use ($playerId) {
             $appInfoCommand = new Command([
                 // this might come back to hunt us but we will roll with it for now. Would require change to discord commands for lowercasing everything

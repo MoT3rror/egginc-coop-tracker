@@ -22,9 +22,9 @@ class ContractFactory extends Factory
     public function definition()
     {
         return [
-            'name'       => 'Last Minute Decoration',
-            'identifier' => 'halloween-2020',
-            'raw_data'   => json_decode(file_get_contents(base_path('tests/files/halloween-2020.json'))),
+            'name'       => 'Ion Drive II',
+            'identifier' => 'ion-production-2021',
+            'raw_data'   => json_decode(file_get_contents(base_path('tests/files/ion-production-2021.json'))),
         ];
     }
 }

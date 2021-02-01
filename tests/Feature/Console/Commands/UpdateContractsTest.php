@@ -14,7 +14,7 @@ class UpdateContractsTest extends TestCase
     public function testHandle()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $contracts = [json_decode(file_get_contents(base_path('tests/files/halloween-2020.json')))];
+            $contracts = [json_decode(file_get_contents(base_path('tests/files/ion-production-2021.json')))];
 
             $mock
                 ->shouldReceive('getCurrentContracts')
@@ -27,6 +27,6 @@ class UpdateContractsTest extends TestCase
             ->artisan('contracts:update')
         ;
 
-        $this->assertDatabaseHas('contracts', ['identifier' => 'halloween-2020']);
+        $this->assertDatabaseHas('contracts', ['identifier' => 'ion-production-2021']);
     }
 }
