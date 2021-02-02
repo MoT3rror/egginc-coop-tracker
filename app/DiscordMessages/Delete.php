@@ -36,4 +36,9 @@ class Delete extends Base
             return 'Was not able to delete the coop.';
         }
     }
+
+    public function help(): string
+    {
+        return 'eb!delete {contractID} {Coop} - Remove coop from tracking';
+    }
 }

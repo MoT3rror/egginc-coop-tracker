@@ -38,4 +38,9 @@ class Remind extends Base
 
         return 'Reminders set.';
     }
+
+    public function help(): string
+    {
+        return 'eb!remind {Contract ID} {Hours} {Minutes}';
+    }
 }

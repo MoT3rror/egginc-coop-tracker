@@ -140,14 +140,15 @@ class DiscordMessageTest extends TestCase
 
         $expect = <<<HELP
 ```
-eb!help - Displays list of commands
-eb!contracts - Display current contracts with IDs
+eb!help - Display list of available commands.
+eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
+eb!contracts - Display current contracts with IDs.
+eb!delete {contractID} {Coop} - Remove coop from tracking
+eb!rank Get player stats/rank.
+eb!remind {Contract ID} {Hours} {Minutes}
+eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
-eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
-eb!delete {contractID} {Coop} - Remove coop from tracking
-
-eb!set-player-id {@Discord Name} {Egg Inc Player ID}
 ```
 HELP;
         $this->assertEquals($expect, $message);

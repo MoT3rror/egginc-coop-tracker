@@ -23,4 +23,9 @@ class SetPlayerId extends Base
 
         return 'Player ID set successfully.';
     }
+
+    public function help(): string
+    {
+        return 'eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)';
+    }
 }

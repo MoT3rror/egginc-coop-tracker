@@ -106,4 +106,9 @@ class Status extends Base
         $coopsData = $this->coopData($coops, false);
         return $this->getTable($table, $coopsData);
     }
+
+    public function help(): string
+    {
+        return 'eb!status {Contract ID} - Display coop info for contract';
+    }
 }

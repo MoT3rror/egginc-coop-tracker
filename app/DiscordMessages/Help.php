@@ -5,17 +5,35 @@ class Help extends Base
 {
     public function message(): string
     {
-        return <<<HELP
-```
-eb!help - Displays list of commands
-eb!contracts - Display current contracts with IDs
-eb!status {Contract ID} - Display coop info for contract
-eb!s {Contract ID} - Short version of status
-eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
-eb!delete {contractID} {Coop} - Remove coop from tracking
+        $commands = [
+            Help::class,
+            Add::class,
+            Contracts::class,
+            Delete::class,
+            Players::class,
+            Rank::class,
+            Remind::class,
+            SetPlayerId::class,
+            Status::class,
+            ShortStatus::class,
+        ];
 
-eb!set-player-id {@Discord Name} {Egg Inc Player ID}
-```
-HELP;
-    }    
+        $message = '```' . PHP_EOL;
+
+        foreach ($commands as $command) {
+            $commandObject = new $command($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
+            $helpText = $commandObject->help();
+            if ($helpText) {
+                $message .= $helpText . PHP_EOL;
+            }
+        }
+
+        $message .= '```';
+        return $message;
+    }
+
+    public function help(): string
+    {
+        return 'eb!help - Display list of available commands.';
+    }
 }
