@@ -25,4 +25,9 @@ class Contracts extends Base
             ->getInRawFormat()
         ;
     }
+
+    public function help(): string
+    {
+        return 'eb!contracts - Display current contracts with IDs.';
+    }
 }

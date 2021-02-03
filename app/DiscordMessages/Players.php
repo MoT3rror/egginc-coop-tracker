@@ -65,4 +65,12 @@ class Players extends Base
         }
         return $groupOfMessages;
     }
+
+    /**
+     * this commands works but has issues. Discord has message limit. Formatting just doesn't flow like coop status does
+     */
+    public function help(): string
+    {
+        return '';
+    }
 }
