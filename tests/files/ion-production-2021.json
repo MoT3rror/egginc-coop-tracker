@@ -1,0 +1,89 @@
+{
+    "id": "ion-production-2021",
+    "eggType": "FUSION",
+    "rewards": [{
+        "_1": 1,
+        "goal": 10000000000000000,
+        "type": "PIGGY_GOLDEN_EGG",
+        "name": "",
+        "count": 150000,
+        "_6": 50000000000
+    }, {
+        "_1": 1,
+        "goal": 250000000000000000,
+        "type": "BOOST",
+        "name": "tachyon_prism_orange",
+        "count": 3,
+        "_6": 10000000000000
+    }, {
+        "_1": 1,
+        "goal": 600000000000000000,
+        "type": "GOLDEN_EGG",
+        "name": "",
+        "count": 100000,
+        "_6": 1000000000000000
+    }],
+    "coopAllowed": true,
+    "maxCoopSize": 5,
+    "expiryTimestamp": 1612193060.754529,
+    "durationSeconds": 518400,
+    "name": "Ion Drive II",
+    "description": "The once experimental high thrust ion drive is now ready for test flights. Fusion eggs needed!",
+    "debug": false,
+    "maxBoosts": 0,
+    "maxSoulEggs": 0,
+    "minClientVersion": 26,
+    "tokenIntervalMinutes": 45,
+    "rewardTiers": [{
+        "rewards": [{
+            "_1": 1,
+            "goal": 10000000000000000,
+            "type": "PIGGY_GOLDEN_EGG",
+            "name": "",
+            "count": 150000,
+            "_6": 50000000000
+        }, {
+            "_1": 1,
+            "goal": 250000000000000000,
+            "type": "BOOST",
+            "name": "tachyon_prism_orange",
+            "count": 3,
+            "_6": 10000000000000
+        }, {
+            "_1": 1,
+            "goal": 600000000000000000,
+            "type": "GOLDEN_EGG",
+            "name": "",
+            "count": 100000,
+            "_6": 1000000000000000
+        }]
+    },
+    {
+        "rewards": [
+        {
+            "_1": 1,
+            "goal": 75000000000000,
+            "type": "SOUL_EGG",
+            "name": "",
+            "count": 10000,
+            "_6": 500
+        },
+        {
+            "_1": 1,
+            "goal": 750000000000000,
+            "type": "GOLDEN_EGG",
+            "name": "",
+            "count": 20000,
+            "_6": 1000000
+        },
+        {
+            "_1": 1,
+            "goal": 2000000000000000,
+            "type": "BOOST",
+            "name": "tachyon_prism_orange",
+            "count": 3,
+            "_6": 1000000000
+        }
+        ]
+    }]
+}

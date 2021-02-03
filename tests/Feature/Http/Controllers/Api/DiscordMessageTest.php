@@ -140,14 +140,15 @@ class DiscordMessageTest extends TestCase
 
         $expect = <<<HELP
 ```
-eb!help - Displays list of commands
-eb!contracts - Display current contracts with IDs
+eb!help - Display list of available commands.
+eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
+eb!contracts - Display current contracts with IDs.
+eb!delete {contractID} {Coop} - Remove coop from tracking
+eb!rank Get player stats/rank.
+eb!remind {Contract ID} {Hours} {Minutes}
+eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
-eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
-eb!delete {contractID} {Coop} - Remove coop from tracking
-
-eb!set-player-id {@Discord Name} {Egg Inc Player ID}
 ```
 HELP;
         $this->assertEquals($expect, $message);
@@ -158,6 +159,30 @@ HELP;
         $message = $this->sendDiscordMessage('hi');
 
         $this->assertEquals('Hello <@123456>!', $message);
+    }
+
+    public function testHiWithParams()
+    {
+        $message = $this->sendDiscordMessage('hi FriendA FriendB');
+
+        $expect = <<<HI_MULTI_LINE
+Hello <@123456>!
+Hello <@FriendA>!
+Hello <@FriendB>!
+HI_MULTI_LINE;
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testHiWithParamsNewLine()
+    {
+        $message = $this->sendDiscordMessage('hi FriendA' . PHP_EOL . 'FriendB');
+
+        $expect = <<<HI_MULTI_LINE
+Hello <@123456>!
+Hello <@FriendA>!
+Hello <@FriendB>!
+HI_MULTI_LINE;
+        $this->assertEquals($expect, $message);
     }
 
     public function testCurrentContracts()
@@ -202,6 +227,37 @@ CONTRACTS;
         $contract = $this->makeSampleContract();
 
         $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test test2');
+        $expect = 'Coops added successfully.';
+
+        $this->assertEquals($expect, $message);
+
+        $coops = Coop::contract($contract->identifier)
+            ->guild($this->guildId)
+            ->orderBy('position')
+            ->get()
+        ;
+        $this->assertEquals(2, $coops->count());
+
+        foreach ($coops as $coop) {
+            switch ($coop->position) {
+                case 1:
+                    $this->assertEquals('test', $coop->coop);
+                    break;
+                case 2:
+                    $this->assertEquals('test2', $coop->coop);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @depends testAdd
+     */
+    public function testAddMultipleMultiLine()
+    {
+        $contract = $this->makeSampleContract();
+
+        $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test' . PHP_EOL . ' test2 ');
         $expect = 'Coops added successfully.';
 
         $this->assertEquals($expect, $message);
@@ -272,7 +328,7 @@ CONTRACTS;
     public function testStatus()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-test.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -286,12 +342,12 @@ CONTRACTS;
         $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
-Last Minute Decoration
+Ion Drive II
 {$url}
 ```
-Coop 13 | 1.0Q | E Time  | Proj
-------- | ---- | ------- | ----
-test 13 | 1q   | 446d 6h | 10q 
+Coop 5 | 600q | E Time | Proj
+------ | ---- | ------ | ----
+test 5 | 746q | CPLT   | 746q
 ```
 STATUS;
 
@@ -301,7 +357,7 @@ STATUS;
     public function testStatusCompletedCoop()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-completed.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -315,12 +371,12 @@ STATUS;
         $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
-Last Minute Decoration
+Ion Drive II
 {$url}
 ```
-Coop 13 | 1.0Q | E Time  | Proj
-------- | ---- | ------- | ----
-test 13 | 1q   | 446d 6h | 1q  
+Coop 5 | 600q | E Time | Proj
+------ | ---- | ------ | ----
+test 5 | 746q | CPLT   | 746q
 ```
 STATUS;
 
@@ -332,7 +388,7 @@ STATUS;
         \Queue::fake();
 
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-test.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -350,7 +406,7 @@ STATUS;
     public function testShortStatus()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
-            $coopInfo = json_decode(file_get_contents(base_path('tests/files/halloween-2020-test.json')));
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
             $mock
                 ->shouldReceive('getCoopInfo')
@@ -365,13 +421,13 @@ STATUS;
 
         $message = $this->sendDiscordMessage('s ' . $contract->identifier);
         $expect = <<<STATUS
-Last Minute Decoration
+Ion Drive II
 ```
-C 13 | 1.0Q | E Time  | Proj
----- | ---- | ------- | ----
-1 13 | 1q   | 446d 6h | 10q 
-2 13 | 1q   | 446d 6h | 10q 
-3 13 | 1q   | 446d 6h | 10q 
+C 5 | 600q | E Time | Proj
+--- | ---- | ------ | ----
+1 5 | 746q | CPLT   | 746q
+2 5 | 746q | CPLT   | 746q
+3 5 | 746q | CPLT   | 746q
 ```
 STATUS;
 
@@ -436,7 +492,7 @@ PLAYERS;
 ```
 Discord | Rank   
 ------- | -------
-Test    | Zetta 3
+Test    | Yotta 2
 ```
 PLAYERS;
 
@@ -460,9 +516,9 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus');
         $expect = <<<PLAYERS
 ```
-Discord | EB     
-------- | -------
-Test    | 25.263S
+Discord | EB    
+------- | ------
+Test    | 3.415o
 ```
 PLAYERS;
 
@@ -486,9 +542,9 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus rank');
         $expect = <<<PLAYERS
 ```
-Discord | EB      | Rank   
-------- | ------- | -------
-Test    | 25.263S | Zetta 3
+Discord | EB     | Rank   
+------- | ------ | -------
+Test    | 3.415o | Yotta 2
 ```
 PLAYERS;
 
@@ -513,13 +569,13 @@ PLAYERS;
         $expect = <<<RANK
 ```
 MoT3rror
-Soul Eggs: 932.264q
-Prestige Eggs: 127
-Earning Bonus: 25.263S
-Farmer Role: Zettafarmer 3
+Soul Eggs: 18.732Q
+Prestige Eggs: 147
+Earning Bonus: 3.415o
+Farmer Role: Yottafarmer 2
 Group Role: 
-Total Soul Eggs Needed for Next Rank: 3.690Q
-Total Prestige Eggs Needed for Next Rank: 142
+Total Soul Eggs Needed for Next Rank: 54.850Q
+Total Prestige Eggs Needed for Next Rank: 159
 ```
 RANK;
         $this->assertEquals($expect, $message);

@@ -41,7 +41,8 @@ class DiscordMessage extends Controller
     public function receive(Request $request): array
     {
         $message = trim(str_replace($request->input('atBotUser'), '', $request->input('content')));
-        $parts = explode(' ', $message);
+        // $parts = explode(' ', $message); // split on space
+        $parts = preg_split('/\r\n|\r|\n| /', $message, -1, PREG_SPLIT_NO_EMPTY); // split on space or new lines
         $command = Arr::get($parts, '0');
         
         try {

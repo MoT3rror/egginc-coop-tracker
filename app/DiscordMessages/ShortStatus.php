@@ -30,4 +30,9 @@ class ShortStatus extends Status
             $contract ? $contract->name : $this->parts[1],
         ];
     }
+
+    public function help(): string
+    {
+        return 'eb!s {Contract ID} - Short version of status';
+    }
 }

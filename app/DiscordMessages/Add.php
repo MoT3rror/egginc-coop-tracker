@@ -23,7 +23,7 @@ class Add extends Base
         
         $this->getContractInfo($parts[1]);
 
-        if (isset($parts[3])) {
+        if (isset($parts[3])) { // do we have more than one coop name parameter?
             $position = 1;
 
             foreach ($parts as $key => $part) {
@@ -48,7 +48,7 @@ class Add extends Base
             }
 
             return 'Coops added successfully.';
-        } else {
+        } else { // there is only one coop name parameter
             $coopCheck = Coop::contract($parts[1])
                 ->guild($this->guildId)
                 ->coop($parts[2])
@@ -70,5 +70,10 @@ class Add extends Base
                 return 'Was not able to add coop.';
             }
         }
+    }
+
+    public function help(): string
+    {
+        return 'eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.';
     }
 }

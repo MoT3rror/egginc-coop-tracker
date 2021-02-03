@@ -75,4 +75,9 @@ class Base
 
         return $contract;
     }
+
+    public function help(): string
+    {
+        return '';
+    }
 }

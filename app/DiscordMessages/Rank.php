@@ -56,4 +56,9 @@ Total Prestige Eggs Needed for Next Rank: $goldenEggsNeeded
 ```
 RANK;
     }
+
+    public function help(): string
+    {
+        return 'eb!rank Get player stats/rank.';
+    }
 }

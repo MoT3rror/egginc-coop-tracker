@@ -108,7 +108,7 @@ class User extends Authenticatable
             return 0;
         }
 
-        return $info->game->eggsOfProphecy;
+        return $info->progress->prophecyEggs;
     }
 
     public function getEachSoulEggBonus(): int
@@ -118,7 +118,7 @@ class User extends Authenticatable
             return 0;
         }
 
-        $epicResearch = collect($info->game->epicResearchList);
+        $epicResearch = collect($info->progress->epicResearches);
         $prophecyBonus = $epicResearch->where('id', 'prophecy_bonus')->first()->level;
         $soulBonus = $epicResearch->where('id', 'soul_eggs')->first()->level;
         $eggsOfProphecy = $this->getEggsOfProphecyAttribute();
@@ -144,7 +144,7 @@ class User extends Authenticatable
             return 0;
         }
 
-        return $info->game->soulEggsD;
+        return $info->progress->soulEggs;
     }
 
     public function getSoulEggsFormattedAttribute(): string
@@ -214,7 +214,7 @@ class User extends Authenticatable
 
         $nextLevelMagnitude = $this->getPlayerEggRankInfo()->magnitude + 1;
         $nextLevelEarningBonus = pow(10, $nextLevelMagnitude);
-        $epicResearch = collect($info->game->epicResearchList);
+        $epicResearch = collect($info->progress->epicResearches);
         $prophecyBonus = $epicResearch->where('id', 'prophecy_bonus')->first()->level;
         $soulBonus = $epicResearch->where('id', 'soul_eggs')->first()->level;
         $eggsOfProphecy = $this->getEggsOfProphecyAttribute();

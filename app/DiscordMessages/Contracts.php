@@ -12,7 +12,7 @@ class Contracts extends Base
         $message[] = '```';
 
         foreach ($contracts as $contract) {
-            $message[] = $contract->identifier . '(' . $contract->name . ')';
+            $message[] = $contract->id . '(' . $contract->name . ')';
         }
         $message[] = '```';
 
@@ -24,5 +24,10 @@ class Contracts extends Base
         return Contract::getAllActiveContracts()
             ->getInRawFormat()
         ;
+    }
+
+    public function help(): string
+    {
+        return 'eb!contracts - Display current contracts with IDs.';
     }
 }

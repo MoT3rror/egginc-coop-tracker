@@ -1,11 +1,58 @@
-const eggIncApi = require('./egg-inc-api/egginc_api.js')
+const b = require('base64-arraybuffer')
+const axios = require('axios')
+var protobuf = require("protobufjs")
+var root = protobuf.loadSync('js/Proto/egginc.proto');
+
+let ei_request = (path, payload, requestPB, responsePB) => {
+    return new Promise((resolve, reject) => {
+        var errMsg = requestPB.verify(payload);
+        if (errMsg)
+            throw Error(errMsg)
+        
+        var buffer = requestPB.encode(requestPB.create(payload)).finish()
+
+        let options = {
+            url : `http://afx-2-dot-auxbrainhome.appspot.com/${path}`,
+            method : 'post',
+            data: 'data=' + b.encode(buffer),
+        }
+
+        axios(options).then((response) => {
+            let byteArray = new Array(0)
+            protobuf.util.base64.decode(response.data, byteArray, 0)
+
+            resolve(responsePB.decode(byteArray))
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+let getPeriodicals = () => {
+    var payload = {
+        currentClientVersion: 99,
+        rinfo: {
+            clientVersion: 99,
+            version: '1.20.1',
+            platform: 'ANDROID'
+        }
+    }
+
+    return ei_request(
+        'ei/get_periodicals',
+        payload,
+        root.lookupType('GetPeriodicalsRequestPayload'),
+        root.lookupType('GetPeriodicalsResponsePayload')
+    )
+}
+
 
 require('yargs')
     .scriptName('Egg Inc API')
     .usage('$0 <cmd> [args]')
     .command('getAllActiveContracts', 'Get All Active Contracts', (yargs) => {}, (argv) => {
-        eggIncApi.getContractAll().then((contracts) => {
-            console.log(JSON.stringify(contracts))
+        getPeriodicals().then((data) => {
+            console.log(JSON.stringify(data.periodicals.contracts))
         })
     })
     .command('getCoopStatus', 'Get Coop Status', (yargs) => {
@@ -13,16 +60,51 @@ require('yargs')
             .positional('contract', {type: 'string'})
             .positional('coop', {type: 'string'})
     }, (argv) => {
-        eggIncApi.getContract(argv.contract, argv.coop).then((coopInfo) => {
-            console.log(JSON.stringify(coopInfo))
+        var payload = {
+            contractId: argv.contract,
+            code: argv.coop
+        }
+
+        ei_request(
+            'ei/coop_status',
+            payload,
+            root.lookupType('CoopStatusRequestPayload'),
+            root.lookupType('CoopStatusResponsePayload')
+        ).then((data) => {
+            console.log(JSON.stringify(data.status))
         })
     })
     .command('getPlayerInfo', 'Get Player Info', (yargs) => {
         yargs
             .positional('playerId', {type: 'string'})
     }, (argv) => {
-        eggIncApi.getPlayerData(argv.playerId).then((player) => {
-            console.log(JSON.stringify(player))
+        var payload = {
+            clientVersion: 99,
+            platform: 2,
+            eiUserId: argv.playerId,
+            deviceId: '1',
+            username: '',
+            gamesServicesId: 'a_1',
+            rinfo: {
+                eiUserId: argv.playerId,
+                clientVersion: 99,
+                version: '1.20.1',
+                platform: 'ANDROID'
+            }
+        }
+
+        ei_request(
+            'ei/first_contact',
+            payload,
+            root.lookupType('FirstContactRequestPayload'),
+            root.lookupType('FirstContactResponsePayload')
+        ).then((data) => {
+            console.log(JSON.stringify(data.payload.data))
+        })
+    })
+    .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
+        return getPeriodicals().then((data) => {
+            console.log(JSON.stringify(data.periodicals.events))
         })
     })
     .help()

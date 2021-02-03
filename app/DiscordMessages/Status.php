@@ -91,6 +91,9 @@ class Status extends Base
     public function message(): string
     {
         $coops = $this->validate();
+        if (is_string($coops)) {
+            return $coops;
+        }
         $parts = $this->parts;
         $contract = $this->getContractInfo($parts[1]);
 
@@ -102,5 +105,10 @@ class Status extends Base
 
         $coopsData = $this->coopData($coops, false);
         return $this->getTable($table, $coopsData);
+    }
+
+    public function help(): string
+    {
+        return 'eb!status {Contract ID} - Display coop info for contract';
     }
 }
