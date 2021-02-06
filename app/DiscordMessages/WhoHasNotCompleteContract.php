@@ -28,6 +28,9 @@ class WhoHasNotCompleteContract extends Base
                 return !in_array($contractId, $user->getCompleteContractsAttribute());
             })
         ;
+        if ($users->count() == 0) {
+            return 'All users have completed the contract.';
+        }
 
         return '- ' . $users->implode('username', PHP_EOL . '- ');
     }

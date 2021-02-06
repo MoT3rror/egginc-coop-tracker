@@ -589,7 +589,7 @@ RANK;
         $this->assertEquals($expect, $message);
     }
 
-    public function testWhoHasCompleteContract()
+    public function ntestWhoHasCompleteContract()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
             $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
@@ -605,6 +605,26 @@ RANK;
         $message = $this->sendDiscordMessage('who-has-not-complete-contract valentines-2019');
 
         $expect = '- Test';
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testWhoHasCompleteContractWithAlreadyComplete()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
+        $this->testSetPlayerId();
+        $message = $this->sendDiscordMessage('who-has-not-complete-contract laurel-v-yanny');
+
+        $expect = 'All users have completed the contract.';
 
         $this->assertEquals($expect, $message);
     }
