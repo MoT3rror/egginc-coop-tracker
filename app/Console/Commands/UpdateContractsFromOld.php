@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Contract;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class UpdateContractsFromOld extends Command
 {
@@ -32,21 +33,37 @@ class UpdateContractsFromOld extends Command
         $csv = fopen(storage_path('old_contracts.csv'), 'r+');
         fgetcsv($csv);
         while (($data = fgetcsv($csv)) !== false) {
-            $contract = json_decode($data['24'], false);
+            $contract = json_decode($data['24']);
             if (!$contract) {
                 continue;
             }
 
+            $contract = $this->convertUpperCaseToUnderLine($contract);
+
             Contract::unguarded(function () use ($contract) {
                 Contract::updateOrCreate(
-                    ['identifier' => $contract->id],
+                    ['identifier' => $contract['id']],
                     [
-                        'name'       => $contract->name,
+                        'name'       => $contract['name'],
                         'raw_data'   => $contract,
-                        'expiration' => Carbon::createFromTimestamp($contract->expiry_timestamp),
+                        'expiration' => Carbon::createFromTimestamp($contract['expiryTimestamp']),
                     ]
                 );
             });
         }
+    }
+
+    public function convertUpperCaseToUnderLine($array)
+    {
+        $end = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $end[Str::camel($key)] = $this->convertUpperCaseToUnderLine($value);
+            } else {
+                $end[Str::camel($key)] = $value;
+            }
+        }
+
+        return $end;
     }
 }
