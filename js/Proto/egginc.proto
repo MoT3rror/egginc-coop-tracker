@@ -127,6 +127,7 @@ message Farm {
   string contract_id = 20;  // empty for home farm
 
   // 22 is a list of active boosts
+  int32 unclaimed_boost_tokens = 27;
 }
 
 enum EggType {

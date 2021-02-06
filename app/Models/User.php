@@ -20,7 +20,7 @@ class User extends Authenticatable
         'discord_token_expires' => 'datetime',
     ];
 
-    protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank'];
+    protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank', 'current_contracts'];
 
     protected $with = ['roles'];
 
@@ -92,7 +92,7 @@ class User extends Authenticatable
 
     public function getCurrentContracts(): array
     {
-        return $this->getEggPlayerInfo()->contracts->contractsList;
+        return $this->getEggPlayerInfo()->contracts->activeContracts;
     }
 
     public function getEggsOfProphecyAttribute(): int
@@ -239,6 +239,46 @@ class User extends Authenticatable
 
         $nextLevelMagnitude = $this->getPlayerEggRankInfo()->magnitude + 1;
         return ceil(pow(10, $nextLevelMagnitude) / $this->getEachSoulEggBonus());
+    }
+
+    public function getCurrentContractsAttribute(): array
+    {
+        $playerInfo = $this->getEggPlayerInfo();
+        if (!$playerInfo) {
+            return [];
+        }
+
+        $playerContracts = $this->getCurrentContracts();
+
+        $data = [];
+
+        foreach ($playerContracts as $playerContract) {
+            $secondsLeft = round($playerContract->started + $playerContract->props->durationSeconds - time());
+            $isInCoop = $playerContract->props->coopAllowed && object_get($playerContract, 'code');
+            $eggsRequired = end($playerContract->props->rewards)->goal;
+
+            if ($isInCoop) {
+                $coop = new Coop;
+                $coop->contract = $playerContract->props->id;
+                $coop->coop = $playerContract->code;
+                $eggsLaid = $coop->getCurrentEggs();
+            } else {
+                $farm = collect($playerInfo->farms)->where('contractId', $playerContract->props->id)->first();
+                $eggsLaid = $farm->eggsLaid;
+                dd($farm);
+            }
+
+            $data[] = [
+                'id'            => $playerContract->props->id,
+                'name'          => $playerContract->props->name,
+                'seconds_left'  => $secondsLeft,
+                'eggs_required' => $eggsRequired,
+                'eggs_laid'     => $eggsLaid,
+            ];
+        }
+
+        dd($playerContracts, $data, $playerInfo);
+        return $data;
     }
 
     public function scopeWithEggIncId($query)
