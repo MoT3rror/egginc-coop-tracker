@@ -6,6 +6,7 @@ use App\DiscordMessages\Add;
 use App\DiscordMessages\Contracts;
 use App\DiscordMessages\Delete;
 use App\DiscordMessages\Help;
+use App\DiscordMessages\Helpless;
 use App\DiscordMessages\Hi;
 use App\DiscordMessages\Love;
 use App\DiscordMessages\Players;
@@ -23,19 +24,20 @@ use Illuminate\Http\Request;
 class DiscordMessage extends Controller
 {
     private $validCommands = [
-        'help'          => ['class' => Help::class],
-        'status'        => ['class' => Status::class],
-        's'             => ['class' => ShortStatus::class],
-        'contracts'     => ['class' => Contracts::class],
-        'love'          => ['class' => Love::class],
-        'hi'            => ['class' => Hi::class],
-        'add'           => ['class' => Add::class],
-        'delete'        => ['class' => Delete::class],
-        'set-player-id' => ['class' => SetPlayerId::class],
-        'players'       => ['class' => Players::class],
-        'rank'          => ['class' => Rank::class],
-        'remind'        => ['class' => Remind::class],
+        'help'                          => ['class' => Help::class],
+        'status'                        => ['class' => Status::class],
+        's'                             => ['class' => ShortStatus::class],
+        'contracts'                     => ['class' => Contracts::class],
+        'love'                          => ['class' => Love::class],
+        'hi'                            => ['class' => Hi::class],
+        'add'                           => ['class' => Add::class],
+        'delete'                        => ['class' => Delete::class],
+        'set-player-id'                 => ['class' => SetPlayerId::class],
+        'players'                       => ['class' => Players::class],
+        'rank'                          => ['class' => Rank::class],
+        'remind'                        => ['class' => Remind::class],
         'who-has-not-complete-contract' => ['class' => WhoHasNotCompleteContract::class],
+        'helpless'                      => ['class' => Helpless::class],
     ];
 
     private $guildId;

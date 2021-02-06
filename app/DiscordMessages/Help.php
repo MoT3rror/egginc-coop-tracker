@@ -10,12 +10,14 @@ class Help extends Base
             Add::class,
             Contracts::class,
             Delete::class,
+            Helpless::class,
             Players::class,
             Rank::class,
             Remind::class,
             SetPlayerId::class,
             Status::class,
             ShortStatus::class,
+            WhoHasNotCompleteContract::class,
         ];
 
         $message = '```' . PHP_EOL;

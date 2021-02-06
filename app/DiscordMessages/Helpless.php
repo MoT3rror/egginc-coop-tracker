@@ -3,7 +3,7 @@ namespace App\DiscordMessages;
 
 use Arr;
 
-class WhoHasNotCompleteContract extends Base
+class Helpless extends Base
 {
     protected $middlewares = ['requiresGuild'];
 
@@ -25,11 +25,11 @@ class WhoHasNotCompleteContract extends Base
             ->get()
             ->sortBy('username')
             ->filter(function ($user) use ($contractId) {
-                return !in_array($contractId, $user->getCompleteContractsAttribute());
+                return in_array($contractId, $user->getCompleteContractsAttribute());
             })
         ;
         if ($users->count() == 0) {
-            return 'All users have completed the contract.';
+            return 'All users need to complete this contract.';
         }
 
         return '- ' . $users->implode('username', PHP_EOL . '- ');
@@ -37,6 +37,6 @@ class WhoHasNotCompleteContract extends Base
 
     public function help(): string
     {
-        return 'eb!who-has-not-complete-contract {Contract ID} - Get who has not complete contract. Will not validate contract ID.';
+        return 'eb!helpless {Contract ID} - Get users that do not have the contract.';
     }
 }

@@ -144,11 +144,13 @@ eb!help - Display list of available commands.
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
 eb!contracts - Display current contracts with IDs.
 eb!delete {contractID} {Coop} - Remove coop from tracking
+eb!helpless {Contract ID} - Get users that do not have the contract.
 eb!rank Get player stats/rank.
 eb!remind {Contract ID} {Hours} {Minutes}
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
+eb!who-has-not-complete-contract {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 ```
 HELP;
         $this->assertEquals($expect, $message);
@@ -625,6 +627,26 @@ RANK;
         $message = $this->sendDiscordMessage('who-has-not-complete-contract laurel-v-yanny');
 
         $expect = 'All users have completed the contract.';
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testHelpless()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
+        $this->testSetPlayerId();
+        $message = $this->sendDiscordMessage('helpless laurel-v-yanny');
+
+        $expect = '- Test';
 
         $this->assertEquals($expect, $message);
     }
