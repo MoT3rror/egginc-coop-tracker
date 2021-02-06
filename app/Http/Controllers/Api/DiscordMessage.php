@@ -14,6 +14,7 @@ use App\DiscordMessages\Remind;
 use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\Status;
+use App\DiscordMessages\WhoHasNotCompleteContract;
 use App\Exceptions\DiscordErrorException;
 use App\Http\Controllers\Controller;
 use Arr;
@@ -34,6 +35,7 @@ class DiscordMessage extends Controller
         'players'       => ['class' => Players::class],
         'rank'          => ['class' => Rank::class],
         'remind'        => ['class' => Remind::class],
+        'who-has-not-complete-contract' => ['class' => WhoHasNotCompleteContract::class],
     ];
 
     private $guildId;

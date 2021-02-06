@@ -241,6 +241,28 @@ class User extends Authenticatable
         return ceil(pow(10, $nextLevelMagnitude) / $this->getEachSoulEggBonus());
     }
 
+    public function getCompleteContractsAttribute(): array
+    {
+        $info = $this->getEggPlayerInfo(); 
+
+        if (!$info) {
+            return [];
+        }
+
+        $previousContracts = $info->contracts->pastContracts;
+        $complete = [];
+        foreach ($previousContracts as $previousContract) {
+            $goalsCompleted = object_get($previousContract, 'numGoalsCompleted', 0);
+            $goals = count($previousContract->props->rewards);
+            if ($goalsCompleted < $goals) {
+                continue;
+            }
+            $complete[]  = $previousContract->props->id;
+        }
+
+        return $complete;
+    }
+
     public function scopeWithEggIncId($query)
     {
         return $query->where(function ($query) {
