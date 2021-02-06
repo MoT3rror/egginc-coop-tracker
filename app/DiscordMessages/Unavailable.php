@@ -3,7 +3,7 @@ namespace App\DiscordMessages;
 
 use Arr;
 
-class Helpless extends Base
+class Unavailable extends Base
 {
     protected $middlewares = ['requiresGuild'];
 
@@ -23,7 +23,9 @@ class Helpless extends Base
             ->withEggIncId()
             ->inShowRoles()
             ->get()
-            ->sortBy('username')
+            ->sortBy(function ($user) {
+                return $user->getPlayerEarningBonus();
+            }, SORT_REGULAR, true)
             ->filter(function ($user) use ($contractId) {
                 return in_array($contractId, $user->getCompleteContractsAttribute());
             })
@@ -37,6 +39,6 @@ class Helpless extends Base
 
     public function help(): string
     {
-        return 'eb!helpless {Contract ID} - Get users that do not have the contract.';
+        return 'eb!unavailable {Contract ID} - Get users that do not have the contract.';
     }
 }

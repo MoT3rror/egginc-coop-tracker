@@ -3,7 +3,7 @@ namespace App\DiscordMessages;
 
 use Arr;
 
-class WhoHasNotCompleteContract extends Base
+class Available extends Base
 {
     protected $middlewares = ['requiresGuild'];
 
@@ -23,7 +23,9 @@ class WhoHasNotCompleteContract extends Base
             ->withEggIncId()
             ->inShowRoles()
             ->get()
-            ->sortBy('username')
+            ->sortBy(function ($user) {
+                return $user->getPlayerEarningBonus();
+            }, SORT_REGULAR, true)
             ->filter(function ($user) use ($contractId) {
                 return !in_array($contractId, $user->getCompleteContractsAttribute());
             })
@@ -37,6 +39,6 @@ class WhoHasNotCompleteContract extends Base
 
     public function help(): string
     {
-        return 'eb!who-has-not-complete-contract {Contract ID} - Get who has not complete contract. Will not validate contract ID.';
+        return 'eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.';
     }
 }

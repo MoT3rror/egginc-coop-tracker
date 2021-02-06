@@ -142,15 +142,15 @@ class DiscordMessageTest extends TestCase
 ```
 eb!help - Display list of available commands.
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
+eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 eb!contracts - Display current contracts with IDs.
 eb!delete {contractID} {Coop} - Remove coop from tracking
-eb!helpless {Contract ID} - Get users that do not have the contract.
 eb!rank Get player stats/rank.
 eb!remind {Contract ID} {Hours} {Minutes}
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
-eb!who-has-not-complete-contract {Contract ID} - Get who has not complete contract. Will not validate contract ID.
+eb!unavailable {Contract ID} - Get users that do not have the contract.
 ```
 HELP;
         $this->assertEquals($expect, $message);
@@ -604,7 +604,7 @@ RANK;
         }));
 
         $this->testSetPlayerId();
-        $message = $this->sendDiscordMessage('who-has-not-complete-contract valentines-2019');
+        $message = $this->sendDiscordMessage('available valentines-2019');
 
         $expect = '- Test';
 
@@ -624,7 +624,7 @@ RANK;
         }));
 
         $this->testSetPlayerId();
-        $message = $this->sendDiscordMessage('who-has-not-complete-contract laurel-v-yanny');
+        $message = $this->sendDiscordMessage('available laurel-v-yanny');
 
         $expect = 'All users have completed the contract.';
 
@@ -644,7 +644,7 @@ RANK;
         }));
 
         $this->testSetPlayerId();
-        $message = $this->sendDiscordMessage('helpless laurel-v-yanny');
+        $message = $this->sendDiscordMessage('unavailable laurel-v-yanny');
 
         $expect = '- Test';
 
