@@ -56,7 +56,7 @@ class Coop extends Model
         return $this->contractModel()->getEggsNeeded();
     }
 
-    public function getProjectedEggs(): int
+    public function getProjectedEggs(): float
     {
         if ($this->getTimeLeft() < 0) { // if no time left to make more eggs, return what is available
             return $this->getCurrentEggs();

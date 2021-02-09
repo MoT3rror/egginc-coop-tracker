@@ -356,6 +356,35 @@ STATUS;
         $this->assertEquals($expect, $message);
     }
 
+    public function testStatusWithLargeEggRate()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/clean-crypto-grizzlycoin.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
+        $message = $this->sendDiscordMessage('status ' . $contract->identifier);
+        $expect = <<<STATUS
+Ion Drive II
+{$url}
+```
+Coop 5  | 600q | E Time | Proj 
+------- | ---- | ------ | -----
+test 13 | 771q | CPLT   | 10.9Q
+```
+STATUS;
+
+        $this->assertEquals($expect, $message);
+    }
+
     public function testStatusCompletedCoop()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
