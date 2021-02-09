@@ -149,7 +149,13 @@
                 return 0
             },
             eggsTotalNeeded() {
-                let rewards = this.contractInfo.rewardTiers[this.coopType].rewards
+                let rewards
+                // old contract
+                if (!this.contractInfo.rewardTiers) {
+                    rewards = this.contractInfo.rewards
+                } else {
+                    rewards = this.contractInfo.rewardTiers[this.coopType].rewards
+                }
                 return rewards[rewards.length - 1].goal
             },
             eggsLeftToGet() {

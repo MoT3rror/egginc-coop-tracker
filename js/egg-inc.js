@@ -82,9 +82,7 @@ require('yargs')
             clientVersion: 99,
             platform: 2,
             eiUserId: argv.playerId,
-            deviceId: '1',
             username: '',
-            gamesServicesId: 'a_1',
             rinfo: {
                 eiUserId: argv.playerId,
                 clientVersion: 99,

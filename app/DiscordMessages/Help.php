@@ -8,6 +8,7 @@ class Help extends Base
         $commands = [
             Help::class,
             Add::class,
+            Available::class,
             Contracts::class,
             Delete::class,
             Players::class,
@@ -16,6 +17,7 @@ class Help extends Base
             SetPlayerId::class,
             Status::class,
             ShortStatus::class,
+            Unavailable::class,
         ];
 
         $message = '```' . PHP_EOL;

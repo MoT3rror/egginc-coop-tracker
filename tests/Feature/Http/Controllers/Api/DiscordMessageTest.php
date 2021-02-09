@@ -142,6 +142,7 @@ class DiscordMessageTest extends TestCase
 ```
 eb!help - Display list of available commands.
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
+eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 eb!contracts - Display current contracts with IDs.
 eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!rank Get player stats/rank.
@@ -149,6 +150,7 @@ eb!remind {Contract ID} {Hours} {Minutes}
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
+eb!unavailable {Contract ID} - Get users that do not have the contract.
 ```
 HELP;
         $this->assertEquals($expect, $message);
@@ -585,6 +587,66 @@ RANK;
     {
         $message = $this->sendDiscordMessage('rank');
         $expect = 'Egg Inc Player ID not set. Use `eb!set-player-id {id}` to set.';
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function ntestWhoHasCompleteContract()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
+        $this->testSetPlayerId();
+        $message = $this->sendDiscordMessage('available valentines-2019');
+
+        $expect = '- Test';
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testWhoHasCompleteContractWithAlreadyComplete()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
+        $this->testSetPlayerId();
+        $message = $this->sendDiscordMessage('available laurel-v-yanny');
+
+        $expect = 'All users have completed the contract.';
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testHelpless()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
+        $this->testSetPlayerId();
+        $message = $this->sendDiscordMessage('unavailable laurel-v-yanny');
+
+        $expect = '- Test';
 
         $this->assertEquals($expect, $message);
     }
