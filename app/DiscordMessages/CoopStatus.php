@@ -42,6 +42,7 @@ class CoopStatus extends Base
                 'name'    => $member->name,
                 'eggs'    => resolve(Egg::class)->format($member->eggsLaid),
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, 2),
+                'tokens'  => $member->tokens,
                 'boosted' => $member->eggsPerSecond * 60 * 60 > (2 * pow(10, 15)) ? 'X' : '',
             ];
         }
@@ -80,6 +81,7 @@ class CoopStatus extends Base
         $table->addColumn('name', new Column('Name', Column::ALIGN_LEFT));
         $table->addColumn('eggs', new Column('Eggs', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
+        $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
         $table->addColumn('boosted', new Column('Boosted', Column::ALIGN_LEFT));
 
         $coopData = $this->coopData();
