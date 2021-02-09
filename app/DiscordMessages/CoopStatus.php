@@ -79,7 +79,7 @@ class CoopStatus extends Base
         $contract = $this->getContractInfo($parts[1]);
 
         $table = new Table();
-        $table->addColumn('name', new Column('  Name', Column::ALIGN_LEFT));
+        $table->addColumn('name', new Column('Boosted/Name', Column::ALIGN_LEFT));
         // $table->addColumn('eggs', new Column('Eggs', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
         $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
