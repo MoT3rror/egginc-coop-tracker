@@ -39,12 +39,12 @@ class CoopStatus extends Base
         $members = collect($coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
         foreach ($members as $member) {
             $showDecimals = $member->eggsPerSecond * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
+            $boosted = $member->eggsPerSecond * 60 * 60 > (2 * pow(10, 15));
             $data[] = [
-                'name'    => $member->name,
+                'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
                 // 'eggs'    => resolve(Egg::class)->format($member->eggsLaid),
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
                 'tokens'  => $member->tokens,
-                'boosted' => $member->eggsPerSecond * 60 * 60 > (2 * pow(10, 15)) ? 'X' : '',
             ];
         }
 
@@ -79,11 +79,10 @@ class CoopStatus extends Base
         $contract = $this->getContractInfo($parts[1]);
 
         $table = new Table();
-        $table->addColumn('name', new Column('Name', Column::ALIGN_LEFT));
+        $table->addColumn('name', new Column('  Name', Column::ALIGN_LEFT));
         // $table->addColumn('eggs', new Column('Eggs', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
         $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
-        $table->addColumn('boosted', new Column('Boosted', Column::ALIGN_LEFT));
 
         $coopData = $this->coopData();
         return $this->getTable($table, $coopData);

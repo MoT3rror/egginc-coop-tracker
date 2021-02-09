@@ -669,13 +669,13 @@ RANK;
         $expect = <<<STATUS
 {$contract->identifier} - test
 ```
-Name       | Rate  | Tokens | Boosted
----------- | ----- | ------ | -------
-SukiDevil  | 3.77q | 83     | X      
-elbee1     | 3.77q | 102    | X      
-SuchPerson | 3.77q | 93     | X      
-27ThePulse | 4T    | 67     |        
-Parasbabü  | 108T  | 56     |        
+  Name       | Rate  | Tokens
+------------ | ----- | ------
+X SukiDevil  | 3.77q | 83    
+X elbee1     | 3.77q | 102   
+X SuchPerson | 3.77q | 93    
+  27ThePulse | 4T    | 67    
+  Parasbabü  | 108T  | 56    
 ```
 STATUS;
 
