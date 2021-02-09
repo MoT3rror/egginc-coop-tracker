@@ -650,4 +650,35 @@ RANK;
 
         $this->assertEquals($expect, $message);
     }
+
+    public function testCoopStatus()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $message = $this->sendDiscordMessage('coop-status ' . $contract->identifier . ' test');
+        $expect = <<<STATUS
+{$contract->identifier} - test
+```
+Name       | Eggs | Rate    | Boosted
+---------- | ---- | ------- | -------
+SuchPerson | 253q | 3.77q   | X      
+SukiDevil  | 250q | 3.77q   | X      
+elbee1     | 238q | 3.77q   | X      
+Parasbabü  | 4q   | 108.41T |        
+27ThePulse | 86T  | 4.10T   |        
+```
+STATUS;
+
+        $this->assertEquals($expect, $message);
+    }
 }
