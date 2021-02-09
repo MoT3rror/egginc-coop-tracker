@@ -39,7 +39,7 @@ class CoopStatus extends Base
         $members = collect($coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
         foreach ($members as $member) {
             $showDecimals = $member->eggsPerSecond * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
-            $boosted = $member->eggsPerSecond * 60 * 60 > (2 * pow(10, 15));
+            $boosted = $member->eggsPerSecond * 60 * 60 > (1.2 * pow(10, 15));
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
                 // 'eggs'    => resolve(Egg::class)->format($member->eggsLaid),
