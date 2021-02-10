@@ -81,7 +81,12 @@ class Coop extends Model
 
     public function getTotalRateFormatted(): string
     {
-        return resolve(Egg::class)->format($this->getTotalRate() * 60 * 60);
+        return resolve(Egg::class)->format($this->getTotalRate() * 60 * 60, 1);
+    }
+
+    public function getNeededRateFormatted(): string
+    {
+        return resolve(Egg::class)->format($this->getNeededRate() * 60 * 60, 1);
     }
 
     public function getContractInfo(): ?\StdClass
@@ -115,6 +120,15 @@ class Coop extends Model
         }
 
         return $rate;
+    }
+
+    public function getNeededRate(): int
+    {
+        if ($this->getEggsLeftNeeded() <= 0 || $this->getTimeLeft() <= 0) {
+            return 0;
+        }
+
+        return $this->getEggsLeftNeeded() / $this->getTimeLeft();
     }
 
     public function getTimeLeft(): int

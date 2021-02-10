@@ -58,7 +58,7 @@ class Tracker extends Base
         $messages = [];
         $messages[] = $this->contract->name . '(' . $this->contract->identifier . ') - ' . $this->parts[2];
         $messages[] = 'Eggs: ' . $this->coop->getCurrentEggsFormatted();
-        $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr';
+        $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr Need: '. $this->coop->getNeededRateFormatted();
         $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted(); 
 
         return $messages;
