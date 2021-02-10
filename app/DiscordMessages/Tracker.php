@@ -34,7 +34,6 @@ class Tracker extends Base
         $coop->contract = $this->parts['1'];
         $coop->coop = $this->parts['2'];
 
-
         $data = [];
         $members = collect($coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
         foreach ($members as $member) {
@@ -82,7 +81,11 @@ class Tracker extends Base
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
         $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
 
-        $coopData = $this->coopData();
+        try {
+            $coopData = $this->coopData();
+        } catch (\App\Exceptions\CoopNotFoundException $e) {
+            return 'Coop not found.';
+        }
         return $this->getTable($table, $coopData);
     }
 
