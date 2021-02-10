@@ -14,6 +14,10 @@ use kbATeam\MarkdownTable\Table;
 
 class Tracker extends Base
 {
+    public $contract;
+
+    public $coop;
+
     public function validate()
     {
         $parts = $this->parts;
@@ -30,12 +34,12 @@ class Tracker extends Base
 
     public function coopData(): array
     {
-        $coop = new Coop;
-        $coop->contract = $this->parts['1'];
-        $coop->coop = $this->parts['2'];
+        $this->coop = new Coop;
+        $this->coop->contract = $this->parts['1'];
+        $this->coop->coop = $this->parts['2'];
 
         $data = [];
-        $members = collect($coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
+        $members = collect($this->coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
         foreach ($members as $member) {
             $showDecimals = $member->eggsPerSecond * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
             $boosted = $member->eggsPerSecond * 60 * 60 > (1.2 * pow(10, 15));
@@ -49,14 +53,20 @@ class Tracker extends Base
         return $data;
     }
 
-    public function starterMessage(): string
+    public function starterMessage(): array
     {
-        return $this->parts[1] . ' - ' . $this->parts[2];
+        $messages = [];
+        $messages[] = $this->contract->name . '(' . $this->contract->identifier . ') - ' . $this->parts[2];
+        $messages[] = 'Eggs: ' . $this->coop->getCurrentEggsFormatted();
+        $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr';
+        $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted(); 
+
+        return $messages;
     }
 
     public function getTable(Table $table, array $data): string
     {
-        $messages = [$this->starterMessage()];
+        $messages = $this->starterMessage();
         $messages[] = '```';
         foreach ($table->generate($data) as $row) {
             $messages[] = $row;
@@ -74,7 +84,7 @@ class Tracker extends Base
         }
 
         $parts = $this->parts;
-        $contract = $this->getContractInfo($parts[1]);
+        $this->contract = $this->getContractInfo($parts[1]);
 
         $table = new Table();
         $table->addColumn('name', new Column('Boosted/Name', Column::ALIGN_LEFT));

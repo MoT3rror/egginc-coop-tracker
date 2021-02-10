@@ -681,7 +681,7 @@ RANK;
         $this->assertEquals($expect, $message);
     }
 
-    public function testCoopStatus()
+    public function testTracker()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
             $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
@@ -697,7 +697,10 @@ RANK;
 
         $message = $this->sendDiscordMessage('tracker ' . $contract->identifier . ' test');
         $expect = <<<STATUS
-{$contract->identifier} - test
+Ion Drive II({$contract->identifier}) - test
+Eggs: 746q
+Rate: 11q/hr
+Projected Eggs: 746q/600q
 ```
 Boosted/Name | Rate  | Tokens
 ------------ | ----- | ------

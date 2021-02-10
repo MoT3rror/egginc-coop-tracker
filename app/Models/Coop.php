@@ -79,6 +79,11 @@ class Coop extends Model
         return resolve(Egg::class)->format($this->getEggsNeeded());
     }
 
+    public function getTotalRateFormatted(): string
+    {
+        return resolve(Egg::class)->format($this->getTotalRate() * 60 * 60);
+    }
+
     public function getContractInfo(): ?\StdClass
     {
         return Contract::firstWhere('identifier', $this->contract)->raw_data;
