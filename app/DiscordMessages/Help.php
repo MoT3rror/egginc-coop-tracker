@@ -17,6 +17,7 @@ class Help extends Base
             SetPlayerId::class,
             Status::class,
             ShortStatus::class,
+            Tracker::class,
             Unavailable::class,
         ];
 

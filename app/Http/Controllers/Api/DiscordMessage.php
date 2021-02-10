@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\DiscordMessages\Add;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\Contracts;
-use App\DiscordMessages\CoopStatus;
 use App\DiscordMessages\Delete;
 use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
@@ -16,6 +15,7 @@ use App\DiscordMessages\Remind;
 use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\Status;
+use App\DiscordMessages\Tracker;
 use App\DiscordMessages\Unavailable;
 use App\Exceptions\DiscordErrorException;
 use App\Http\Controllers\Controller;
@@ -39,7 +39,7 @@ class DiscordMessage extends Controller
         'remind'        => ['class' => Remind::class],
         'available'     => ['class' => Available::class],
         'unavailable'   => ['class' => Unavailable::class],
-        'coop-status'   => ['class' => CoopStatus::class],
+        'tracker'       => ['class' => Tracker::class],
     ];
 
     private $guildId;

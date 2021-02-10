@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\URL;
 use kbATeam\MarkdownTable\Column;
 use kbATeam\MarkdownTable\Table;
 
-class CoopStatus extends Base
+class Tracker extends Base
 {
     public function validate()
     {
@@ -42,7 +42,6 @@ class CoopStatus extends Base
             $boosted = $member->eggsPerSecond * 60 * 60 > (1.2 * pow(10, 15));
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
-                // 'eggs'    => resolve(Egg::class)->format($member->eggsLaid),
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
                 'tokens'  => $member->tokens,
             ];
@@ -80,7 +79,6 @@ class CoopStatus extends Base
 
         $table = new Table();
         $table->addColumn('name', new Column('Boosted/Name', Column::ALIGN_LEFT));
-        // $table->addColumn('eggs', new Column('Eggs', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
         $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
 
@@ -90,6 +88,6 @@ class CoopStatus extends Base
 
     public function help(): string
     {
-        return 'eb!coop-status {Contract ID} {Coop ID} - Display coop info for contract.';
+        return 'eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.';
     }
 }

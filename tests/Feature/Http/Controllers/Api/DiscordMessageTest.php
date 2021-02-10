@@ -150,6 +150,7 @@ eb!remind {Contract ID} {Hours} {Minutes}
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
+eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.
 eb!unavailable {Contract ID} - Get users that do not have the contract.
 ```
 HELP;
@@ -694,7 +695,7 @@ RANK;
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
 
-        $message = $this->sendDiscordMessage('coop-status ' . $contract->identifier . ' test');
+        $message = $this->sendDiscordMessage('tracker ' . $contract->identifier . ' test');
         $expect = <<<STATUS
 {$contract->identifier} - test
 ```
