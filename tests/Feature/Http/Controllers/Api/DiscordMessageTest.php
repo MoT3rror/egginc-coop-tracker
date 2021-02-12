@@ -150,6 +150,7 @@ eb!remind {Contract ID} {Hours} {Minutes}
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
+eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.
 eb!unavailable {Contract ID} - Get users that do not have the contract.
 ```
 HELP;
@@ -350,6 +351,35 @@ Ion Drive II
 Coop 5 | 600q | E Time | Proj
 ------ | ---- | ------ | ----
 test 5 | 746q | CPLT   | 746q
+```
+STATUS;
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testStatusWithLargeEggRate()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/clean-crypto-grizzlycoin.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
+        $message = $this->sendDiscordMessage('status ' . $contract->identifier);
+        $expect = <<<STATUS
+Ion Drive II
+{$url}
+```
+Coop 5  | 600q | E Time | Proj 
+------- | ---- | ------ | -----
+test 13 | 771q | CPLT   | 10.9Q
 ```
 STATUS;
 
@@ -647,6 +677,40 @@ RANK;
         $message = $this->sendDiscordMessage('unavailable laurel-v-yanny');
 
         $expect = '- Test';
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testTracker()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $message = $this->sendDiscordMessage('tracker ' . $contract->identifier . ' test');
+        $expect = <<<STATUS
+Ion Drive II({$contract->identifier}) - test
+Eggs: 746q
+Rate: 11.4q/hr Need: 0
+Projected Eggs: 746q/600q
+```
+Boosted/Name | Rate  | Tokens
+------------ | ----- | ------
+X SukiDevil  | 3.77q | 83    
+X elbee1     | 3.77q | 102   
+X SuchPerson | 3.77q | 93    
+  27ThePulse | 4T    | 67    
+  Parasbabü  | 108T  | 56    
+```
+STATUS;
 
         $this->assertEquals($expect, $message);
     }
