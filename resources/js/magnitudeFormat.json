@@ -1,5 +1,11 @@
 [
     {
+        "level": 0,
+        "name": "Thousand",
+        "symbol": "K",
+        "magnitude": 3
+    },
+    {
         "level": 1,
         "name": "Million",
         "symbol": "M",

@@ -24,7 +24,7 @@ class Egg
         }
 
         if (!$last) {
-            return $eggs;
+            return round($eggs);
         }
 
         if ($last->symbol == 'Q' && $decimals == 0) {
