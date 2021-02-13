@@ -1,5 +1,5 @@
 <template>
-    <layout :title="guild.name">
+    <layout :title="guildModel.name">
         <template v-if="!guildModel.is_bot_member_of">
             some link to add the bot to the server
         </template>
@@ -9,7 +9,7 @@
                 <h4>Current Contracts</h4>
                 <ul>
                     <li v-for="contract in currentContracts">
-                        <a :href="route('contract-guild-status', {'guildId': guild.id, 'contractId': contract.id})">
+                        <a :href="route('contract-guild-status', {'guildId': guildModel.discord_id, 'contractId': contract.id})">
                             {{ contract.name }}
                         </a>
                     </li>
@@ -56,7 +56,6 @@
             Layout, EggFormater,
         },
         props: {
-            guild: Object,
             guildModel: Object,
             currentContracts: Array,
         },

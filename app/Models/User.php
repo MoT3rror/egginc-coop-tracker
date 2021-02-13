@@ -6,6 +6,7 @@ use App\Api\EggInc;
 use App\Formatters\EarningBonus;
 use App\Formatters\Egg;
 use App\Exceptions\UserNotFoundException;
+use Cache;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,29 +50,32 @@ class User extends Authenticatable
 
     public function discordGuilds()
     {
-        $discord = new DiscordClient([
-            'token'     => $this->getCurrentDiscordToken(),
-            'tokenType' => 'OAuth',
-        ]);
-        $guilds = $discord->user->getCurrentUserGuilds();
+        return Cache::remember('user-discord-guilds-' . $this->id, 60 * 5, function () {
+            // just in case we keep calling it
+            $discord = new DiscordClient([
+                'token'     => $this->getCurrentDiscordToken(),
+                'tokenType' => 'OAuth',
+            ]);
+            $guilds = $discord->user->getCurrentUserGuilds();
 
-        foreach ($guilds as $key => $guild) {
-            $guild->isAdmin = ($guild->permissions & 8) == 8;
-            // weird bug with vue or something that causes this number to change
-            $guild->id = (string) $guild->id;
-            $guildModel = Guild::findByDiscordGuild($guild);
+            foreach ($guilds as $key => $guild) {
+                $guild->isAdmin = ($guild->permissions & 8) == 8;
+                // weird bug with vue or something that causes this number to change
+                $guild->id = (string) $guild->id;
+                $guildModel = Guild::findByDiscordGuild($guild);
 
-            if (!$guild->isAdmin && !$guildModel->getIsBotMemberOfAttribute()) {
-                unset($guilds[$key]);
-                continue;
+                if (!$guild->isAdmin && !$guildModel->getIsBotMemberOfAttribute()) {
+                    unset($guilds[$key]);
+                    continue;
+                }
+                $guildModel->sync();
+
+                if (!$guild->isAdmin) {
+                    $guild->isAdmin = $this->roles()->get()->where('is_admin', true)->count() >= 1;
+                }
             }
-            $guildModel->sync();
-
-            if (!$guild->isAdmin) {
-                $guild->isAdmin = $this->roles()->get()->where('is_admin', true)->count() >= 1;
-            }
-        }
-        return $guilds;
+            return $guilds;
+        });
     }
 
     public function guilds()

@@ -24,17 +24,22 @@ Route::get('current-contract-status-signed/{guildId}/{contractId}', 'CurrentCont
 
 Route::get('current-contract-status/{guildId}/{contractId}', 'CurrentContracts@guildStatus')
     ->name('contract-guild-status')
-    ->middleware('auth')
+    ->middleware(['auth', 'be-member-of-guild'])
 ;
 
 Route::get('guild/{guildId}', 'Guild@index')
-    ->middleware('auth')
+    ->middleware(['auth', 'be-member-of-guild'])
     ->name('guild.index')
 ;
 
 Route::get('guild/{guildId}/settings', 'Guild@settings')
-    ->middleware('auth')
+    ->middleware(['auth', 'be-admin-of-guild'])
     ->name('guild.settings')
+;
+
+Route::post('guild/{guildId}/settings', 'Guild@settingsSave')
+    ->middleware(['auth', 'be-admin-of-guild'])
+    ->name('guild.settingsSave')
 ;
 
 Route::get('login/discord', 'Discord@redirect')->name('discord-login');

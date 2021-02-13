@@ -10,20 +10,9 @@ class Guild extends Controller
 {
     public function index(Request $request, $guildId)
     {
-        $guilds = $request->user()->discordGuilds();
-        $guild = collect($guilds)
-            ->where('id', $guildId)
-            ->first()
-        ;
-
-        if (!$guild) {
-            return redirect()->route('home');
-        }
-
-        $guildModel = GuildModel::findByDiscordGuild($guild);
+        $guildModel = GuildModel::findByDiscordGuildId($guildId);
 
         return Inertia::render('Guild', [
-            'guild'            => $guild,
             'guildModel'       => $guildModel,
             'currentContracts' => $this->getContractsInfo(),
         ]);
@@ -31,16 +20,26 @@ class Guild extends Controller
 
     public function settings(Request $request, $guildId)
     {
-        $guilds = $request->user()->discordGuilds();
-        $guild = collect($guilds)
-            ->where('id', $guildId)
-            ->first()
-        ;
+        return Inertia::render('Settings', [
+            'guildModel' => GuildModel::findByDiscordGuildId($guildId),
+        ]);
+    }
 
-        if (!$guild) {
-            return redirect()->route('home');
+    public function settingsSave(Request $request, $guildId)
+    {
+        $guild = GuildModel::findByDiscordGuildId($guildId);
+
+        foreach ($request->input('roles') as $roleId => $role) {
+            $roleModel = $guild->roles->find($roleId);
+            $roleModel->is_admin = $role['is_admin'];
+            $roleModel->show_members_on_roster = $role['show_members_on_roster'];
+            $roleModel->show_role = $role['show_role'];
+            $roleModel->save();
         }
 
-
+        return redirect()
+            ->route('guild.settings', ['guildId' => $guildId])
+            ->with('success', 'Settings saved.')
+        ;
     }
 }

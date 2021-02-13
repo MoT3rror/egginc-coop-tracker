@@ -23,6 +23,7 @@ class InertiaSharedData
             'user',
             $user ? $user->only('id', 'username') : null
         );
+        Inertia::share('csrf_token', csrf_token());
 
         return $next($request);
     }
