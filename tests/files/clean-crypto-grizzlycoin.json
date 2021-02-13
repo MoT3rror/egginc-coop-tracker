@@ -1,0 +1,156 @@
+{
+  "contractId": "clean-crypto",
+  "eggsLaid": 771307888066463500,
+  "code": "grizzlycoin",
+  "members": [
+    {
+      "id": "EI6548627332268032",
+      "name": "Blavik3n",
+      "eggsLaid": 147508234074641920,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 2250322025095.9204,
+      "_7": 0,
+      "earningBonusOom": 26.93762718961712,
+      "tokens": 1
+    },
+    {
+      "id": "EI4799090308677632",
+      "name": "jsscaa",
+      "eggsLaid": 131319242439253300,
+      "active": true,
+      "_5": 1,
+      "eggsPerSecond": 1952704854819.018,
+      "_7": 0,
+      "earningBonusOom": 23.938774928584586,
+      "tokens": 1
+    },
+    {
+      "id": "EI5022515933478912",
+      "name": "furinenda",
+      "eggsLaid": 111521631910591970,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 2226818563569.5625,
+      "_7": 0,
+      "earningBonusOom": 25.222014879089325,
+      "tokens": 8
+    },
+    {
+      "id": "EI5536822057238528",
+      "name": "Ilmorgi88",
+      "eggsLaid": 105326511962409340,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 2086851020696.2517,
+      "_7": 0,
+      "earningBonusOom": 23.056239781071195,
+      "tokens": 2
+    },
+    {
+      "id": "EI6743019397578752",
+      "name": "donnyb99",
+      "eggsLaid": 88373334532696210,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 2074872901039.97,
+      "_7": 0,
+      "earningBonusOom": 23.325703536561146,
+      "tokens": 1
+    },
+    {
+      "id": "EI6218223772499968",
+      "name": "FatGrizzlyBear",
+      "eggsLaid": 70113775035381670,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 2109128057846.369,
+      "_7": 0,
+      "earningBonusOom": 21.511601915398572,
+      "tokens": 9
+    },
+    {
+      "id": "EI5112949506572288",
+      "name": "[ tater2019]",
+      "eggsLaid": 50317615706647370,
+      "active": true,
+      "_5": 1,
+      "eggsPerSecond": 1593807789554.3875,
+      "_7": 0,
+      "earningBonusOom": 23.873338409258878,
+      "tokens": 4
+    },
+    {
+      "id": "EI4776121226231808",
+      "name": "Kitaliae",
+      "eggsLaid": 41127686008566620,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 1294155726750.4363,
+      "_7": 0,
+      "earningBonusOom": 23.05160357383275,
+      "tokens": 2
+    },
+    {
+      "id": "EI5861387437342720",
+      "name": "Boomtastik",
+      "eggsLaid": 7768577297424103,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 1454594182667.805,
+      "_7": 0,
+      "earningBonusOom": 22.96443655128095,
+      "tokens": 1
+    },
+    {
+      "id": "EI5436848975904768",
+      "name": "Japser82",
+      "eggsLaid": 7403656847064679,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 1210668886725.3787,
+      "_7": 0,
+      "earningBonusOom": 26.22129102122702,
+      "tokens": 2
+    },
+    {
+      "id": "EI5870653057531904",
+      "name": "RedEyedCoyote9901",
+      "eggsLaid": 4580130560920245,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 1277318198894.2825,
+      "_7": 0,
+      "earningBonusOom": 25.614401718635797,
+      "tokens": 1
+    },
+    {
+      "id": "EI5442683239137280",
+      "name": "SonnyAspie",
+      "eggsLaid": 3308939168858915,
+      "active": true,
+      "_5": 1,
+      "eggsPerSecond": 1985572814955.973,
+      "_7": 0,
+      "earningBonusOom": 23.714855447544828,
+      "tokens": 4
+    },
+    {
+      "id": "EI4650776128913408",
+      "name": "AdityaBhanja",
+      "eggsLaid": 2638552522007118,
+      "active": true,
+      "_5": 2,
+      "eggsPerSecond": 1724006689449.7534,
+      "_7": 0,
+      "earningBonusOom": 24.12424684354876,
+      "tokens": 1
+    }
+  ],
+  "secondsUntilProductionDeadline": 439117.2631530762,
+  "_6": 0,
+  "secondsUntilCollectionDeadline": 611917.2631530762,
+  "_8": 0,
+  "creatorId": "EI6218223772499968",
+  "public": false
+}

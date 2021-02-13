@@ -15,6 +15,7 @@ use App\DiscordMessages\Remind;
 use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\Status;
+use App\DiscordMessages\Tracker;
 use App\DiscordMessages\Unavailable;
 use App\Exceptions\DiscordErrorException;
 use App\Http\Controllers\Controller;
@@ -38,6 +39,7 @@ class DiscordMessage extends Controller
         'remind'        => ['class' => Remind::class],
         'available'     => ['class' => Available::class],
         'unavailable'   => ['class' => Unavailable::class],
+        'tracker'       => ['class' => Tracker::class],
     ];
 
     private $guildId;
