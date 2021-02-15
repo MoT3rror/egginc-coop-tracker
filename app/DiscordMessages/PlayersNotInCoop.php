@@ -16,17 +16,20 @@ class PlayersNotInCoop extends Status
 
         $players = [];
         foreach ($coops as $coop) {
-            $players = array_merge($players, collect($coop->getCoopInfo()->members)->pluck('id')->all());
+            try {
+                $players = array_merge($players, collect($coop->getCoopInfo()->members)->pluck('id')->all());
+            } catch (\App\Exceptions\CoopNotFoundException $e) {
+                // just catch error
+            }
         }
+        $players = array_map('strtolower', $players);
 
         $this->guild->sync();
         $members = $this->guild
             ->members()
             ->withEggIncId()
+            ->inShowRoles()
             ->get()
-            ->sortBy(function ($user) {
-                return $user->getPlayerEarningBonus();
-            }, SORT_REGULAR, true)
         ;
 
         foreach ($members as $key => $member) {
@@ -35,7 +38,13 @@ class PlayersNotInCoop extends Status
             }
         }
 
-        return '- ' . $members->implode('username', PHP_EOL . '- ');
+        $members
+            ->sortBy(function ($user) {
+                return $user->getPlayerEarningBonus();
+            }, SORT_REGULAR, true)
+        ;
+
+        return '- ' . $members->implode('username_with_roles', PHP_EOL . '- ');
     }
 
     public function help(): string

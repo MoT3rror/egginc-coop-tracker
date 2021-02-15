@@ -273,6 +273,18 @@ class User extends Authenticatable
         return $complete;
     }
 
+    public function getUsernameWithRolesAttribute()
+    {
+        $roles = $this
+            ->roles
+            ->where('show_role')
+            ->pluck('name')
+            ->join(', ')
+        ;
+
+        return $this->username . ' (' . $roles . ')';
+    }
+
     public function scopeWithEggIncId($query)
     {
         return $query->where(function ($query) {
