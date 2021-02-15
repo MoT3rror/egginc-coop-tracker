@@ -714,4 +714,36 @@ STATUS;
 
         $this->assertEquals($expect, $message);
     }
+
+    public function testPlayersNotInCoop()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['EI57612441763184'])
+                ->andReturn($player)
+            ;
+
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $this->sendDiscordMessage('set-player-id EI57612441763184');
+        
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $message = $this->sendDiscordMessage('players-not-in-coop ' . $contract->identifier);
+        $expect = <<<STATUS
+- Test
+STATUS;
+
+        $this->assertEquals($expect, $message);
+    }
 }

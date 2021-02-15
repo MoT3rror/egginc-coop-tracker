@@ -10,6 +10,7 @@ use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
 use App\DiscordMessages\Love;
 use App\DiscordMessages\Players;
+use App\DiscordMessages\PlayersNotInCoop;
 use App\DiscordMessages\Rank;
 use App\DiscordMessages\Remind;
 use App\DiscordMessages\SetPlayerId;
@@ -39,7 +40,8 @@ class DiscordMessage extends Controller
         'remind'        => ['class' => Remind::class],
         'available'     => ['class' => Available::class],
         'unavailable'   => ['class' => Unavailable::class],
-        'tracker'       => ['class' => Tracker::class],
+        'tracker'       =>  ['class' => Tracker::class],
+        'players-not-in-coop' => ['class' => PlayersNotInCoop::class],
     ];
 
     private $guildId;
