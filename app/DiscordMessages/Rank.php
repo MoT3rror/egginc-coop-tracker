@@ -36,6 +36,12 @@ class Rank extends Base
         $farmerRole = $user->getPlayerEggRankAttribute();
         $soulEggsNeeded = $user->getSoulEggsNeededForNextRankFormattedAttribute();
         $goldenEggsNeeded = $user->getPENeededForNextRankAttribute();
+        $drones = $user->getDronesAttribute();
+        $eliteDrones = $user->getEliteDronesAttribute();
+        $prestiges = $user->getPrestigesAttribute();
+        $boostsUsed = $user->getBoostsUsedAttribute();
+        $liftTimeGoldenEggs = $user->getLifeTimeGoldenEggsAttribute();
+        $currentGoldenEggs = $user->getCurrentGoldenEggs();
         $roles = $user
             ->roles
             ->where('show_role')
@@ -53,6 +59,11 @@ Farmer Role: $farmerRole
 Group Role: $roles
 Total Soul Eggs Needed for Next Rank: $soulEggsNeeded
 Total Prestige Eggs Needed for Next Rank: $goldenEggsNeeded
+Current Golden Eggs: $currentGoldenEggs
+Total Golden Eggs: $liftTimeGoldenEggs
+Drones/Elite: {$drones}/{$eliteDrones}
+Prestiges: $prestiges
+Boosts Used: $boostsUsed
 ```
 RANK;
     }

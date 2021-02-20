@@ -205,6 +205,56 @@ class User extends Authenticatable
         return $info->stats->droneTakedowns;
     }
 
+    public function getEliteDronesAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return 0;
+        }
+        return $info->stats->eliteDroneTakedowns;
+    }
+
+    public function getPrestigesAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return 0;
+        }
+        return $info->stats->prestiges;
+    }
+
+    public function getBoostsUsedAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return 0;
+        }
+        return $info->stats->boostsUsed;
+    }
+
+    public function getLifeTimeGoldenEggsAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return 0;
+        }
+        return $info->progress->lifefimeGoldenEggs;
+    }
+
+    public function getLiftTimeSpentGoldenEggsAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return 0;
+        }
+        return $info->progress->lifetimeGoldenEggsSpent;
+    }
+
+    public function getCurrentGoldenEggs(): int
+    {
+        return $this->getLifeTimeGoldenEggsAttribute() - $this->getLiftTimeSpentGoldenEggsAttribute();
+    }
+
     public function getPENeededForNextRankAttribute(): int
     {
         $info = $this->getEggPlayerInfo();

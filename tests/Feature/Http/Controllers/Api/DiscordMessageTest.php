@@ -608,6 +608,11 @@ Farmer Role: Yottafarmer 2
 Group Role: 
 Total Soul Eggs Needed for Next Rank: 54.850Q
 Total Prestige Eggs Needed for Next Rank: 159
+Current Golden Eggs: 136318185
+Total Golden Eggs: 170060259
+Drones/Elite: 56680/2543
+Prestiges: 223
+Boosts Used: 1593
 ```
 RANK;
         $this->assertEquals($expect, $message);
@@ -741,7 +746,7 @@ STATUS;
 
         $message = $this->sendDiscordMessage('players-not-in-coop ' . $contract->identifier);
         $expect = <<<STATUS
-- Test
+- Test ()
 STATUS;
 
         $this->assertEquals($expect, $message);
