@@ -28,7 +28,7 @@ class PlayersNotInCoop extends Status
         $members = $this->guild
             ->members()
             ->withEggIncId()
-            ->inShowRoles()
+            // ->inShowRoles()
             ->get()
         ;
 
