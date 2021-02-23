@@ -25,6 +25,8 @@ class User extends Authenticatable
 
     protected $with = ['roles'];
 
+    protected $hidden = ['email', 'discord_id', 'discord_refresh_token', 'discord_token', 'discord_token_expires', 'egg_inc_player_id'];
+
     public function getCurrentDiscordToken()
     {
         if ($this->discord_token_expires->lt(now())) {
