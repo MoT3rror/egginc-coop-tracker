@@ -34,6 +34,10 @@ class Guild extends Model
 
     public function sync()
     {
+        if (!$this->getIsBotMemberOfAttribute()) {
+            return;
+        }
+
         $this->syncRoles();
         $this->syncMembers();
         $this->refresh();
