@@ -7,6 +7,8 @@ import Vuetify from 'vuetify'
 
 require('bootstrap')
 window.$ = window.jQuery = require('jquery')
+window.route = route
+window.Ziggy = Ziggy
 
 Vue.use(InertiaApp)
 Vue.use(Vuetify)

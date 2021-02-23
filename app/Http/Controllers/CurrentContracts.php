@@ -5,6 +5,7 @@ use App\Api\EggInc;
 use App\Exceptions\CoopNotFoundException;
 use App\Models\Contract;
 use App\Models\Coop;
+use App\Models\Guild as GuildModel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -92,21 +93,16 @@ class CurrentContracts extends Controller
         return $contract->raw_data;
     }
 
-    public function makeCoops($guildId, $contractId)
+    public function makeCoops(Request $request, $guildId, $contractId)
     {
-        $guilds = $request->user()->discordGuilds();
-        $guild = collect($guilds)
-            ->where('id', $guildId)
-            ->first()
-        ;
-
-        if (!$guild) {
-            return redirect()->route('home');
-        }
-
         return Inertia::render('MakeCoops', [
             'contractInfo' => $this->getContractInfo($contractId),
-            'guild'        => $guild,
+            'guild'        => GuildModel::findByDiscordGuildId($guildId),
         ]);
+    }
+
+    public function makeCoopsSave(Request $request, $guildId, $contractId)
+    {
+        
     }
 }

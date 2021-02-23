@@ -42,6 +42,11 @@ Route::post('guild/{guildId}/settings', 'Guild@settingsSave')
     ->name('guild.settingsSave')
 ;
 
+Route::get('make-coops/{guildId}/{contractId}', 'CurrentContracts@makeCoops')
+    ->name('make-coops')
+    ->middleware(['auth', 'be-admin-of-guild'])
+;
+
 Route::get('login/discord', 'Discord@redirect')->name('discord-login');
 
 Route::get('login/discord/callback', 'Discord@callback');

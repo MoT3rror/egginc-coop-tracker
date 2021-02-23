@@ -12,6 +12,10 @@
                         <a :href="route('contract-guild-status', {'guildId': guildModel.discord_id, 'contractId': contract.id})">
                             {{ contract.name }}
                         </a>
+                        - 
+                        <a :href="route('make-coops', {'guildId': guildModel.discord_id, 'contractId': contract.id})">
+                            Make coops
+                        </a>
                     </li>
                 </ul>
                 <h4>Previous Contracts</h4>
