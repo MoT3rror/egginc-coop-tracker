@@ -81,14 +81,14 @@ require('yargs')
             .positional('playerId', {type: 'string'})
     }, (argv) => {
         var payload = {
-            clientVersion: 99,
+            clientVersion: 27,
             platform: 2,
             eiUserId: argv.playerId,
             username: '',
             rinfo: {
                 eiUserId: argv.playerId,
-                clientVersion: 99,
-                version: '1.20.1',
+                clientVersion: 27,
+                version: '1.20.4',
                 platform: 'ANDROID'
             }
         }
