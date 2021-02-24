@@ -41,6 +41,10 @@ class UserTest extends TestCase
                 'mot3rror',
                 182312303,
             ],
+            [
+                'ptof',
+                1087,
+            ],
             /*[
                 '1132Ace',
                 1683,
@@ -80,6 +84,10 @@ class UserTest extends TestCase
                 3.415223350099561E+27,
             ],
             /*[
+                'ptof',
+                1.3393016566036E+17,
+            ],
+            [
                 '1132Ace',
                 1.1734311252202E+17,
             ],*/
@@ -118,6 +126,11 @@ class UserTest extends TestCase
                 'Yottafarmer 2',
                 '3.415o',
             ],
+            [
+                'ptof',
+                'Petafarmer',
+                '133.930q',
+            ],
             /*[
                 '1132Ace',
                 'Petafarmer',
@@ -153,5 +166,27 @@ class UserTest extends TestCase
         $this->assertEquals($expects, $actual);
 
         $this->assertEquals($formatted, $user->getPlayerEarningBonusFormatted());
+    }
+
+    public function samplePENeeded(): array
+    {
+        return [
+            [
+                'ptof',
+                69,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider samplePENeeded
+     */
+    public function testPENeededForNextRank($user, $expects)
+    {
+        $user = $this->getUser($user);
+
+        $actual = $user->getPENeededForNextRankAttribute();
+
+        $this->assertEquals($expects, $actual);
     }
 }

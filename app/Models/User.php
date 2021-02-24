@@ -276,7 +276,7 @@ class User extends Authenticatable
         $eggsOfProphecy = $this->getEggsOfProphecyAttribute();
         $soulEggs = $this->getSoulEggsAttribute();
 
-        while ($eggsOfProphecy <= $this->getEggsOfProphecyAttribute() + 25) {
+        while ($eggsOfProphecy <= $this->getEggsOfProphecyAttribute() + 50) {
             $newEarningBonus = floor(((.1 + $soulBonus * .01) * (1.05 + $prophecyBonus * .01) ** $eggsOfProphecy) * 100) * $soulEggs;
             if ($newEarningBonus > $nextLevelEarningBonus) {
                 return $eggsOfProphecy;
