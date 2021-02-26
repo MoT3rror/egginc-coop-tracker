@@ -39,7 +39,7 @@
                             <label :for="'coop_channel_id' + number">
                                 Channel ID
                             </label>
-                            <input type="text" class=""
+                            <input type="text" class="form-control" v-model="coops[number].channel_id" />
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@
                     return {
                         name: coop.coop,
                         members: coop.members,
-                        channel_id: '',
+                        channel_id: coop.channel_id,
                     }
                 }),
                 numberOfCoops: this.coopsDb.length,
