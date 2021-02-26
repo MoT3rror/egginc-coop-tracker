@@ -14,7 +14,7 @@ class AddChannelIdToCoops extends Migration
     public function up()
     {
         Schema::table('coops', function (Blueprint $table) {
-            $table->string('channel_id');
+            $table->string('channel_id')->nullable();
         });
     }
 
