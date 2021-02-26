@@ -58,7 +58,6 @@
 <script>
     import Layout from './Layout'
     import _ from 'lodash'
-    import axios from 'axios'
 
     let generateRandomNumber = (numberOfCharacters) => {
         var randomValues = ''
@@ -77,14 +76,23 @@
         props: {
             contractInfo: Object,
             guild: Object,
+            coopsDb: Array,
         },
         data() {
             return {
-                coops: [],
-                numberOfCoops: 0,
+                coops: _.map(this.coopsDb, (coop) => {
+                    coop.members = _.map(coop.members, 'id')
+                    coop.members.length = this.contractInfo.maxCoopSize
+
+                    return {
+                        name: coop.coop,
+                        members: coop.members,
+                    }
+                }),
+                numberOfCoops: this.coopsDb.length,
                 prefix: '',
                 blankCoop: {
-                    members: _.fill(_.range(0, this.contractInfo.maxCoopSize), ''),
+                    members: new Array(this.contractInfo.maxCoopSize),
                     name: ''
                 },
                 availableMembers: [],
@@ -95,9 +103,7 @@
                 let options = {
                     url : route('make-coops', {'guildId': this.guild.discord_id, 'contractId': this.contractInfo.id}),
                     method : 'post',
-                    data: {
-
-                    },
+                    data: {coops:this.coops},
                 }
 
                 axios(options).then((response) => {
@@ -124,7 +130,7 @@
                     this.coops.length = this.numberOfCoops
                     for (var i = 0; i < this.numberOfCoops; i++) {
                         if (typeof(this.coops[i]) == 'undefined') {
-                            this.$set(this.coops, i, _.clone(this.blankCoop))
+                            this.$set(this.coops, i, _.cloneDeep(this.blankCoop))
                             this.coops[i].name = this.prefix + (i + 1) + generateRandomNumber(1)
                         }
                     }

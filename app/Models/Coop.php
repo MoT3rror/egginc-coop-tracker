@@ -11,6 +11,8 @@ class Coop extends Model
 {
     protected $fillable = ['contract', 'coop', 'position'];
 
+    protected $with = ['members'];
+
     protected static function booted()
     {
         static::creating(function ($coop) {
@@ -152,5 +154,10 @@ class Coop extends Model
     public function contractModel(): Contract
     {
         return $this->belongsTo(Contract::class, 'contract', 'identifier')->first();
+    }
+
+    public function members()
+    {
+        return $this->hasMany(CoopMember::class);
     }
 }

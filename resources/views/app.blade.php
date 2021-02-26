@@ -6,6 +6,7 @@
         <script src="{{ mix('/js/app.js') }}" defer></script>
         <title>MoT3rror Egg Inc PlayGround</title>
         <link href="{{ mix('/css/app.css') }}" rel="stylesheet" />
+        <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
     </head>
     <body>
         @inertia
