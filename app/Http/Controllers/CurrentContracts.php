@@ -148,4 +148,19 @@ class CurrentContracts extends Controller
 
         return 'success';
     }
+
+    public function makeChannels($guildId, $contractId)
+    {
+        $coops = Coop::contract($contractId)
+            ->guild($guildId)
+            ->orderBy('position')
+            ->get()
+        ;
+
+        foreach ($coops as $coop) {
+            $coop->makeChannel();
+        }
+
+        return 'success';
+    }
 }

@@ -27,11 +27,20 @@
         <div>
             <div v-for="(coop, number) in coops" class="card">
                 <div class="card-body">
-                    <div class="form-group">
-                        <label :for="'coop_name_' + number">
-                            Name
-                        </label>
-                        <input type="text" class="form-control" :id="'coop_name_' + number" v-model="coops[number].name" />
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label :for="'coop_name_' + number">
+                                Name
+                            </label>
+                            <input type="text" class="form-control" :id="'coop_name_' + number" v-model="coops[number].name" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label :for="'coop_channel_id' + number">
+                                Channel ID
+                            </label>
+                            <input type="text" class=""
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -52,6 +61,7 @@
         </div>
 
         <button v-on:click="save()" class="btn btn-success">Save</button>
+        <button v-on:click="makeChannels()" class="btn btn-success">Make Channels</button>
     </layout>
 </template>
 
@@ -61,7 +71,7 @@
 
     let generateRandomNumber = (numberOfCharacters) => {
         var randomValues = ''
-        var stringValues = 'ABCDEFGHIJKLMNOabcdefghijklmnopqrstuvwxyzPQRSTUVWXYZ'
+        var stringValues = 'abcdefghijklmnopqrstuvwxyz'
         var sizeOfCharacter = stringValues.length
         for (var i = 0; i < numberOfCharacters; i++) {
             randomValues = randomValues+stringValues.charAt(Math.floor(Math.random() * sizeOfCharacter))
@@ -87,13 +97,15 @@
                     return {
                         name: coop.coop,
                         members: coop.members,
+                        channel_id: '',
                     }
                 }),
                 numberOfCoops: this.coopsDb.length,
                 prefix: '',
                 blankCoop: {
                     members: new Array(this.contractInfo.maxCoopSize),
-                    name: ''
+                    name: '',
+                    channel_id: '',
                 },
                 availableMembers: [],
             }
@@ -109,7 +121,6 @@
                 axios(options).then((response) => {
                     alert('save good')
                 }).catch(err => {
-                    console.log(err)
                     alert('something bad happen')
                 })
             },
@@ -122,7 +133,19 @@
                     })
                     .sortBy(['selected', 'player_earning_bonus'])
                     .value()
-            }
+            },
+            makeChannels() {
+                let options = {
+                    url : route('make-channels', {'guildId': this.guild.discord_id, 'contractId': this.contractInfo.id}),
+                    method : 'post',
+                }
+
+                axios(options).then((response) => {
+                    alert('channels made')
+                }).catch(err => {
+                    alert('something bad happen')
+                })
+            },
         },
         watch: {
             numberOfCoops: {

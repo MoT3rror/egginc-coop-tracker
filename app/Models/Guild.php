@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use RestCord\DiscordClient;
 use Cache;
 
 class Guild extends Model
@@ -11,11 +9,6 @@ class Guild extends Model
     protected $with = ['members', 'roles'];
 
     protected $appends = ['is_bot_member_of'];
-
-    private function getDiscordClient(): DiscordClient
-    {
-        return app()->make('DiscordClientBot');
-    }
 
     private function getBotGuilds(): array
     {

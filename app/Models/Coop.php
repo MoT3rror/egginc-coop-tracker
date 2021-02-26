@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Api\EggInc;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
-use Illuminate\Database\Eloquent\Model;
 
 class Coop extends Model
 {
@@ -151,9 +150,65 @@ class Coop extends Model
         return $this->getContractInfo()->maxCoopSize;
     }
 
+    public function makeChannel()
+    {
+        if ($this->channel_id) {
+            return;
+        }
+
+        $permissions = [
+            [
+                'id'    => $this->guild()->role_to_add_to_coop,
+                // view and send
+                'allow' => 3072,
+            ],
+            [
+                'id'   => $this->guild()->roles->where('name', '@everyone')->first()->discord_id,
+                // view
+                'deny' => 1024,
+            ],
+            [
+                'id'    => config('services.discord.client_id'),
+                'allow' => 3072,
+                'type'  => 1,
+            ]
+        ];
+        $message = [$this->contractModel()->name . ' - ' . $this->coop];
+
+        foreach ($this->members as $member) {
+            $permissions[] = [
+                'id'    => $member->user->discord_id,
+                'allow' => 3072,
+                'type'  => 1,
+            ];
+            $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $member->user->roles->where('guild_id', $this->guild()->id)->pluck('name')->join(', ');
+        }
+
+        $result = $this->getDiscordClient()->guild->createGuildChannel([
+            'guild.id'              => $this->guild_id,
+            'name'                  => $this->coop,
+            'permission_overwrites' => $permissions,
+            'parent_id'             => (int) $this->guild()->coop_channel_parent,
+            'position'              => $this->position, 
+        ]);
+
+        $this->channel_id = $result->id;
+        $this->save();
+
+        $this->getDiscordClient()->channel->createMessage([
+            'channel.id' => $this->channel_id,
+            'content'    => implode(PHP_EOL, $message),
+        ]);
+    }
+
     public function contractModel(): Contract
     {
         return $this->belongsTo(Contract::class, 'contract', 'identifier')->first();
+    }
+
+    public function guild(): Guild
+    {
+        return $this->belongsTo(Guild::class, 'guild_id', 'discord_id')->first();
     }
 
     public function members()

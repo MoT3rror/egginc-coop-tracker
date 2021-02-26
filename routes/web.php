@@ -47,6 +47,11 @@ Route::get('make-coops/{guildId}/{contractId}', 'CurrentContracts@makeCoops')
     ->middleware(['auth', 'be-admin-of-guild'])
 ;
 
+Route::post('make-coops/{guildId}/{contractId}/channels', 'CurrentContracts@makeChannels')
+    ->name('make-channels')
+    ->middleware(['auth', 'be-admin-of-guild'])
+;
+
 Route::post('make-coops/{guildId}/{contractId}', 'CurrentContracts@makeCoopsSave')
     ->middleware(['auth', 'be-admin-of-guild'])
 ;
