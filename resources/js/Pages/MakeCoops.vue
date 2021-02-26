@@ -51,7 +51,7 @@
                             <select v-model="coops[number].members[memberNumber]" class="form-control">
                                 <option></option>
                                 <option v-for="user in availableMembers" :value="user.id" :disabled="user.selected">
-                                    {{ user.username }}
+                                    {{ user.text }}
                                 </option>
                             </select>
                         </div>
@@ -129,9 +129,10 @@
                     .filter('player_egg_rank')
                     .map((member) => {
                         member.selected = _.chain(this.coops).map('members').flatten().indexOf(member.id).value() !== -1
+                        member.text = member.username + ' - ' + member.player_egg_rank + ' - ' + _.chain(member.roles).map((role) => {return role.name}).join(', ')
                         return member
                     })
-                    .sortBy(['selected', 'player_earning_bonus'])
+                    .orderBy(['selected', 'player_earning_bonus'], ['asc', 'desc'])
                     .value()
             },
             makeChannels() {
