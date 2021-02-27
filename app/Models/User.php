@@ -343,7 +343,7 @@ class User extends Authenticatable
             return '0%';
         }
         $inventoryitems = collect($info->artifactsDb->inventoryItems)
-            ->where('artifact.spec.name', 'THE_CHALICE')
+            ->where('artifact.spec.name', 'TACHYON_DEFLECTOR')
         ;
 
         $highest = 0;
