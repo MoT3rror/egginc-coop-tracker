@@ -6,6 +6,8 @@ use RestCord\DiscordClient;
 
 class Model extends ModelBase
 {
+    use Traits\Appendable;
+
     public function getDiscordClient(): DiscordClient
     {
         return app()->make('DiscordClientBot');

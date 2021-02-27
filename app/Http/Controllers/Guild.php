@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guild as GuildModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,6 +11,8 @@ class Guild extends Controller
 {
     public function index(Request $request, $guildId)
     {
+        User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'soul_eggs', 'eggs_of_prophecy', 'drones'], true);
+
         $guildModel = GuildModel::findByDiscordGuildId($guildId);
 
         return Inertia::render('Guild', [
