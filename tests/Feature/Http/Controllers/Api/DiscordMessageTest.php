@@ -120,6 +120,11 @@ class DiscordMessageTest extends TestCase
                         ->shouldReceive('getUser')
                         ->andReturn($user)
                     ;
+
+                    $member = new StdClass;
+                    $member->id = 1;
+
+                    $mock->shouldReceive('getCurrentUserGuilds')->andReturn([$member]);
                 });
 
                 $mock->user = $userCall;
@@ -145,6 +150,7 @@ eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be adde
 eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 eb!contracts - Display current contracts with IDs.
 eb!delete {contractID} {Coop} - Remove coop from tracking
+eb!ge Get player golden egg stats.
 eb!rank Get player stats/rank.
 eb!remind {Contract ID} {Hours} {Minutes}
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
