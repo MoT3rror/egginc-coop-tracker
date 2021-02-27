@@ -21,7 +21,7 @@ class User extends Authenticatable
         'discord_token_expires' => 'datetime',
     ];
 
-    protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank', 'egg_inc_username'];
+    protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank', 'egg_inc_username', 'highest_deflector'];
 
     protected $with = ['roles'];
 
@@ -333,6 +333,64 @@ class User extends Authenticatable
         }
 
         return $complete;
+    }
+
+    public function getHighestDeflectorAttribute(): string
+    {
+        $info = $this->getEggPlayerInfo(); 
+
+        if (!$info) {
+            return '0%';
+        }
+        $inventoryitems = collect($info->artifactsDb->inventoryItems)
+            ->where('artifact.spec.name', 'THE_CHALICE')
+        ;
+
+        $highest = 0;
+        $value = 0;
+        foreach ($inventoryitems as $inventoryitem) {
+            switch ($inventoryitem->artifact->spec->level) {
+                case 'INFERIOR':
+                    $value = 5;
+                    break;
+                case 'LESSER':
+                    $value = 8;
+                    break;
+                case 'NORMAL':
+                    switch ($inventoryitem->artifact->spec->rarity) {
+                        case 'COMMON':
+                            $value = 12;
+                            break;
+                        case 'RARE':
+                            $value = 13;
+                            break;
+                    }
+
+                    // rarity: COMMON, RARE, EPIC
+                    break;
+                case 'GREATER':
+                    switch ($inventoryitem->artifact->spec->rarity) {
+                        case 'COMMON':
+                            $value = 15;
+                            break;
+                        case 'RARE':
+                            $value = 17;
+                            break;
+                        case 'EPIC':
+                            $value = 19;
+                            break;
+                        case 'LEGENDARY':
+                            $value = 20;
+                            break;
+                    }
+                    break;
+
+            }
+            if ($value > $highest) {
+                $highest = $value;
+            }
+        }
+        return $highest . '%';
     }
 
     public function getUsernameWithRolesAttribute()
