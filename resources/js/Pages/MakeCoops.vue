@@ -91,7 +91,7 @@
         data() {
             return {
                 coops: _.map(this.coopsDb, (coop) => {
-                    coop.members = _.map(coop.members, 'id')
+                    coop.members = _.map(coop.members, 'user_id')
                     coop.members.length = this.contractInfo.maxCoopSize
 
                     return {
@@ -129,7 +129,7 @@
                     .filter('player_egg_rank')
                     .map((member) => {
                         member.selected = _.chain(this.coops).map('members').flatten().indexOf(member.id).value() !== -1
-                        member.text = member.username + ' - ' + member.player_egg_rank + ' - ' + _.chain(member.roles).map((role) => {return role.name}).join(', ')
+                        member.text = member.username + ' - ' + member.egg_inc_username + ' - ' + member.player_egg_rank + ' - ' + _.chain(member.roles).map((role) => {return role.name}).join(', ')
                         return member
                     })
                     .orderBy(['selected', 'player_earning_bonus'], ['asc', 'desc'])

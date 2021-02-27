@@ -21,7 +21,7 @@ class User extends Authenticatable
         'discord_token_expires' => 'datetime',
     ];
 
-    protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank'];
+    protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank', 'egg_inc_username'];
 
     protected $with = ['roles'];
 
@@ -255,6 +255,16 @@ class User extends Authenticatable
     public function getCurrentGoldenEggs(): int
     {
         return $this->getLifeTimeGoldenEggsAttribute() - $this->getLiftTimeSpentGoldenEggsAttribute();
+    }
+
+    public function getEggIncUsernameAttribute(): string
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info || !isset($info->userName)) {
+            return '';
+        }
+
+        return $info->userName;
     }
 
     public function getPENeededForNextRankAttribute(): int
