@@ -6,6 +6,7 @@ use App\DiscordMessages\Add;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\Contracts;
 use App\DiscordMessages\Delete;
+use App\DiscordMessages\Ge;
 use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
 use App\DiscordMessages\Love;
@@ -42,6 +43,7 @@ class DiscordMessage extends Controller
         'unavailable'   => ['class' => Unavailable::class],
         'tracker'       =>  ['class' => Tracker::class],
         'players-not-in-coop' => ['class' => PlayersNotInCoop::class],
+        'ge'                  => ['class' => Ge::class],
     ];
 
     private $guildId;

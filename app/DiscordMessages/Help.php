@@ -11,6 +11,7 @@ class Help extends Base
             Available::class,
             Contracts::class,
             Delete::class,
+            Ge::class,
             Players::class,
             Rank::class,
             Remind::class,
