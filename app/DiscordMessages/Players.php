@@ -6,7 +6,7 @@ use kbATeam\MarkdownTable\Table;
 
 class Players extends Base
 {
-    protected $middlewares = ['requiresGuild'];
+    protected $middlewares = ['requiresGuild', 'isAdmin'];
 
     public function message(): array
     {
