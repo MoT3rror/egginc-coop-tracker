@@ -10,6 +10,10 @@ class Guild extends Model
 
     protected $appends = ['is_bot_member_of'];
 
+    protected $casts = [
+        'last_sync' => 'datetime:Y-m-d',
+    ];
+
     private function getBotGuilds(): array
     {
         return Cache::remember('discord-bot-guilds', 60 * 5, function () {
@@ -31,9 +35,15 @@ class Guild extends Model
             return;
         }
 
+        if ($this->last_sync && $this->last_sync->greaterThan(now()->subHours(3))) {
+            return;
+        }
+
         $this->syncRoles();
         $this->syncMembers();
         $this->refresh();
+        $this->last_sync = now();
+        $this->save();
     }
 
     public function syncRoles()
@@ -76,6 +86,10 @@ class Guild extends Model
                     ['username' => $member->user->username]
                 );
             });
+
+            $user->roles()->where('guild_id', $this->id)->get();
+
+
             $user->roles()->sync($this->roles->whereIn('discord_id', $member->roles));
             $users[] = $user;
         }
