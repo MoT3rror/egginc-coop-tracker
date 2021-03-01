@@ -94,10 +94,10 @@
             members() {
                 return _.filter(this.guildModel.members, (member) => {
                     if (this.filterByRole) {
-
+                        return _.filter(member.roles, ['id', this.filterByRole]).length >= 1
                     }
 
-                    return _.filter(member.roles, 'show_members_on_roster').length >= 1;
+                    return _.filter(member.roles, 'show_members_on_roster').length >= 1
                 })
             },
             roles() {
