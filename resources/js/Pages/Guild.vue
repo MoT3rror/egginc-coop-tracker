@@ -23,7 +23,7 @@
             <div>
                 <h4>Player List</h4>
 
-                <div>
+                <div style="margin-bottom: 50px">
                     <label class="form-label">
                         Filter by Role
                     </label>
