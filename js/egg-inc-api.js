@@ -8,12 +8,12 @@ const ei_request = (path, payload, requestPB, responsePB) => {
         var errMsg = requestPB.verify(payload);
         if (errMsg)
             throw Error(errMsg)
-        
+
         var buffer = requestPB.encode(requestPB.create(payload)).finish()
 
         let options = {
-            url : `http://afx-2-dot-auxbrainhome.appspot.com/${path}`,
-            method : 'post',
+            url: `http://afx-2-dot-auxbrainhome.appspot.com/${path}`,
+            method: 'post',
             data: 'data=' + b.encode(buffer),
         }
 
@@ -54,7 +54,7 @@ class EggIncApi {
                 platform: 'ANDROID'
             }
         }
-    
+
         return ei_request(
             'ei/get_periodicals',
             payload,
@@ -84,7 +84,11 @@ class EggIncApi {
             root.lookupType('FirstContactResponsePayload')
         );
     }
-    
+
+    static getPlayerInfos(playerIds) {
+        const tasks = playerIds.map(playerId => this.getPlayerInfo(playerId));
+        return Promise.all(tasks);
+    }
 }
 
 module.exports = EggIncApi;

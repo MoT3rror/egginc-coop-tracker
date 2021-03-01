@@ -26,6 +26,14 @@ require('yargs')
             console.log(JSON.stringify(data.payload.data))
         })
     })
+    .command('getPlayerInfos', 'Get Player Infos', (yargs) => {
+        yargs
+            .positional('playerIds', {type: 'string'}) // comma separated list of ids
+    }, (argv) => {
+            EggIncApi.getPlayerInfos(argv.playerIds.split(',')).then((data) => {
+            console.log(JSON.stringify(data))
+        })
+    })
     .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
         return EggIncApi.getPeriodicals().then((data) => {
             console.log(JSON.stringify(data.periodicals.events))
@@ -40,4 +48,5 @@ node js/egg-inc-cli.js events
 node js/egg-inc-cli.js getAllActiveContracts
 node js/egg-inc-cli.js getCoopStatus --contract new-moon --coop dmv
 node js/egg-inc-cli.js getPlayerInfo --playerId EI6411720689451008
+node js/egg-inc-cli.js getPlayerInfos --playerIds EI6411720689451008,EI6411720689451008
 */
