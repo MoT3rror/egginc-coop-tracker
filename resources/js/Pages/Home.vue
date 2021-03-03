@@ -88,7 +88,7 @@
             guilds: Object,
             playerInfo: Object,
             user: Object,
-        }
+        },
         data: function() {
         return {
             headers: [
