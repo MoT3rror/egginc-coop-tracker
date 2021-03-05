@@ -31,10 +31,10 @@ let ei_request = (path, payload, requestPB, responsePB) => {
 let getPeriodicals = () => {
     var payload = {
         userId: 'EI6411720689451008',
-        currentClientVersion: 27,
+        currentClientVersion: 28,
         rinfo: {
             eiUserId: 'EI6411720689451008',
-            clientVersion: 27,
+            clientVersion: 28,
             version: '1.20.5',
             platform: 'ANDROID'
         }
