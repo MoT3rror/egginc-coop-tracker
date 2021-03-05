@@ -12,7 +12,7 @@ let ei_request = (path, payload, requestPB, responsePB) => {
         var buffer = requestPB.encode(requestPB.create(payload)).finish()
 
         let options = {
-            url : `http://afx-2-dot-auxbrainhome.appspot.com/${path}`,
+            url : `https://afx-2-dot-auxbrainhome.appspot.com/${path}`,
             method : 'post',
             data: 'data=' + b.encode(buffer),
         }
@@ -35,7 +35,7 @@ let getPeriodicals = () => {
         rinfo: {
             eiUserId: 'EI6411720689451008',
             clientVersion: 27,
-            version: '1.20.0',
+            version: '1.20.5',
             platform: 'ANDROID'
         }
     }
