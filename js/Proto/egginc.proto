@@ -514,6 +514,9 @@ message Periodicals {
                                     // awkward position, I have no damn clue.
   }
   Contracts contracts = 3;
+  repeated ServerGift gifts = 4;
+  optional LiveConfig live_config = 5;
+  optional MailDB mail_bag = 6;
 }
 
 message Sale {
@@ -573,4 +576,49 @@ message ArtifactsConfigurationResponse {
     uint32 crafting_price_domain = 7;
     double crafting_price_curve = 8;
   }
+}
+
+message ServerGift {
+    optional string user_id = 1;
+    optional RewardType reward_type = 3;
+    optional string reward_sub_type = 4;
+    optional double reward_amount = 5;
+}
+
+message LiveConfig {
+    optional string config_id = 1;
+
+    optional BoostsConfig boosts_config = 2;
+    message BoostsConfig {
+        repeated ItemConfig item_configs = 1;
+        message ItemConfig {
+            optional string boost_id = 1;
+            optional uint32 price = 2;
+            optional uint32 token_price = 3;
+            optional double se_required = 4;
+        }
+    }
+
+    optional GiftConfig gift_config = 3;
+    message GiftConfig {
+        optional double package_interval = 1;
+        optional double video_offer_interval = 2;
+    }
+}
+
+message InGameMail {
+    optional string id = 1;
+    optional string title = 2;
+    optional string date = 8;
+    optional string message = 3;
+    optional string action = 4;
+    optional string url = 5;
+    optional uint32 platform = 7;
+    repeated string builds = 9;
+    optional uint32 min_client_version = 10;
+    optional double gold_tip = 6;
+}
+
+message MailDB {
+    repeated InGameMail mail = 1;
 }
