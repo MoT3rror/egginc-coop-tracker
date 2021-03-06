@@ -53,7 +53,7 @@ class Status extends Base
                     'name'      => $coopName . ' ' . $coop->getMembers() . '',
                     'progress'  => $coop->getCurrentEggsFormatted(),
                     'time-left' => $coop->getEstimateCompletion(),
-                    'projected' => $coop->getProjectedEggsFormatted(),
+                    'projected' => $coop->getProjectedEggsFormatted() . ($coop->getIsOnTrackAttribute() ? ' X' : ''),
                 ];
             } catch (CoopNotFoundException $e) {
                 $data[] = [
@@ -101,7 +101,7 @@ class Status extends Base
         $table->addColumn('name', new Column('Coop ' . $contract->getMaxCoopSize() . '', Column::ALIGN_LEFT));
         $table->addColumn('progress', new Column($contract->getEggsNeededFormatted(), Column::ALIGN_LEFT));
         $table->addColumn('time-left', new Column('E Time', Column::ALIGN_LEFT));
-        $table->addColumn('projected', new Column('Proj', Column::ALIGN_LEFT));
+        $table->addColumn('projected', new Column('Proj/T', Column::ALIGN_LEFT));
 
         $coopsData = $this->coopData($coops, false);
         return $this->getTable($table, $coopsData);

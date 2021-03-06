@@ -65,6 +65,11 @@ class Coop extends Model
         return $this->getCurrentEggs() + ($this->getTotalRate() * $this->getTimeLeft()); // make a projection
     }
 
+    public function getIsOnTrackAttribute(): bool
+    {
+        return $this->getTotalRate() > $this->getNeededRate();
+    }
+
     public function getProjectedEggsFormatted(): string
     {
         return resolve(Egg::class)->format($this->getProjectedEggs());
