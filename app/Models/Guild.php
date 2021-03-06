@@ -41,9 +41,9 @@ class Guild extends Model
 
         $this->syncRoles();
         $this->syncMembers();
-        $this->refresh();
         $this->last_sync = now();
         $this->save();
+        $this->refresh();
     }
 
     public function syncRoles()
@@ -67,6 +67,7 @@ class Guild extends Model
         $currentRoles->whereNotIn('id', $currentRolesIds)->each(function($record) {
             $record->delete();
         });
+        $this->unsetRelation('roles');
     }
 
     public function syncMembers()
@@ -85,6 +86,7 @@ class Guild extends Model
                     ['username' => $member->user->username]
                 );
             });
+
 
             $currentRoles = $user->roles->where('guild_id', $this->id);
             $user->roles()->detach($currentRoles);
