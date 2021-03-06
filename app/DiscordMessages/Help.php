@@ -25,7 +25,7 @@ class Help extends Base
         $message = '```' . PHP_EOL;
 
         foreach ($commands as $command) {
-            $commandObject = new $command($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
+            $commandObject = new $command($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts, true);
             $helpText = $commandObject->help();
             if ($helpText) {
                 $message .= $helpText . PHP_EOL;
