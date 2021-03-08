@@ -46,7 +46,7 @@ class Tracker extends Base
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
-                'tokens'  => $member->tokens,
+                'tokens'  => object_get($member, 'tokens', 0),
             ];
         }
 
