@@ -17,7 +17,7 @@ class ShortStatus extends Status
         $table->addColumn('name', new Column('C ' . $contract->getMaxCoopSize() . '', Column::ALIGN_LEFT));
         $table->addColumn('progress', new Column($contract->getEggsNeededFormatted(), Column::ALIGN_LEFT));
         $table->addColumn('time-left', new Column('E Time', Column::ALIGN_LEFT));
-        $table->addColumn('projected', new Column('Proj', Column::ALIGN_LEFT));
+        $table->addColumn('projected', new Column('Proj/T', Column::ALIGN_LEFT));
 
         $coopsData = $this->coopData($coops, true);
         return $this->getTable($table, $coopsData);

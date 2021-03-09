@@ -354,9 +354,9 @@ CONTRACTS;
 Ion Drive II
 {$url}
 ```
-Coop 5 | 600q | E Time | Proj
------- | ---- | ------ | ----
-test 5 | 746q | CPLT   | 746q
+Coop 5 | 600q | E Time | Proj/T
+------ | ---- | ------ | ------
+test 5 | 746q | CPLT   | 746q X
 ```
 STATUS;
 
@@ -383,9 +383,9 @@ STATUS;
 Ion Drive II
 {$url}
 ```
-Coop 5  | 600q | E Time | Proj 
-------- | ---- | ------ | -----
-test 13 | 771q | CPLT   | 10.9Q
+Coop 5  | 600q | E Time | Proj/T 
+------- | ---- | ------ | -------
+test 13 | 771q | CPLT   | 10.9Q X
 ```
 STATUS;
 
@@ -412,9 +412,9 @@ STATUS;
 Ion Drive II
 {$url}
 ```
-Coop 5 | 600q | E Time | Proj
------- | ---- | ------ | ----
-test 5 | 746q | CPLT   | 746q
+Coop 5 | 600q | E Time | Proj/T
+------ | ---- | ------ | ------
+test 5 | 746q | CPLT   | 746q X
 ```
 STATUS;
 
@@ -461,11 +461,11 @@ STATUS;
         $expect = <<<STATUS
 Ion Drive II
 ```
-C 5 | 600q | E Time | Proj
---- | ---- | ------ | ----
-1 5 | 746q | CPLT   | 746q
-2 5 | 746q | CPLT   | 746q
-3 5 | 746q | CPLT   | 746q
+C 5 | 600q | E Time | Proj/T
+--- | ---- | ------ | ------
+1 5 | 746q | CPLT   | 746q X
+2 5 | 746q | CPLT   | 746q X
+3 5 | 746q | CPLT   | 746q X
 ```
 STATUS;
 
@@ -712,6 +712,7 @@ Ion Drive II({$contract->identifier}) - test
 Eggs: 746q
 Rate: 11.4q/hr Need: 0
 Projected Eggs: 746q/600q
+Estimate/Time Left: CPLT/Past Due
 ```
 Boosted/Name | Rate  | Tokens
 ------------ | ----- | ------
