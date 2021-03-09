@@ -352,6 +352,7 @@ CONTRACTS;
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
+Teams on Track: 1/1
 {$url}
 ```
 Coop 5 | 600q | E Time | Proj/T
@@ -381,6 +382,7 @@ STATUS;
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
+Teams on Track: 1/1
 {$url}
 ```
 Coop 5  | 600q | E Time | Proj/T 
@@ -410,6 +412,7 @@ STATUS;
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
+Teams on Track: 1/1
 {$url}
 ```
 Coop 5 | 600q | E Time | Proj/T
