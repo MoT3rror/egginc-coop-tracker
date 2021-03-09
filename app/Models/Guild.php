@@ -41,9 +41,9 @@ class Guild extends Model
 
         $this->syncRoles();
         $this->syncMembers();
-        $this->refresh();
         $this->last_sync = now();
         $this->save();
+        $this->refresh();
     }
 
     public function syncRoles()
@@ -67,11 +67,11 @@ class Guild extends Model
         $currentRoles->whereNotIn('id', $currentRolesIds)->each(function($record) {
             $record->delete();
         });
+        $this->unsetRelation('roles');
     }
 
     public function syncMembers()
     {
-        $this->load('roles');
         $members = $this->getGuildMembers();
         $users = collect();
 
@@ -87,10 +87,10 @@ class Guild extends Model
                 );
             });
 
-            $user->roles()->where('guild_id', $this->id)->get();
 
-
-            $user->roles()->sync($this->roles->whereIn('discord_id', $member->roles));
+            $currentRoles = $user->roles->where('guild_id', $this->id);
+            $user->roles()->detach($currentRoles);
+            $user->roles()->attach($this->roles->whereIn('discord_id', $member->roles));
             $users[] = $user;
         }
         $this->members()->sync($users->pluck('id'));

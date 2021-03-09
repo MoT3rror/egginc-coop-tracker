@@ -18,11 +18,22 @@
                         </a>
                     </li>
                 </ul>
-                <h4>Previous Contracts</h4>
             </div>
 
             <div>
                 <h4>Player List</h4>
+
+                <div style="margin-bottom: 50px">
+                    <label class="form-label">
+                        Filter by Role
+                    </label>
+                    <select class="form-control" v-model="filterByRole">
+                        <option></option>
+                        <option v-for="role in roles" :value="role.id">
+                            {{ role.name }}
+                        </option>
+                    </select>
+                </div>
 
                 <v-data-table
                     :headers="headers"
@@ -65,6 +76,7 @@
         },
         data() {
             return {
+                filterByRole: '',
                 headers: [
                     {text: 'Username', value: 'username'},
                     {text: 'Roles', value: 'roles'},
@@ -75,21 +87,33 @@
                     {text: 'Soul Eggs', value: 'soul_eggs'},
                     {text: 'Golden Eggs', value: 'eggs_of_prophecy'},
                     {text: 'Drones', value: 'drones'},
-                ]
+                ],
             }
         },
         computed: {
             members() {
                 return _.filter(this.guildModel.members, (member) => {
-                    return _.filter(member.roles, 'show_members_on_roster').length >= 1;
+                    if (this.filterByRole) {
+                        return _.filter(member.roles, ['id', this.filterByRole]).length >= 1
+                    }
+
+                    return _.filter(member.roles, 'show_members_on_roster').length >= 1
                 })
-            }
+            },
+            roles() {
+                return _
+                    .chain(this.guildModel.roles)
+                    .filter((role) => role.show_role)
+                    .filter((role) => role.guild_id == this.guildModel.id)
+                    .value()
+            },
         },
         methods: {
             getUserRoles(roles) {
                 return _
                     .chain(roles)
                     .filter((role) => role.show_role)
+                    .filter((role) => role.guild_id == this.guildModel.id)
                     .map((role) => role.name)
                     .join(',')
             },

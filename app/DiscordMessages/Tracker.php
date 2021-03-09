@@ -34,10 +34,6 @@ class Tracker extends Base
 
     public function coopData(): array
     {
-        $this->coop = new Coop;
-        $this->coop->contract = $this->parts['1'];
-        $this->coop->coop = $this->parts['2'];
-
         $data = [];
         $members = collect($this->coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
         foreach ($members as $member) {
@@ -46,7 +42,7 @@ class Tracker extends Base
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
-                'tokens'  => $member->tokens,
+                'tokens'  => object_get($member, 'tokens', 0),
             ];
         }
 
@@ -56,10 +52,11 @@ class Tracker extends Base
     public function starterMessage(): array
     {
         $messages = [];
-        $messages[] = $this->contract->name . '(' . $this->contract->identifier . ') - ' . $this->parts[2];
+        $messages[] = $this->contract->name . '(' . $this->contract->identifier . ') - ' . $this->coop->coop;
         $messages[] = 'Eggs: ' . $this->coop->getCurrentEggsFormatted();
         $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr Need: '. $this->coop->getNeededRateFormatted();
-        $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted(); 
+        $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted();
+        $messages[] = 'Estimate/Time Left: ' . $this->coop->getEstimateCompletion() . '/' . $this->coop->getTimeLeftFormatted();
 
         return $messages;
     }
@@ -78,9 +75,30 @@ class Tracker extends Base
 
     public function message(): string
     {
+        if (count($this->parts) == 1) {
+            $this->coop = Coop::query()
+                ->channelId($this->channelId)
+                ->first()
+            ;
+            if ($this->coop) {
+                $this->parts[1] = $this->coop->contract;
+                $this->parts[2] = $this->coop->coop;
+            }
+        }
+
         $errorMessage = $this->validate();
         if (is_string($errorMessage)) {
             return $errorMessage;
+        }
+
+        if (!$this->coop) {
+            $this->coop = new Coop;
+            $this->coop->contract = $this->parts['1'];
+            $this->coop->coop = $this->parts['2'];
+        }
+
+        if (!isset($this->coop->getCoopInfo()->members)) {
+            return 'Coop not created';
         }
 
         $parts = $this->parts;

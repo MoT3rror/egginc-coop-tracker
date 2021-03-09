@@ -42,6 +42,11 @@ class Coop extends Model
         return $query->where('coop', $coop);
     }
 
+    public function scopeChannelId($query, $channelId)
+    {
+        return $query->where('channel_id', $channelId);
+    }
+
     public function getCoopInfo(): \StdClass
     {
         return resolve(EggInc::class)->getCoopInfo($this->contract, $this->coop);
@@ -63,6 +68,11 @@ class Coop extends Model
             return $this->getCurrentEggs();
         }
         return $this->getCurrentEggs() + ($this->getTotalRate() * $this->getTimeLeft()); // make a projection
+    }
+
+    public function getIsOnTrackAttribute(): bool
+    {
+        return $this->getTotalRate() > $this->getNeededRate();
     }
 
     public function getProjectedEggsFormatted(): string
@@ -135,6 +145,17 @@ class Coop extends Model
     public function getTimeLeft(): int
     {
         return $this->getCoopInfo()->secondsUntilProductionDeadline;
+    }
+
+    public function getTimeLeftFormatted(): string
+    {
+        if ($this->getTimeLeft() <= 0) {
+            return 'Past Due';
+        }
+
+        return resolve(TimeLeft::class)
+            ->format($this->getTimeLeft())
+        ;
     }
 
     public function getMembers(): int

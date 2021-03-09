@@ -21,7 +21,7 @@ class Base
 
     public $parts;
 
-    public function __construct(int $authorId, string $authorName, ?int $guildId = null, ?int $channelId = null, $parts = [])
+    public function __construct(int $authorId, string $authorName, ?int $guildId = null, ?int $channelId = null, $parts = [], $skipMiddleWareChecks = false)
     {
         $this->authorId = $authorId;
         $this->authorName = $authorName;
@@ -31,6 +31,9 @@ class Base
 
         if ($this->guildId) {
             $this->guild = $this->setGuild();
+        }
+        if ($skipMiddleWareChecks) {
+            return;
         }
 
         foreach ($this->middlewares as $middleware) {

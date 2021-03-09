@@ -14,6 +14,7 @@ class Guild extends Controller
         User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'soul_eggs', 'eggs_of_prophecy', 'drones', 'player_earning_bonus'], true);
 
         $guildModel = GuildModel::findByDiscordGuildId($guildId);
+        $guildModel->sync();
 
         return Inertia::render('Guild', [
             'guildModel'       => $guildModel,
