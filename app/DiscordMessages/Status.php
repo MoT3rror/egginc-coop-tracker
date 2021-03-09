@@ -14,6 +14,10 @@ use kbATeam\MarkdownTable\Table;
 class Status extends Base
 {
     protected $middlewares = ['requiresGuild'];
+
+    protected $totalTeams = 0;
+
+    protected $teamsOnTrack = 0;
     
     private function coops(string $contract): Collection
     {
@@ -47,13 +51,19 @@ class Status extends Base
 
         $data = [];
         foreach ($coops as $coop) {
+            $this->totalTeams++;
             $coopName = $hideSimilarText ? str_replace($similarPart, '', $coop->coop) : $coop->coop;
             try {
+                $isOnTrack = $coop->getIsOnTrackAttribute();
+
+                if ($isOnTrack) {
+                    $this->teamsOnTrack++;
+                }
                 $data[] = [
                     'name'      => $coopName . ' ' . $coop->getMembers() . '',
                     'progress'  => $coop->getCurrentEggsFormatted(),
                     'time-left' => $coop->getEstimateCompletion(),
-                    'projected' => $coop->getProjectedEggsFormatted() . ($coop->getIsOnTrackAttribute() ? ' X' : ''),
+                    'projected' => $coop->getProjectedEggsFormatted() . ($isOnTrack ? ' X' : ''),
                 ];
             } catch (CoopNotFoundException $e) {
                 $data[] = [
@@ -72,6 +82,7 @@ class Status extends Base
 
         return [
             $contract ? $contract->name : $parts[1],
+            'Teams on Track: ' . $this->teamsOnTrack . '/' . $this->totalTeams,
             URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $parts[1]], 60 * 60),
         ];
     }
