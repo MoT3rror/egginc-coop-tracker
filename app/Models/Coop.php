@@ -42,6 +42,11 @@ class Coop extends Model
         return $query->where('coop', $coop);
     }
 
+    public function scopeChannelId($query, $channelId)
+    {
+        return $query->where('channel_id', $channelId);
+    }
+
     public function getCoopInfo(): \StdClass
     {
         return resolve(EggInc::class)->getCoopInfo($this->contract, $this->coop);
