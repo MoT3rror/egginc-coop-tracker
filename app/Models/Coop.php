@@ -142,6 +142,17 @@ class Coop extends Model
         return $this->getCoopInfo()->secondsUntilProductionDeadline;
     }
 
+    public function getTimeLeftFormatted(): string
+    {
+        if ($this->getTimeLeft() <= 0) {
+            return 'Past Due';
+        }
+
+        return resolve(TimeLeft::class)
+            ->format($this->getTimeLeft())
+        ;
+    }
+
     public function getMembers(): int
     {
         return count($this->getCoopInfo()->members);

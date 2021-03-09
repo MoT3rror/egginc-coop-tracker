@@ -712,6 +712,7 @@ Ion Drive II({$contract->identifier}) - test
 Eggs: 746q
 Rate: 11.4q/hr Need: 0
 Projected Eggs: 746q/600q
+Estimate/Time Left: CPLT/Past Due
 ```
 Boosted/Name | Rate  | Tokens
 ------------ | ----- | ------
