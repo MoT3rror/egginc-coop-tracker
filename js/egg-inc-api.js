@@ -46,11 +46,11 @@ class EggIncApi {
     static getPeriodicals() {
         const payload = {
             userId: 'EI6411720689451008',
-            currentClientVersion: 27,
+            currentClientVersion: 28,
             rinfo: {
                 eiUserId: 'EI6411720689451008',
-                clientVersion: 27,
-                version: '1.20.0',
+                clientVersion: 28,
+                version: '1.20.5',
                 platform: 'ANDROID'
             }
         }
@@ -65,14 +65,14 @@ class EggIncApi {
 
     static getPlayerInfo(playerId) {
         var payload = {
-            clientVersion: 27,
+            clientVersion: 28,
             platform: 2,
             eiUserId: playerId,
             username: '',
             rinfo: {
                 eiUserId: playerId,
-                clientVersion: 27,
-                version: '1.20.4',
+                clientVersion: 28,
+                version: '1.20.5',
                 platform: 'ANDROID'
             }
         }
