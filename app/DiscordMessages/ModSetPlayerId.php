@@ -23,7 +23,7 @@ class ModSetPlayerId extends Base
 
         $user = User::query()->discordId($userId)->first();
 
-        if (!$user->guilds->contains($this->guild)) {
+        if (!$user || !$user->guilds->contains($this->guild)) {
             return 'User is not in this server.';
         }
 
