@@ -25,6 +25,17 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('contracts:update')->hourly();
+        $schedule
+            ->command('load-player-info-in-cache')
+            ->weeklyOn(1, '9:00')
+            ->timezone('America/Chicago')
+        ;
+
+        $schedule
+            ->command('load-player-info-in-cache')
+            ->weeklyOn(5, '9:00')
+            ->timezone('America/Chicago')
+        ;
     }
 
     /**
