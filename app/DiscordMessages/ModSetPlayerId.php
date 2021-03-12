@@ -28,6 +28,7 @@ class ModSetPlayerId extends Base
         }
 
         $user->egg_inc_player_id = Arr::get($parts, 2, null);
+        $user->save();
 
         return 'Player ID set successfully.';
     }
