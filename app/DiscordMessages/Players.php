@@ -17,7 +17,7 @@ class Players extends Base
         $chuckOfUsers = $guild
             ->members()
             ->withEggIncId()
-            ->inShowRoles()
+            ->inShowRoles($this->guild)
             ->get()
             ->sortBy(function ($user) {
                 return $user->getPlayerEarningBonus();
