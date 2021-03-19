@@ -477,8 +477,34 @@ STATUS;
 
     public function testSetPlayerId()
     {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
         $message = $this->sendDiscordMessage('set-player-id 12345');
-        $expect = 'Player ID set successfully.';
+        $expect = <<<RANK
+```
+MoT3rror
+Soul Eggs: 18.732Q
+Prestige Eggs: 147
+Earning Bonus: 3.415o
+Farmer Role: Yottafarmer 2
+Group Role: 
+Total Soul Eggs Needed for Next Rank: 54.850Q
+Total Prestige Eggs Needed for Next Rank: 159
+Current Golden Eggs: 136,318,185
+Total Golden Eggs: 170,060,259
+Drones/Elite: 56,680/2,543
+Prestiges: 223
+Boosts Used: 1,593
+```
+RANK;
         $this->assertEquals($message, $expect);
 
         $this->assertDatabaseHas('guilds', ['discord_id' => 1, 'name' => 'Test']);
