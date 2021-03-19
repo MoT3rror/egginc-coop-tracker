@@ -123,6 +123,11 @@ class Guild extends Model
     {
         return self::unguarded(function () use ($guildId) {
             $guild = self::firstOrNew(['discord_id' => $guildId]);
+
+            if ($guild->last_sync && $guild->last_sync->greaterThan(now()->subHours(3))) {
+                return $guild;
+            }
+
             $guildInfo = $guild->getDiscordClient()->guild->getGuild(['guild.id' => $guildId]);
             $guild->name = $guildInfo->name;
             $guild->save();
