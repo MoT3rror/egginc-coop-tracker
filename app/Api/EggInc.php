@@ -4,6 +4,7 @@ namespace App\Api;
 use App\Exceptions\CoopNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use Cache;
+use Exception;
 use mikehaertl\shellcommand\Command;
 
 class EggInc
