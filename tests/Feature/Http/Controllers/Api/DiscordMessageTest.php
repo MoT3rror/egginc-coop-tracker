@@ -557,8 +557,8 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus');
         $expect = <<<PLAYERS
 ```
-Discord | EB    
-------- | ------
+Discord |     EB
+------- | -----:
 Test    | 3.415o
 ```
 PLAYERS;
@@ -583,8 +583,8 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus rank');
         $expect = <<<PLAYERS
 ```
-Discord | EB     | Rank   
-------- | ------ | -------
+Discord |     EB | Rank   
+------- | -----: | -------
 Test    | 3.415o | Yotta 2
 ```
 PLAYERS;
