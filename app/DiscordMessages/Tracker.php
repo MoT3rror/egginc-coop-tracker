@@ -57,6 +57,7 @@ class Tracker extends Base
         $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr Need: '. $this->coop->getNeededRateFormatted();
         $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted();
         $messages[] = 'Estimate/Time Left: ' . $this->coop->getEstimateCompletion() . '/' . $this->coop->getTimeLeftFormatted();
+        $messages[] = 'Members: ' . $this->coop->getMembers() . '/' . $this->contract->getMaxCoopSize();
 
         return $messages;
     }
