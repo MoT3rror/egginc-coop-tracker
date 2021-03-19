@@ -728,7 +728,7 @@ X SuchPerson | 3.77q | 93
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([0 => $expect], $message);
     }
 
     public function testPlayersNotInCoop()

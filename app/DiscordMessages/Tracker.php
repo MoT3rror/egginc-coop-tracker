@@ -62,19 +62,28 @@ class Tracker extends Base
         return $messages;
     }
 
-    public function getTable(Table $table, array $data): string
+    public function getTable(Table $table, array $data): array
     {
-        $messages = $this->starterMessage();
-        $messages[] = '```';
-        foreach ($table->generate($data) as $row) {
-            $messages[] = $row;
-        }
-        $messages[] = '```';
+        $groupOfMessages = [implode("\n", $this->starterMessage()) . "\n"];
 
-        return implode("\n", $messages);
+        foreach (collect($data)->chunk(40) as $index => $chunk) {
+            $messages = ['```'];
+            foreach ($table->generate($chunk->all()) as $row) {
+                $messages[] = $row;
+            }
+            $messages[] = '```';
+
+            if (!isset($groupOfMessages[$index])) {
+                $groupOfMessages[$index] = '';
+            }
+
+            $groupOfMessages[$index] .= implode("\n", $messages);
+        }
+
+        return $groupOfMessages;
     }
 
-    public function message(): string
+    public function message(): array
     {
         if (count($this->parts) == 1) {
             $this->coop = Coop::query()
