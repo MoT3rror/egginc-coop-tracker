@@ -96,8 +96,9 @@ class Tracker extends Base
             $this->coop->contract = $this->parts['1'];
             $this->coop->coop = $this->parts['2'];
         }
-
-        if (!isset($this->coop->getCoopInfo()->members)) {
+        try {
+            $this->coop->getCoopInfo()->members;
+        } catch (\Exception $e) {
             return 'Coop not created';
         }
 
