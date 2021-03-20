@@ -5,6 +5,7 @@ use App\Exceptions\CoopNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use Cache;
 use Exception;
+use Log;
 use mikehaertl\shellcommand\Command;
 
 class EggInc
@@ -27,6 +28,7 @@ class EggInc
             if (!$output) {
                 throw new CoopNotFoundException;
             }
+            Log::channel('coop')->info(json_encode($output));
             return $output;
         });
     }

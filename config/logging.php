@@ -40,6 +40,11 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+        'coop' =>[
+            'driver' => 'daily',
+            'path'   => storage_path('logs/coops.log'),
+            'days'   => 14,
+        ],
 
         'single' => [
             'driver' => 'single',
