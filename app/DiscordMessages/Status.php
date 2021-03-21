@@ -4,6 +4,7 @@ namespace App\DiscordMessages;
 use App\Exceptions\CoopNotFoundException;
 use App\Exceptions\DiscordErrorException;
 use App\Models\Coop;
+use App\Models\ShortLink;
 use App\SimilarText;
 use Arr;
 use Illuminate\Database\Eloquent\Collection;
@@ -79,11 +80,16 @@ class Status extends Base
     {
         $parts = $this->parts;
         $contract = $this->getContractInfo($parts[1]);
+        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $parts[1]], 60 * 60);
+        $shortLink = ShortLink::create([
+            'link'   => $url,
+            'expire' => now()->addHour(),
+        ]);
 
         return [
             $contract ? $contract->name : $parts[1],
             'Teams on Track: ' . $this->teamsOnTrack . '/' . $this->totalTeams,
-            URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $parts[1]], 60 * 60),
+            route('short-link', ['code' => $shortLink->code]),
         ];
     }
 

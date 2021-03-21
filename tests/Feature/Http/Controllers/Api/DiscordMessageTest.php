@@ -348,12 +348,11 @@ CONTRACTS;
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
 
-        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
 Teams on Track: 1/1
-{$url}
+http://localhost:8000/s/MTAwMQ==
 ```
 Coop 5 | 600q | E Time | Proj/T
 ------ | ---- | ------ | ------
@@ -378,12 +377,11 @@ STATUS;
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
 
-        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
 Teams on Track: 1/1
-{$url}
+http://localhost:8000/s/MTAwMQ==
 ```
 Coop 5  | 600q | E Time | Proj/T 
 ------- | ---- | ------ | -------
@@ -408,12 +406,11 @@ STATUS;
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
 
-        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $contract->identifier], 60 * 60);
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
 Teams on Track: 1/1
-{$url}
+http://localhost:8000/s/MTAwMQ==
 ```
 Coop 5 | 600q | E Time | Proj/T
 ------ | ---- | ------ | ------

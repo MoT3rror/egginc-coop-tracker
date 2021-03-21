@@ -64,3 +64,5 @@ Route::get('logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
+
+Route::get('s/{code}', 'ShortLink@link')->name('short-link');
