@@ -17,7 +17,7 @@ class ShortLink extends Model
     protected static function booted()
     {
         static::created(function ($link) {
-            $link->code = base64_encode($link->id . '10' . rand(0, 9));
+            $link->code = base64_encode($link->id . rand(100, 999));
             $link->save();
         });
     }
