@@ -36,6 +36,14 @@ Shell to app server:
 
 ``vendor/bin/sail shell``
 
+Update PHP libraries
+
+``vendor/bin/sail composer install``
+
+Apply migrations to DB
+
+``vendor/bin/sail artisan migrate``
+
 -----------
 
 ### Env config

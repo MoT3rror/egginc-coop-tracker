@@ -7,12 +7,21 @@
 		{
 			"type": "pwa-node",
 			"request": "launch",
-			"name": "Launch Program",
+			"name": "Launch EI CLI getPlayerInfo",
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/js/egg-inc.js",
-			"args": ["getPlayerInfo", "--playerId", "457786961520754691"]
+			"program": "${workspaceFolder}/js/egg-inc-cli.js",
+			"args": ["getPlayerInfo", "--playerId", "EI6411720689451008"]
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "Launch EI web server",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/js/egg-inc-web.js"
 		}
 	]
 }
