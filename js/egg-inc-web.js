@@ -8,7 +8,7 @@ const EggIncApi = require('./egg-inc-api');
 
 // web server around the API
 // setup express
-const app = express();
+const app = express().set('env', process.env.NODE_ENV || 'development');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
