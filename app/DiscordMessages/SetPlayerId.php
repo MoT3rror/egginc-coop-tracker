@@ -21,7 +21,7 @@ class SetPlayerId extends Base
             );
         });
 
-        return 'Player ID set successfully.';
+        return (new Rank($this->authorId, $this->authorName))->message();
     }
 
     public function help(): string

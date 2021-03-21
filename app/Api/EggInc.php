@@ -4,6 +4,8 @@ namespace App\Api;
 use App\Exceptions\CoopNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use Cache;
+use Exception;
+use Log;
 use mikehaertl\shellcommand\Command;
 
 class EggInc
@@ -26,6 +28,7 @@ class EggInc
             if (!$output) {
                 throw new CoopNotFoundException;
             }
+            Log::channel('coop')->info(json_encode($output));
             return $output;
         });
     }
@@ -54,7 +57,7 @@ class EggInc
             throw new UserNotFoundException('User not found');
         }
 
-        return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 1, function () use ($playerId) {
+        return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 4, function () use ($playerId) {
             $appInfoCommand = new Command([
                 // this might come back to hunt us but we will roll with it for now. Would require change to discord commands for lowercasing everything
                 'command' => 'node ./js/egg-inc-cli.js getPlayerInfo --playerId ' . strtoupper($playerId),

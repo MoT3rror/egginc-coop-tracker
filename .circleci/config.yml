@@ -10,9 +10,8 @@ jobs:
       - image: circleci/php:7.4-node-browsers
       - image: circleci/mysql:5.7
         environment:
-          - MYSQL_USER=root
-          - MYSQL_PASSWORD=
-          - MYSQL_ALLOW_EMPTY_PASSWORD=true
+          - MYSQL_USER=egg
+          - MYSQL_PASSWORD=egg
           - MYSQL_DATABASE=eggtracker
 
     steps:
@@ -47,11 +46,6 @@ jobs:
           command: |
             mv .env.example .env
             php artisan key:generate
-
-      - run:
-          name: "Create database and run migration"
-          command: |
-            php artisan migrate
 
 
       # run tests with phpunit

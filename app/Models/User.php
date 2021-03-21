@@ -414,11 +414,17 @@ class User extends Authenticatable
         });
     }
 
-    public function scopeInShowRoles($query)
+    public function scopeInShowRoles($query, $guildId)
     {
+        if (is_object($guildId)) {
+            $guildId = $guildId->id;
+        }
         return $query
-            ->whereHas('roles', function($query) {
-                $query->where('show_members_on_roster', 1);
+            ->whereHas('roles', function($query) use ($guildId) {
+                $query
+                    ->where('show_members_on_roster', 1)
+                    ->where('guild_id', $guildId)
+                ;
             })
         ;
     }

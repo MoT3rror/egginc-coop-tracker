@@ -17,7 +17,7 @@ class Players extends Base
         $chuckOfUsers = $guild
             ->members()
             ->withEggIncId()
-            ->inShowRoles()
+            ->inShowRoles($this->guild)
             ->get()
             ->sortBy(function ($user) {
                 return $user->getPlayerEarningBonus();
@@ -37,7 +37,7 @@ class Players extends Base
                     $table->addColumn('rank', new Column('Rank', Column::ALIGN_LEFT));
                     break;
                 case 'earning_bonus': 
-                    $table->addColumn('earning_bonus', new Column('EB', Column::ALIGN_LEFT));
+                    $table->addColumn('earning_bonus', new Column('EB', Column::ALIGN_RIGHT));
                     break;
                 case 'highest_deflector':
                     $table->addColumn('highest_deflector', new Column('Deflector', Column::ALIGN_LEFT));

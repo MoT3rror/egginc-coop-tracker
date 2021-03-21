@@ -8,6 +8,9 @@ A supervisor (http://supervisord.org/) instance runs on the server. It keeps bot
 
 The guild roles need to be setup in the database. Currently this can't be done through bot or website. There is 3 flags. is_admin controls what roles can interact with write interactions. show_members_on_roster controls what users will show on the roster screens. show_role controls the roles that are shown for that user.
 
+Add Bot URL:
+https://discordapp.com/oauth2/authorize?client_id=741337162762420284&scope=bot&permissions=0
+
 ----------
 
 ### Sail

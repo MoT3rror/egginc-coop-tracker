@@ -21,7 +21,7 @@ class Available extends Base
         $users = $guild
             ->members()
             ->withEggIncId()
-            ->inShowRoles()
+            ->inShowRoles($this->guild)
             ->get()
             ->sortBy(function ($user) {
                 return $user->getPlayerEarningBonus();

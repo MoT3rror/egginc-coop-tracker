@@ -10,6 +10,7 @@ use App\DiscordMessages\Ge;
 use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
 use App\DiscordMessages\Love;
+use App\DiscordMessages\ModSetPlayerId;
 use App\DiscordMessages\Players;
 use App\DiscordMessages\PlayersNotInCoop;
 use App\DiscordMessages\Rank;
@@ -44,6 +45,7 @@ class DiscordMessage extends Controller
         'tracker'       =>  ['class' => Tracker::class],
         'players-not-in-coop' => ['class' => PlayersNotInCoop::class],
         'ge'                  => ['class' => Ge::class],
+        'mod-set-player-id'   => ['class' => ModSetPlayerId::class],
     ];
 
     private $guildId;

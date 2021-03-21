@@ -352,6 +352,7 @@ CONTRACTS;
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
+Teams on Track: 1/1
 {$url}
 ```
 Coop 5 | 600q | E Time | Proj/T
@@ -381,6 +382,7 @@ STATUS;
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
+Teams on Track: 1/1
 {$url}
 ```
 Coop 5  | 600q | E Time | Proj/T 
@@ -410,6 +412,7 @@ STATUS;
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
+Teams on Track: 1/1
 {$url}
 ```
 Coop 5 | 600q | E Time | Proj/T
@@ -474,8 +477,34 @@ STATUS;
 
     public function testSetPlayerId()
     {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
+
+            $mock
+                ->shouldReceive('getPlayerInfo')
+                ->withArgs(['12345'])
+                ->andReturn($player)
+            ;
+        }));
+
         $message = $this->sendDiscordMessage('set-player-id 12345');
-        $expect = 'Player ID set successfully.';
+        $expect = <<<RANK
+```
+MoT3rror
+Soul Eggs: 18.732Q
+Prestige Eggs: 147
+Earning Bonus: 3.415o
+Farmer Role: Yottafarmer 2
+Group Role: 
+Total Soul Eggs Needed for Next Rank: 54.850Q
+Total Prestige Eggs Needed for Next Rank: 159
+Current Golden Eggs: 136,318,185
+Total Golden Eggs: 170,060,259
+Drones/Elite: 56,680/2,543
+Prestiges: 223
+Boosts Used: 1,593
+```
+RANK;
         $this->assertEquals($message, $expect);
 
         $this->assertDatabaseHas('guilds', ['discord_id' => 1, 'name' => 'Test']);
@@ -554,8 +583,8 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus');
         $expect = <<<PLAYERS
 ```
-Discord | EB    
-------- | ------
+Discord |     EB
+------- | -----:
 Test    | 3.415o
 ```
 PLAYERS;
@@ -580,8 +609,8 @@ PLAYERS;
         $message = $this->sendDiscordMessage('players earning_bonus rank');
         $expect = <<<PLAYERS
 ```
-Discord | EB     | Rank   
-------- | ------ | -------
+Discord |     EB | Rank   
+------- | -----: | -------
 Test    | 3.415o | Yotta 2
 ```
 PLAYERS;
@@ -713,6 +742,7 @@ Eggs: 746q
 Rate: 11.4q/hr Need: 0
 Projected Eggs: 746q/600q
 Estimate/Time Left: CPLT/Past Due
+Members: 5/5
 ```
 Boosted/Name | Rate  | Tokens
 ------------ | ----- | ------
@@ -724,7 +754,7 @@ X SuchPerson | 3.77q | 93
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([0 => $expect], $message);
     }
 
     public function testPlayersNotInCoop()

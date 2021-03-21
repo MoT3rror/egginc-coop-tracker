@@ -57,23 +57,33 @@ class Tracker extends Base
         $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr Need: '. $this->coop->getNeededRateFormatted();
         $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted();
         $messages[] = 'Estimate/Time Left: ' . $this->coop->getEstimateCompletion() . '/' . $this->coop->getTimeLeftFormatted();
+        $messages[] = 'Members: ' . $this->coop->getMembers() . '/' . $this->contract->getMaxCoopSize();
 
         return $messages;
     }
 
-    public function getTable(Table $table, array $data): string
+    public function getTable(Table $table, array $data): array
     {
-        $messages = $this->starterMessage();
-        $messages[] = '```';
-        foreach ($table->generate($data) as $row) {
-            $messages[] = $row;
-        }
-        $messages[] = '```';
+        $groupOfMessages = [implode("\n", $this->starterMessage()) . "\n"];
 
-        return implode("\n", $messages);
+        foreach (collect($data)->chunk(40) as $index => $chunk) {
+            $messages = ['```'];
+            foreach ($table->generate($chunk->all()) as $row) {
+                $messages[] = $row;
+            }
+            $messages[] = '```';
+
+            if (!isset($groupOfMessages[$index])) {
+                $groupOfMessages[$index] = '';
+            }
+
+            $groupOfMessages[$index] .= implode("\n", $messages);
+        }
+
+        return $groupOfMessages;
     }
 
-    public function message(): string
+    public function message(): array
     {
         if (count($this->parts) == 1) {
             $this->coop = Coop::query()
@@ -96,8 +106,9 @@ class Tracker extends Base
             $this->coop->contract = $this->parts['1'];
             $this->coop->coop = $this->parts['2'];
         }
-
-        if (!isset($this->coop->getCoopInfo()->members)) {
+        try {
+            $this->coop->getCoopInfo()->members;
+        } catch (\Exception $e) {
             return 'Coop not created';
         }
 

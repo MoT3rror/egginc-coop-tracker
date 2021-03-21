@@ -11,6 +11,7 @@
         "start-ei-web": "nodemon js/egg-inc-web.js"
     },
     "devDependencies": {
+        "@mdi/font": "^5.9.55",
         "axios": "^0.19",
         "bootstrap": "^4.6.0",
         "cross-env": "^7.0.3",
