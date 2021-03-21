@@ -132,7 +132,7 @@
                         member.text = member.username + ' - ' + member.egg_inc_username + ' - ' + member.player_egg_rank + ' - ' + _.chain(member.roles).map((role) => {return role.name}).join(', ')
                         return member
                     })
-                    .orderBy(['selected', 'player_earning_bonus'], ['asc', 'desc'])
+                    .orderBy(['selected', 'username'], ['asc', 'asc'])
                     .value()
             },
             makeChannels() {
