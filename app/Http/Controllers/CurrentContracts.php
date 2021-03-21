@@ -6,6 +6,7 @@ use App\Exceptions\CoopNotFoundException;
 use App\Models\Contract;
 use App\Models\Coop;
 use App\Models\CoopMember;
+use App\Models\User;
 use App\Models\Guild as GuildModel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -96,6 +97,8 @@ class CurrentContracts extends Controller
 
     public function makeCoops(Request $request, $guildId, $contractId)
     {
+        User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'player_earning_bonus', 'egg_inc_username'], true);
+
         $coops = Coop::contract($contractId)
             ->guild($guildId)
             ->orderBy('position')
