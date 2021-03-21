@@ -66,7 +66,7 @@ class Tracker extends Base
     {
         $groupOfMessages = [implode("\n", $this->starterMessage()) . "\n"];
 
-        foreach (collect($data)->chunk(40) as $index => $chunk) {
+        foreach (collect($data)->chunk(35) as $index => $chunk) {
             $messages = ['```'];
             foreach ($table->generate($chunk->all()) as $row) {
                 $messages[] = $row;
