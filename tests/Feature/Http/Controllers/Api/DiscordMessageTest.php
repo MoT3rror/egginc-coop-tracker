@@ -349,10 +349,12 @@ CONTRACTS;
         $coop = $this->makeSampleCoop($contract);
 
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
+        $message = preg_replace('"(https?://.*)"', '', $message);
+
         $expect = <<<STATUS
 Ion Drive II
 Teams on Track: 1/1
-http://localhost:8000/s/MTAwMQ==
+
 ```
 Coop 5 | 600q | E Time | Proj/T
 ------ | ---- | ------ | ------
@@ -378,10 +380,12 @@ STATUS;
         $coop = $this->makeSampleCoop($contract);
 
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
+        $message = preg_replace('"(https?://.*)"', '', $message);
+
         $expect = <<<STATUS
 Ion Drive II
 Teams on Track: 1/1
-http://localhost:8000/s/MTAwMQ==
+
 ```
 Coop 5  | 600q | E Time | Proj/T 
 ------- | ---- | ------ | -------
@@ -407,10 +411,12 @@ STATUS;
         $coop = $this->makeSampleCoop($contract);
 
         $message = $this->sendDiscordMessage('status ' . $contract->identifier);
+        $message = preg_replace('"(https?://.*)"', '', $message);
+
         $expect = <<<STATUS
 Ion Drive II
 Teams on Track: 1/1
-http://localhost:8000/s/MTAwMQ==
+
 ```
 Coop 5 | 600q | E Time | Proj/T
 ------ | ---- | ------ | ------
