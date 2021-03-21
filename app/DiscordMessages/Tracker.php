@@ -98,7 +98,7 @@ class Tracker extends Base
 
         $errorMessage = $this->validate();
         if (is_string($errorMessage)) {
-            return $errorMessage;
+            return [$errorMessage];
         }
 
         if (!$this->coop) {
@@ -109,7 +109,7 @@ class Tracker extends Base
         try {
             $this->coop->getCoopInfo()->members;
         } catch (\Exception $e) {
-            return 'Coop not created';
+            return ['Coop not created'];
         }
 
         $parts = $this->parts;
@@ -123,7 +123,7 @@ class Tracker extends Base
         try {
             $coopData = $this->coopData();
         } catch (\App\Exceptions\CoopNotFoundException $e) {
-            return 'Coop not found.';
+            return ['Coop not found.'];
         }
         return $this->getTable($table, $coopData);
     }
