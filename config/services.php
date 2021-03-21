@@ -35,4 +35,7 @@ return [
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
         'redirect'      => env('APP_URL') . '/login/discord/callback',
     ],
+    'egg_inc_api' => [
+        'url' => env('EI_API_HOST') . ':' . env('EI_API_PORT') . '/',
+    ],
 ];

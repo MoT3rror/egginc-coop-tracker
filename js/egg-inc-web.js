@@ -13,18 +13,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // define end points
-app.get('/getAllActiveContracts', (req, res, next) => {
+app.get('/Periodicals', (req, res, next) => {
     EggIncApi.getPeriodicals().then((data) => {
-        res.send(data.periodicals.contracts);
-    }).catch((error) => {
-        console.error(error);
-        return next(new createError.InternalServerError(error));
-    });
-});
-
-app.get('/events', (req, res, next) => {
-    EggIncApi.getPeriodicals().then((data) => {
-        res.send(data.periodicals.events);
+        res.send(data.periodicals);
     }).catch((error) => {
         console.error(error);
         return next(new createError.InternalServerError(error));
@@ -91,11 +82,10 @@ module.exports = app;
 /*
 Usage examples:
 npm run start-ei-web
-http://localhost:6001/getAllActiveContracts
-http://localhost:6001/events
+http://localhost:6001/Periodicals
 http://localhost:6001/getCoopStatus?contract=new-moon&coop=dmv
 http://localhost:6001/getPlayerInfo?playerId=EI6411720689451008
 http://localhost:6001/getPlayerInfos?playerIdsJoined=EI6411720689451008,EI6411720689451008
-http://localhost:6001/getPlayerInfos?playerIds=EI6411720689451008&playerIds=EI6411720689451008
+http://localhost:6001/getPlayerInfos?playerIds[]=EI6411720689451008&playerIds[]=EI6411720689451008
 http://localhost:6001/getPlayerInfos?playerIdsJoined=EI5426893308821504,EI6006465308917760,EI6622592762380288,EI6243749694275584,EI6670048183189504,EI5293412581900288,EI5889385330900992,EI4950801673355264
 */
