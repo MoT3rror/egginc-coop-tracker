@@ -397,7 +397,7 @@ class User extends Authenticatable
 
     public function getHighestDeflectorAttribute(): string
     {
-        return $this->getHighestDeflectorAttribute() . '%';
+        return $this->getHighestDeflectorWithoutPercentAttribute() . '%';
     }
 
     public function getUsernameWithRolesAttribute()
