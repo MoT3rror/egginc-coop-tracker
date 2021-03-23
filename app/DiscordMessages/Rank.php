@@ -53,12 +53,12 @@ class Rank extends Base
 ```
 $username
 Soul Eggs: $soulEggs
-Prestige Eggs: $goldenEggs
+Prophecy Eggs: $goldenEggs
 Earning Bonus: $earningBonus
 Farmer Role: $farmerRole
 Group Role: $roles
 Total Soul Eggs Needed for Next Rank: $soulEggsNeeded
-Total Prestige Eggs Needed for Next Rank: $goldenEggsNeeded
+Total Prophecy Eggs Needed for Next Rank: $goldenEggsNeeded
 Current Golden Eggs: $currentGoldenEggs
 Total Golden Eggs: $liftTimeGoldenEggs
 Drones/Elite: {$drones}/{$eliteDrones}

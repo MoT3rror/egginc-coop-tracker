@@ -92,7 +92,7 @@
                         value: 'player_earning_bonus',
                     },
                     {text: 'Soul Eggs', value: 'soul_eggs'},
-                    {text: 'Golden Eggs', value: 'eggs_of_prophecy'},
+                    {text: 'Prophecy Eggs', value: 'eggs_of_prophecy'},
                     {text: 'Drones', value: 'drones'},
                     {text: 'Highest Deflector', value: 'highest_deflector_without_percent'},
                 ],

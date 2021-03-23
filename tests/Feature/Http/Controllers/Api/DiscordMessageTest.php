@@ -547,12 +547,12 @@ STATUS;
 ```
 MoT3rror
 Soul Eggs: 18.732Q
-Prestige Eggs: 147
+Prophecy Eggs: 147
 Earning Bonus: 3.415o
 Farmer Role: Yottafarmer 2
 Group Role: 
 Total Soul Eggs Needed for Next Rank: 54.850Q
-Total Prestige Eggs Needed for Next Rank: 159
+Total Prophecy Eggs Needed for Next Rank: 159
 Current Golden Eggs: 136,318,185
 Total Golden Eggs: 170,060,259
 Drones/Elite: 56,680/2,543
@@ -692,12 +692,12 @@ PLAYERS;
 ```
 MoT3rror
 Soul Eggs: 18.732Q
-Prestige Eggs: 147
+Prophecy Eggs: 147
 Earning Bonus: 3.415o
 Farmer Role: Yottafarmer 2
 Group Role: 
 Total Soul Eggs Needed for Next Rank: 54.850Q
-Total Prestige Eggs Needed for Next Rank: 159
+Total Prophecy Eggs Needed for Next Rank: 159
 Current Golden Eggs: 136,318,185
 Total Golden Eggs: 170,060,259
 Drones/Elite: 56,680/2,543
