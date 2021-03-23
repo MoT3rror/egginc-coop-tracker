@@ -35,7 +35,7 @@ class Tracker extends Base
     public function guildSortBy(): string
     {
         switch ($this->guild->tracker_sort_by) {
-            case 'value':
+            case 'eggs_per_second':
                 return 'eggsPerSecond';
             case 'earning_bonus':
             default:
