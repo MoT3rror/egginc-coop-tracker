@@ -337,12 +337,12 @@ class User extends Authenticatable
         return $complete;
     }
 
-    public function getHighestDeflectorAttribute(): string
+    public function getHighestDeflectorWithoutPercentAttribute(): int
     {
         $info = $this->getEggPlayerInfo(); 
 
         if (!$info) {
-            return '0%';
+            return 0;
         }
         $inventoryitems = collect($info->artifactsDb->inventoryItems)
             ->where('artifact.spec.name', 'TACHYON_DEFLECTOR')
@@ -392,7 +392,12 @@ class User extends Authenticatable
                 $highest = $value;
             }
         }
-        return $highest . '%';
+        return $highest;
+    }
+
+    public function getHighestDeflectorAttribute(): string
+    {
+        return $this->getHighestDeflectorAttribute() . '%';
     }
 
     public function getUsernameWithRolesAttribute()

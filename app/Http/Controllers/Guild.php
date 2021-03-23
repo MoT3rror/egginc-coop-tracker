@@ -11,7 +11,7 @@ class Guild extends Controller
 {
     public function index(Request $request, $guildId)
     {
-        User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'soul_eggs', 'eggs_of_prophecy', 'drones', 'player_earning_bonus', 'highest_deflector'], true);
+        User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'soul_eggs', 'eggs_of_prophecy', 'drones', 'player_earning_bonus', 'highest_deflector_without_percent'], true);
 
         $guildModel = GuildModel::findByDiscordGuildId($guildId);
         $guildModel->sync();

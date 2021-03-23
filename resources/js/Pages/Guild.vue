@@ -58,6 +58,9 @@
                     <template v-slot:item.soul_eggs="{ item }">
                         <EggFormater :eggs="item.soul_eggs" />
                     </template>
+                    <template v-slot:item.highest_deflector_without_percent="{ item }">
+                        {{ item.highest_deflector_without_percent }}%
+                    </template>
                 </v-data-table>
             </div>
         </template>
@@ -91,7 +94,7 @@
                     {text: 'Soul Eggs', value: 'soul_eggs'},
                     {text: 'Golden Eggs', value: 'eggs_of_prophecy'},
                     {text: 'Drones', value: 'drones'},
-                    {text: 'Highest Deflector', value: 'highest_deflector'},
+                    {text: 'Highest Deflector', value: 'highest_deflector_without_percent'},
                 ],
             }
         },
