@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers\Api;
 use App\Api\EggInc;
 use App\Models\Contract;
 use App\Models\Coop;
+use App\Models\Guild;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\URL;
@@ -372,6 +373,40 @@ CONTRACTS;
 Ion Drive II
 Teams on Track: 1/1
 
+```
+Coop 5 | 600q | E Time | Proj/T
+------ | ---- | ------ | ------
+test 5 | 746q | CPLT   | 746q X
+```
+STATUS;
+
+        $this->assertEquals($expect, $message);
+    }
+
+    public function testStatusWithoutLink()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        // have to call twice because guild is not created yet. guess I could create
+        $this->sendDiscordMessage('status ' . $contract->identifier);
+        $guild = Guild::find(1);
+        $guild->show_link_on_status = 0;
+        $guild->save();
+        $message = $this->sendDiscordMessage('status ' . $contract->identifier);
+
+        $expect = <<<STATUS
+Ion Drive II
+Teams on Track: 1/1
 ```
 Coop 5 | 600q | E Time | Proj/T
 ------ | ---- | ------ | ------

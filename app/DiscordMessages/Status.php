@@ -86,11 +86,21 @@ class Status extends Base
             'expire' => now()->addHour(),
         ]);
 
-        return [
+        $messages = [
             $contract ? $contract->name : $parts[1],
             'Teams on Track: ' . $this->teamsOnTrack . '/' . $this->totalTeams,
-            route('short-link', ['code' => $shortLink->code]),
         ];
+
+        if ($this->guild->show_link_on_status) {
+            $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $parts[1]], 60 * 60);
+            $shortLink = ShortLink::create([
+                'link'   => $url,
+                'expire' => now()->addHour(),
+            ]);
+            $messages[] = route('short-link', ['code' => $shortLink->code]);
+        }
+
+        return $messages;
     }
 
     public function getTable(Table $table, array $data): string

@@ -14,6 +14,11 @@ class Guild extends Model
         'last_sync' => 'datetime:Y-m-d',
     ];
 
+    protected $attributes = [
+        'tracker_sort_by'     => 'earning_bonus',
+        'show_link_on_status' => true,
+    ];
+
     private function getBotGuilds(): array
     {
         return Cache::remember('discord-bot-guilds', 60 * 5, function () {

@@ -32,10 +32,21 @@ class Tracker extends Base
         return true;
     }
 
+    public function guildSortBy(): string
+    {
+        switch ($this->guild->tracker_sort_by) {
+            case 'value':
+                return 'eggsPerSecond';
+            case 'earning_bonus':
+            default:
+                return 'earningBonusOom';
+        }
+    }
+
     public function coopData(): array
     {
         $data = [];
-        $members = collect($this->coop->getCoopInfo()->members)->sortByDesc('earningBonusOom');
+        $members = collect($this->coop->getCoopInfo()->members)->sortByDesc($this->guildSortBy());
         foreach ($members as $member) {
             $showDecimals = $member->eggsPerSecond * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
             $boosted = $member->eggsPerSecond * 60 * 60 > (1.2 * pow(10, 15));
