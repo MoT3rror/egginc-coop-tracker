@@ -15,6 +15,7 @@ use App\DiscordMessages\Players;
 use App\DiscordMessages\PlayersNotInCoop;
 use App\DiscordMessages\Rank;
 use App\DiscordMessages\Remind;
+use App\DiscordMessages\Replace;
 use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\Status;
@@ -40,6 +41,7 @@ class DiscordMessage extends Controller
         'players'       => ['class' => Players::class],
         'rank'          => ['class' => Rank::class],
         'remind'        => ['class' => Remind::class],
+        'replace'       => ['class' => Replace::class],
         'available'     => ['class' => Available::class],
         'unavailable'   => ['class' => Unavailable::class],
         'tracker'       =>  ['class' => Tracker::class],

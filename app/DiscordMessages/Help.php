@@ -15,6 +15,7 @@ class Help extends Base
             Players::class,
             Rank::class,
             Remind::class,
+            Replace::class,
             SetPlayerId::class,
             Status::class,
             ShortStatus::class,

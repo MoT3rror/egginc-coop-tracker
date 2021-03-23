@@ -153,6 +153,7 @@ eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!ge Get player golden egg stats.
 eb!rank Get player stats/rank.
 eb!remind {Contract ID} {Hours} {Minutes}
+eb!replace {Contract ID} {Coop} {New Coop} - Replace coop name
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
 eb!s {Contract ID} - Short version of status
@@ -218,11 +219,27 @@ CONTRACTS;
         $this->assertEquals($expect, $message);
     }
 
+    public function testReplace()
+    {
+        $contract = $this->makeSampleContract();
+
+        $coop = $this->makeSampleCoop($contract);
+
+        $message = $this->sendDiscordMessage('replace ' . $contract->identifier . ' test test2');
+        $expect = 'Coop has been replaced.';
+
+        $this->assertEquals($expect, $message);
+        $this->assertDatabaseHas('coops', [
+            'coop'     => 'test2',
+            'contract' => $contract->identifier,
+        ]);
+    }
+
     public function testAdminFail()
     {
         $contract = $this->makeSampleContract();
 
-        $message = $this->sendDiscordMessage('add ' . $contract->identifier . ' test', 654321);
+        $message = $this->sendDiscordMessage('delete ' . $contract->identifier . ' test', 654321);
         $expect = 'You are not allowed to do that.';
 
         $this->assertEquals($expect, $message);   
