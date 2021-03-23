@@ -1,9 +1,5 @@
 <template>
     <layout :title="guildModel.name">
-        <template v-if="!guildModel.is_bot_member_of">
-            some link to add the bot to the server
-        </template>
-
         <template v-if="guildModel.is_bot_member_of">
             <div>
                 <h4>Current Contracts</h4>
@@ -24,15 +20,19 @@
                 <h4>Player List</h4>
 
                 <div style="margin-bottom: 50px">
-                    <label class="form-label">
-                        Filter by Role
-                    </label>
                     <select class="form-control" v-model="filterByRole">
-                        <option></option>
+                        <option value="">Filter by Role</option>
                         <option v-for="role in roles" :value="role.id">
                             {{ role.name }}
                         </option>
                     </select>
+
+                    <div class="form-check" style="margin-top: 10px">
+                        <input class="form-check-input" type="checkbox" value="1" v-model="showEarningBonusRaw" />
+                        <label class="form-check-label">
+                            Show Raw Earning Bonus
+                        </label>
+                    </div>
                 </div>
 
                 <v-data-table
@@ -46,11 +46,14 @@
                         {{ getUserRoles(item.roles) }}
                     </template>
                     <template v-slot:item.player_earning_bonus="{ item }">
-                        <template v-if="item.player_egg_rank">
+                        <template v-if="item.player_egg_rank && !showEarningBonusRaw">
                             {{ item.player_earning_bonus_formatted }}
                             ({{ item.player_egg_rank }})
                         </template>
                         
+                        <template v-if="item.player_egg_rank && showEarningBonusRaw">
+                            {{ item.player_earning_bonus }}
+                        </template>
                     </template>
                     <template v-slot:item.soul_eggs="{ item }">
                         <EggFormater :eggs="item.soul_eggs" />
@@ -77,6 +80,7 @@
         data() {
             return {
                 filterByRole: '',
+                showEarningBonusRaw: false,
                 headers: [
                     {text: 'Username', value: 'username'},
                     {text: 'Roles', value: 'roles'},
