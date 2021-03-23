@@ -52,7 +52,7 @@ class Coop extends Model
         return resolve(EggInc::class)->getCoopInfo($this->contract, $this->coop);
     }
 
-    public function getCurrentEggs(): int
+    public function getCurrentEggs(): float
     {
         return $this->getCoopInfo()->eggsLaid;
     }
