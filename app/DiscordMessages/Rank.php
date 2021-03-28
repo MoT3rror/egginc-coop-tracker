@@ -3,6 +3,7 @@ namespace App\DiscordMessages;
 
 use App\Models\User;
 use App\Exceptions\UserNotFoundException;
+use Cache;
 
 class Rank extends Base
 {
@@ -24,6 +25,7 @@ class Rank extends Base
         if (!$user->egg_inc_player_id) {
             return 'Egg Inc Player ID not set. Use `eb!set-player-id {id}` to set.';
         }
+        Cache::forget('egg-player-info-' . $user->egg_inc_player_id);
         $playerInfo = $user->getEggPlayerInfo();
         if (!$playerInfo) {
             return 'Invalid Egg Inc Player ID. Use `eb!set-player-id {id}` to set correct ID';

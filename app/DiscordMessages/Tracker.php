@@ -7,6 +7,7 @@ use App\Formatters\Egg;
 use App\Models\Coop;
 use App\SimilarText;
 use Arr;
+use Cache;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\URL;
 use kbATeam\MarkdownTable\Column;
@@ -118,6 +119,9 @@ class Tracker extends Base
             $this->coop->coop = $this->parts['2'];
         }
         try {
+            $cacheKey = $this->parts['1'] . '-' . $this->parts['2'];
+
+            Cache::forget($cacheKey);
             $this->coop->getCoopInfo()->members;
         } catch (\Exception $e) {
             return ['Coop not created'];
