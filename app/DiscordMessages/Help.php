@@ -1,6 +1,8 @@
 <?php
 namespace App\DiscordMessages;
 
+use App\Exceptions\DiscordErrorException;
+
 class Help extends Base
 {
     public function message(): string
@@ -12,7 +14,10 @@ class Help extends Base
             Contracts::class,
             Delete::class,
             Ge::class,
+            Hi::class,
+            ModSetPlayerId::class,
             Players::class,
+            PlayersNotInCoop::class,
             Rank::class,
             Remind::class,
             Replace::class,
@@ -26,8 +31,11 @@ class Help extends Base
         $message = '```' . PHP_EOL;
 
         foreach ($commands as $command) {
-            $commandObject = new $command($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts, true);
-            $helpText = $commandObject->help();
+            $helpText = '';
+            try {
+                $commandObject = new $command($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
+                $helpText = $commandObject->help(); 
+            } catch (DiscordErrorException $e) {}
             if ($helpText) {
                 $message .= $helpText . PHP_EOL;
             }

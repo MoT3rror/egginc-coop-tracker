@@ -152,6 +152,9 @@ eb!available {Contract ID} - Get who has not complete contract. Will not validat
 eb!contracts - Display current contracts with IDs.
 eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!ge Get player golden egg stats.
+eb!hi Just say hi.
+eb!mod-set-player-id {@user} {Egg Inc Player ID} - Player ID starts with EI (letter i)
+eb!players-not-in-coop {Contract ID}
 eb!rank Get player stats/rank.
 eb!remind {Contract ID} {Hours} {Minutes}
 eb!replace {Contract ID} {Coop} {New Coop} - Replace coop name
@@ -170,30 +173,6 @@ HELP;
         $message = $this->sendDiscordMessage('hi');
 
         $this->assertEquals('Hello <@123456>!', $message);
-    }
-
-    public function testHiWithParams()
-    {
-        $message = $this->sendDiscordMessage('hi FriendA FriendB');
-
-        $expect = <<<HI_MULTI_LINE
-Hello <@123456>!
-Hello <@FriendA>!
-Hello <@FriendB>!
-HI_MULTI_LINE;
-        $this->assertEquals($expect, $message);
-    }
-
-    public function testHiWithParamsNewLine()
-    {
-        $message = $this->sendDiscordMessage('hi FriendA' . PHP_EOL . 'FriendB');
-
-        $expect = <<<HI_MULTI_LINE
-Hello <@123456>!
-Hello <@FriendA>!
-Hello <@FriendB>!
-HI_MULTI_LINE;
-        $this->assertEquals($expect, $message);
     }
 
     public function testCurrentContracts()

@@ -5,17 +5,11 @@ class Hi extends Base
 {
     public function message(): string
     {
-        $message[] = 'Hello <@' . $this->authorId . '>!';
-        // add multi line output for multi part input
-        $parts = $this->parts;
-        foreach ($parts as $key => $part) {
-            // skip command name
-            if (in_array($key, [0])) {
-                continue;
-            }
+        return 'Hello <@' . $this->authorId . '>!';
+    }
 
-            $message[] = 'Hello <@' . $part . '>!';
-        }
-    return implode("\n", $message);
+    public function help(): string
+    {
+        return 'eb!hi Just say hi.';
     }
 }

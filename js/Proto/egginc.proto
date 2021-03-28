@@ -457,9 +457,9 @@ message CoopStatus {
   }
   repeated Member members = 4;
   double seconds_until_production_deadline = 5;
-  int32 _6 = 6;  // unknown, maybe bool; example: 0
-  double seconds_until_collection_deadline = 7;
   int32 _8 = 8;  // unknown, maybe bool; example: 0
+  double seconds_until_collection_deadline = 7;
+  bool all_members_reporting = 6;  // unknown, maybe bool; example: 0
   string creator_id = 9;
   bool public = 10;
   message TokenGift {
