@@ -20,7 +20,7 @@ class CoopLeaderBoard extends Status
             foreach ($coop->getCoopInfo()->members as $member) {
                 $data[] = [
                     'name' => $member->name,
-                    'rate' => round($member->eggsPerSecond),
+                    'rate' => round($member->eggsPerSecond * 60 * 60),
                 ];
             }
         }
@@ -28,7 +28,7 @@ class CoopLeaderBoard extends Status
             ['rate', 'desc'],
             ['name', 'desc'],
         ])->map(function ($member) {
-            $member['rate'] = resolve(Egg::class)->format($member['rate']);
+            $member['rate'] = resolve(Egg::class)->format($member['rate'], 1);
             return $member;
         })->all();
     }
