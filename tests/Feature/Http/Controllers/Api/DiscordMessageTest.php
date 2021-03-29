@@ -150,7 +150,7 @@ eb!help - Display list of available commands.
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
 eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 eb!contracts - Display current contracts with IDs.
-eb!coop-leaderboard {Contract ID} - Display all members of coops order by rate
+eb!coop-leaderboard {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid
 eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!ge Get player golden egg stats.
 eb!hi Just say hi.
@@ -806,7 +806,7 @@ STATUS;
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
 
-        $message = $this->sendDiscordMessage('coop-leaderboard ' . $contract->identifier . ' test');
+        $message = $this->sendDiscordMessage('coop-leaderboard ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II({$contract->identifier})
 ```
@@ -817,6 +817,37 @@ SukiDevil  |   3.7q
 SuchPerson |   3.7q
 Parasbabü  | 108.4T
 27ThePulse |   4.1T
+```
+STATUS;
+
+        $this->assertEquals([0 => $expect], $message);
+    }
+
+    public function testCoopLeaderBoardLaid()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $message = $this->sendDiscordMessage('coop-leaderboard ' . $contract->identifier . ' eggs_laid');
+        $expect = <<<STATUS
+Ion Drive II({$contract->identifier})
+```
+Name       |   Laid
+---------- | -----:
+SuchPerson | 253.3q
+SukiDevil  | 250.4q
+elbee1     | 238.9q
+Parasbabü  |   4.0q
+27ThePulse |  86.3T
 ```
 STATUS;
 
