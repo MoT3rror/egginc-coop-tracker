@@ -119,7 +119,7 @@ class Status extends Base
     {
         $coops = $this->validate();
         if (is_string($coops)) {
-            return $coops;
+            return [$coops];
         }
         $parts = $this->parts;
         $contract = $this->getContractInfo($parts[1]);
