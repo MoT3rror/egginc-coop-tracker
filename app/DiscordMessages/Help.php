@@ -12,6 +12,7 @@ class Help extends Base
             Add::class,
             Available::class,
             Contracts::class,
+            CoopLeaderBoard::class,
             Delete::class,
             Ge::class,
             Hi::class,

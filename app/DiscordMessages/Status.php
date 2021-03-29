@@ -20,7 +20,7 @@ class Status extends Base
 
     protected $teamsOnTrack = 0;
     
-    private function coops(string $contract): Collection
+    public function coops(string $contract): Collection
     {
         return Coop::contract($contract)
             ->guild($this->guildId)
@@ -103,7 +103,7 @@ class Status extends Base
         return $messages;
     }
 
-    public function getTable(Table $table, array $data): string
+    public function getTable(Table $table, array $data): array
     {
         $messages = $this->getStarterMessage();
         $messages[] = '```';
@@ -112,10 +112,10 @@ class Status extends Base
         }
         $messages[] = '```';
 
-        return implode("\n", $messages);
+        return [implode("\n", $messages)];
     }
 
-    public function message(): string
+    public function message(): array
     {
         $coops = $this->validate();
         if (is_string($coops)) {

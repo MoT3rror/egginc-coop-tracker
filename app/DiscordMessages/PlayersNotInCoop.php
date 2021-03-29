@@ -7,7 +7,7 @@ use kbATeam\MarkdownTable\Table;
 
 class PlayersNotInCoop extends Status
 {
-    public function message(): string
+    public function message(): array
     {
         $coops = $this->validate();
         if (is_string($coops)) {
@@ -43,8 +43,7 @@ class PlayersNotInCoop extends Status
                 return $user->getPlayerEarningBonus();
             }, SORT_REGULAR, true)
         ;
-
-        return '- ' . $members->implode('username_with_roles', PHP_EOL . '- ');
+        return ['- ' . $members->implode('username_with_roles', PHP_EOL . '- ')];
     }
 
     public function help(): string

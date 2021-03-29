@@ -150,6 +150,7 @@ eb!help - Display list of available commands.
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
 eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 eb!contracts - Display current contracts with IDs.
+eb!coop-leaderboard {Contract ID} - Display all members of coops order by rate
 eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!ge Get player golden egg stats.
 eb!hi Just say hi.
@@ -359,7 +360,7 @@ test 5 | 746q | CPLT   | 746q X
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([$expect], $message);
     }
 
     public function testStatusWithoutLink()
@@ -393,7 +394,7 @@ test 5 | 746q | CPLT   | 746q X
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([$expect], $message);
     }
 
     public function testStatusWithLargeEggRate()
@@ -424,7 +425,7 @@ test 13 | 771q | CPLT   | 10.9Q X
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([$expect], $message);
     }
 
     public function testStatusCompletedCoop()
@@ -455,7 +456,7 @@ test 5 | 746q | CPLT   | 746q X
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([$expect], $message);
     }
 
     public function testRemind()
@@ -506,7 +507,7 @@ C 5 | 600q | E Time | Proj/T
 ```
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([$expect], $message);
     }
 
     public function testSetPlayerId()
@@ -791,6 +792,37 @@ STATUS;
         $this->assertEquals([0 => $expect], $message);
     }
 
+    public function testCoopLeaderBoard()
+    {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+            $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
+
+            $mock
+                ->shouldReceive('getCoopInfo')
+                ->andReturn($coopInfo)
+            ;
+        }));
+
+        $contract = $this->makeSampleContract();
+        $coop = $this->makeSampleCoop($contract);
+
+        $message = $this->sendDiscordMessage('coop-leaderboard ' . $contract->identifier . ' test');
+        $expect = <<<STATUS
+Ion Drive II({$contract->identifier})
+```
+Name       | Rate
+---------- | ---:
+elbee1     |   1T
+SukiDevil  |   1T
+SuchPerson |   1T
+Parasbabü  |  30B
+27ThePulse |   1B
+```
+STATUS;
+
+        $this->assertEquals([0 => $expect], $message);
+    }
+
     public function testPlayersNotInCoop()
     {
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
@@ -820,6 +852,6 @@ STATUS;
 - Test ()
 STATUS;
 
-        $this->assertEquals($expect, $message);
+        $this->assertEquals([0 => $expect], $message);
     }
 }

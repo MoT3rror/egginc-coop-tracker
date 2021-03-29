@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DiscordMessages\Add;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\Contracts;
+use App\DiscordMessages\CoopLeaderBoard;
 use App\DiscordMessages\Delete;
 use App\DiscordMessages\Ge;
 use App\DiscordMessages\Help;
@@ -48,6 +49,7 @@ class DiscordMessage extends Controller
         'players-not-in-coop' => ['class' => PlayersNotInCoop::class],
         'ge'                  => ['class' => Ge::class],
         'mod-set-player-id'   => ['class' => ModSetPlayerId::class],
+        'coop-leaderboard'    => ['class' => CoopLeaderBoard::class],
     ];
 
     private $guildId;

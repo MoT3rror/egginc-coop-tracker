@@ -7,7 +7,7 @@ use kbATeam\MarkdownTable\Table;
 
 class ShortStatus extends Status
 {
-    public function message(): string
+    public function message(): array
     {
         $coops = $this->validate();
         $parts = $this->parts;
