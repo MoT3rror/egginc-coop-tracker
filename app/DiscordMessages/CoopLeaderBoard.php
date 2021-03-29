@@ -32,7 +32,7 @@ class CoopLeaderBoard extends Status
         ])->map(function ($member) {
             $member['rate'] = resolve(Egg::class)->format($member['rate'], 1);
             return $member;
-        })->all();
+        })->slice(0, 20)->all();
     }
 
     public function getStarterMessage(): array
