@@ -202,7 +202,7 @@ class Coop extends Model
                 'allow' => 3072,
                 'type'  => 1,
             ];
-            $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $member->user->roles->where('guild_id', $this->guild()->id)->pluck('name')->join(', ');
+            $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $member->user->roles->where('guild_id', $this->guild()->id)->pluck('name')->join(', ') . ' - ' . $member->user->getHighestDeflectorAttribute();
         }
 
         $result = $this->getDiscordClient()->guild->createGuildChannel([
