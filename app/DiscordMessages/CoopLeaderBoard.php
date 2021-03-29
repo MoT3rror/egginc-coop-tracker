@@ -17,12 +17,14 @@ class CoopLeaderBoard extends Status
     {
         $data = [];
         foreach ($coops as $coop) {
-            foreach ($coop->getCoopInfo()->members as $member) {
-                $data[] = [
-                    'name' => $member->name,
-                    'rate' => round($member->eggsPerSecond * 60 * 60),
-                ];
-            }
+            try {
+                foreach ($coop->getCoopInfo()->members as $member) {
+                    $data[] = [
+                        'name' => $member->name,
+                        'rate' => round($member->eggsPerSecond * 60 * 60),
+                    ];
+                }
+            } catch (CoopNotFoundException $e) {}
         }
         return collect($data)->sortBy([
             ['rate', 'desc'],
