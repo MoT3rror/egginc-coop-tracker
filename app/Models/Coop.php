@@ -115,6 +115,11 @@ class Coop extends Model
         if ($this->getEggsLeftNeeded() < 0) {
             return 'CPLT';
         }
+
+        if ($this->getTotalRate() <= 0) {
+            return 'NA';
+        }
+
         $seconds = ceil($this->getEggsLeftNeeded() / $this->getTotalRate());
 
         return resolve(TimeLeft::class)
