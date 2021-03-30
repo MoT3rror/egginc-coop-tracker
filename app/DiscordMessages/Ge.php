@@ -3,6 +3,7 @@ namespace App\DiscordMessages;
 
 use App\Models\User;
 use App\Exceptions\UserNotFoundException;
+use Cache;
 
 class Ge extends Base
 {
