@@ -810,13 +810,13 @@ STATUS;
         $expect = <<<STATUS
 Ion Drive II({$contract->identifier})
 ```
-Name       |   Rate
----------- | -----:
-elbee1     |   3.7q
-SukiDevil  |   3.7q
-SuchPerson |   3.7q
-Parasbabü  | 108.4T
-27ThePulse |   4.1T
+Name          |     Rate
+------------- | -------:
+1. elbee1     |   3.772q
+2. SukiDevil  |   3.772q
+3. SuchPerson |   3.772q
+4. Parasbabü  | 108.414T
+5. 27ThePulse |   4.101T
 ```
 STATUS;
 

@@ -31,11 +31,14 @@ class CoopLeaderBoard extends Status
                 }
             } catch (CoopNotFoundException $e) {}
         }
+        $counter = 1;
         return collect($data)->sortBy([
             [$this->sort, 'desc'],
             ['name', 'desc'],
-        ])->map(function ($member) {
-            $member[$this->sort] = resolve(Egg::class)->format($member[$this->sort], 1);
+        ])->map(function ($member) use (&$counter) {
+            $member['name'] = $counter . '. ' . $member['name'];
+            $member[$this->sort] = resolve(Egg::class)->format($member[$this->sort], 3);
+            $counter++;
             return $member;
         })->slice(0, 20)->all();
     }
