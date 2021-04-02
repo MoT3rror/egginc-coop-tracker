@@ -7,6 +7,7 @@ use App\Models\Contract;
 use App\Models\Coop;
 use App\Models\Guild;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\URL;
 use Mockery;
@@ -510,19 +511,19 @@ STATUS;
         $this->assertEquals([$expect], $message);
     }
 
-    public function testSetPlayerId()
+    public function testSetPlayerId($playerId = '12345')
     {
-        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
+        $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) use ($playerId) {
             $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
 
             $mock
                 ->shouldReceive('getPlayerInfo')
-                ->withArgs(['12345'])
+                ->withArgs([$playerId])
                 ->andReturn($player)
             ;
         }));
 
-        $message = $this->sendDiscordMessage('set-player-id 12345');
+        $message = $this->sendDiscordMessage('set-player-id ' . $playerId);
         $expect = <<<RANK
 ```
 MoT3rror
@@ -543,7 +544,7 @@ RANK;
         $this->assertEquals($message, $expect);
 
         $this->assertDatabaseHas('guilds', ['discord_id' => 1, 'name' => 'Test']);
-        $this->assertDatabaseHas('users', ['discord_id' => 123456, 'egg_inc_player_id' => '12345']);
+        $this->assertDatabaseHas('users', ['discord_id' => 123456, 'egg_inc_player_id' => $playerId]);
     }
     
     /**
@@ -794,6 +795,7 @@ STATUS;
 
     public function testCoopLeaderBoard()
     {
+        $this->testSetPlayerId('EI6525522743394304');
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
             $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
@@ -805,18 +807,15 @@ STATUS;
 
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
+        Guild::find(1)->sync();
 
         $message = $this->sendDiscordMessage('coop-leaderboard ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II({$contract->identifier})
 ```
-Name          |     Rate
-------------- | -------:
-1. elbee1     |   3.772q
-2. SukiDevil  |   3.772q
-3. SuchPerson |   3.772q
-4. Parasbabü  | 108.414T
-5. 27ThePulse |   4.101T
+Name          |   Rate
+------------- | -----:
+1. SuchPerson | 3.772q
 ```
 STATUS;
 
@@ -825,6 +824,7 @@ STATUS;
 
     public function testCoopLeaderBoardLaid()
     {
+        $this->testSetPlayerId('EI6525522743394304');
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
             $coopInfo = json_decode(file_get_contents(base_path('tests/files/ion-production-2021-test-coop.json')));
 
@@ -836,18 +836,15 @@ STATUS;
 
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
+        Guild::find(1)->sync();
 
         $message = $this->sendDiscordMessage('coop-leaderboard ' . $contract->identifier . ' eggs_laid');
         $expect = <<<STATUS
 Ion Drive II({$contract->identifier})
 ```
-Name       |   Laid
----------- | -----:
-SuchPerson | 253.3q
-SukiDevil  | 250.4q
-elbee1     | 238.9q
-Parasbabü  |   4.0q
-27ThePulse |  86.3T
+Name          |     Laid
+------------- | -------:
+1. SuchPerson | 253.358q
 ```
 STATUS;
 
