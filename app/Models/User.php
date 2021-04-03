@@ -434,6 +434,21 @@ class User extends Authenticatable
         ;
     }
 
+    public function scopePartOfTeam($query, $guildId)
+    {
+        if (is_object($guildId)) {
+            $guildId = $guildId->id;
+        }
+        return $query
+            ->whereHas('roles', function($query) use ($guildId) {
+                $query
+                    ->where('part_of_team', 1)
+                    ->where('guild_id', $guildId)
+                ;
+            })
+        ;
+    }
+
     public function scopeDiscordId($query, $discordId)
     {
         return $query

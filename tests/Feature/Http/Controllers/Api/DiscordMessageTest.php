@@ -31,6 +31,7 @@ class DiscordMessageTest extends TestCase
         Role::creating(function($role) {
             $role->show_members_on_roster = true;
             $role->is_admin = $role->discord_id == 1;
+            $role->part_of_team = true;
         });
 
         $response = $this->postJson(

@@ -8,6 +8,7 @@ class Role extends Model
         'show_members_on_roster' => 'boolean',
         'show_role'              => 'boolean',
         'is_admin'               => 'boolean',
+        'part_of_team'           => 'boolean',
     ];
 
     public function members()

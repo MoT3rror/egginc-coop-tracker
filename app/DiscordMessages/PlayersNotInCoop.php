@@ -11,7 +11,7 @@ class PlayersNotInCoop extends Status
     {
         $coops = $this->validate();
         if (is_string($coops)) {
-            return $coops;
+            return [$coops];
         }
 
         $players = [];
@@ -28,7 +28,7 @@ class PlayersNotInCoop extends Status
         $members = $this->guild
             ->members()
             ->withEggIncId()
-            // ->inShowRoles($this->guild)
+            ->partOfTeam($this->guild)
             ->get()
         ;
 

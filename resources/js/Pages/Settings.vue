@@ -11,6 +11,7 @@
                         <th>Is Admin</th>
                         <th>Show Member on Roster</th>
                         <th>Show Role for member</th>
+                        <th>Part of team</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,15 @@
                                 :name="'roles[' + role.id + '][show_role]'"
                                 value="1"
                                 :checked="role.show_role"
+                            />
+                        </td>
+                        <td>
+                            <input type="hidden" :name="'roles[' + role.id + '][part_of_team]'" value="0" />
+                            <input
+                                type="checkbox"
+                                :name="'roles[' + role.id + '][part_of_team]'"
+                                value="1"
+                                :checked="role.part_of_team"
                             />
                         </td>
                     </tr>
