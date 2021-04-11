@@ -53,10 +53,14 @@ class RemindCoopStatus implements ShouldQueue
         if ($message == 'Invalid contract ID or no coops setup.') {
             return;
         }
+        $messageContent = $message->message();
 
-        app()->make('DiscordClientBot')->channel->createMessage([
-            'channel.id' => $this->channel,
-            'content'    => $message->message(),
-        ]);
+        foreach ($messageContent as $value) {
+            app()->make('DiscordClientBot')->channel->createMessage([
+                'channel.id' => $this->channel,
+                'content'    => $value,
+            ]);
+        }
+
     }
 }
