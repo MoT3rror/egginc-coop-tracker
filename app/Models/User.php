@@ -8,6 +8,7 @@ use App\Formatters\Egg;
 use App\Exceptions\UserNotFoundException;
 use Cache;
 use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use RestCord\DiscordClient;
@@ -16,7 +17,7 @@ use StdClass;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use HasFactory;
     use Traits\Appendable;
 
     protected $casts = [

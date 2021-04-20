@@ -5,12 +5,9 @@ namespace App\Models;
 use App\Collections\ContractCollection;
 use App\Formatters\Egg;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Contract extends Model
 {
-    use HasFactory;
-
     protected $casts = [
         'raw_data'   => 'object',
         'expiration' => 'datetime',

@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CoopMember extends Model
 {
-    use HasFactory;
-
     public function user()
     {
         return $this->belongsTo(User::class);

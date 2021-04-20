@@ -176,44 +176,72 @@ class Coop extends Model
         return $this->getContractInfo()->maxCoopSize;
     }
 
-    public function makeChannel()
+    public function getChannelPermissions(): array
     {
-        if ($this->channel_id) {
-            return;
-        }
+        // view and send
+        $allow = 3072;
+        // view
+        $deny = 1024;
 
         $permissions = [
             [
-                'id'    => $this->guild()->role_to_add_to_coop,
-                // view and send
-                'allow' => 3072,
-            ],
-            [
-                'id'   => $this->guild()->roles->where('name', '@everyone')->first()->discord_id,
-                // view
-                'deny' => 1024,
-            ],
-            [
                 'id'    => config('services.discord.client_id'),
-                'allow' => 3072,
+                'allow' => $allow,
                 'type'  => 1,
             ]
         ];
-        $message = [$this->contractModel()->name . ' - ' . $this->coop];
+
+        if ($this->guild()->role_to_add_to_coop) {
+            $permissions[] = [
+                'id'    => $this->guild()->role_to_add_to_coop,
+                'allow' => $allow,
+            ];
+        }
+
+        if ($this->guild()->roles->where('name', '@everyone')->first()) {
+            $permissions[] = [
+                'id'   => $this->guild()->roles->where('name', '@everyone')->first()->discord_id,
+                'deny' => $deny,
+            ];
+        }
 
         foreach ($this->members as $member) {
             $permissions[] = [
                 'id'    => $member->user->discord_id,
-                'allow' => 3072,
+                'allow' => $allow,
                 'type'  => 1,
             ];
-            $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $member->user->roles->where('guild_id', $this->guild()->id)->pluck('name')->join(', ') . ' - ' . $member->user->getHighestDeflectorAttribute();
+        }
+        return $permissions;
+    }
+
+    public function getInitialMessage(): string
+    {
+        $message = [$this->contractModel()->name . ' - ' . $this->coop];
+
+        foreach ($this->members as $member) {
+            $roles = $member->user->roles->where('guild_id', $this->guild()->id)->where('show_role', true)->pluck('name')->join(', ');
+            $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $roles . ' - ' . $member->user->getHighestDeflectorAttribute();
+        }
+
+        return implode(PHP_EOL, $message);
+    }
+
+    public function makeChannel()
+    {
+        if ($this->channel_id) {
+            $this->getDiscordClient()->channel->modifyChannel([
+                'channel.id'            => $this->channel_id,
+                'name'                  => $this->coop,
+                'permission_overwrites' => $this->getChannelPermissions(),
+            ]);
+            return;
         }
 
         $result = $this->getDiscordClient()->guild->createGuildChannel([
             'guild.id'              => $this->guild_id,
             'name'                  => $this->coop,
-            'permission_overwrites' => $permissions,
+            'permission_overwrites' => $this->getChannelPermissions(),
             'parent_id'             => (int) $this->guild()->coop_channel_parent,
             'position'              => $this->position, 
         ]);
@@ -223,7 +251,7 @@ class Coop extends Model
 
         $this->getDiscordClient()->channel->createMessage([
             'channel.id' => $this->channel_id,
-            'content'    => implode(PHP_EOL, $message),
+            'content'    => $this->getInitialMessage(),
         ]);
     }
 

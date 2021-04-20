@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Guild;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+class GuildFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Guild::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +22,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => $this->faker->firstName,
-            'email' => $this->faker->unique()->safeEmail,
+            'discord_id' => 123456,
+            'name'       => 'test',
         ];
     }
 }
