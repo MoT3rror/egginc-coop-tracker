@@ -21,6 +21,8 @@ class Base
 
     public $parts;
 
+    public $skipMiddleWareChecks;
+
     public function __construct(int $authorId, string $authorName, ?int $guildId = null, ?int $channelId = null, $parts = [], $skipMiddleWareChecks = false)
     {
         $this->authorId = $authorId;

@@ -477,8 +477,20 @@ STATUS;
         $contract = $this->makeSampleContract();
         $coop = $this->makeSampleCoop($contract);
         $message = $this->sendDiscordMessage('remind ' . $contract->identifier . ' 1 30');
-        $this->assertEquals('Reminders set.', $message);
         \Queue::assertPushed(\App\Jobs\RemindCoopStatus::class, 2);
+        $message = preg_replace('"(https?://.*)"', '', $message);
+
+        $expect = <<<STATUS
+Ion Drive II
+Teams on Track: 1/1
+
+```
+Coop 5 | 600q | E Time | Proj/T
+------ | ---- | ------ | ------
+test 5 | 746q | CPLT   | 746q X
+```
+STATUS;
+        $this->assertEquals(['Reminders set.', $expect], $message);
     }
 
     public function testShortStatus()
