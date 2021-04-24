@@ -105,14 +105,20 @@ class Status extends Base
 
     public function getTable(Table $table, array $data): array
     {
-        $messages = $this->getStarterMessage();
-        $messages[] = '```';
-        foreach ($table->generate($data) as $row) {
-            $messages[] = $row;
+        $groupOfMessages = [$this->getStarterMessage()];
+        $tables = collect($data)->chunk(35);
+        foreach ($tables as $key => $chunk) {
+            $groupOfMessages[$key][] = '```';
+            foreach ($table->generate($chunk->all()) as $row) {
+                $groupOfMessages[$key][] = $row;
+            }
+            $groupOfMessages[$key][] = '```';
         }
-        $messages[] = '```';
 
-        return [implode("\n", $messages)];
+        foreach ($groupOfMessages as $key => $value) {
+            $groupOfMessages[$key] = implode(PHP_EOL, $value);
+        }
+        return $groupOfMessages;
     }
 
     public function message(): array
