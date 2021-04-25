@@ -119,7 +119,7 @@
                 }
 
                 axios(options).then((response) => {
-                    alert('save good')
+                    alert('The save was successfully. Boring message but great things come.')
                 }).catch(err => {
                     alert('something bad happen')
                 })
@@ -129,7 +129,13 @@
                     .filter('player_egg_rank')
                     .map((member) => {
                         member.selected = _.chain(this.coops).map('members').flatten().indexOf(member.id).value() !== -1
-                        member.text = member.username + ' - ' + member.egg_inc_username + ' - ' + member.player_egg_rank + ' - ' + _.chain(member.roles).map((role) => {return role.name}).join(', ')
+
+                        let roles = _.chain(member.roles)
+                            .filter((role) => { return role.guild_id == this.guild.id })
+                            .map((role) => { return role.name })
+                            .join(', ')
+
+                        member.text = member.username + ' - ' + member.egg_inc_username + ' - ' + member.player_egg_rank + ' - ' + roles + ' - ' + member.highest_deflector_without_percent + '%'
                         member.username_lower = _.toLower(member.username)
                         return member
                     })
@@ -143,7 +149,7 @@
                 }
 
                 axios(options).then((response) => {
-                    alert('channels made')
+                    alert('The channels have been made. Go Team!')
                 }).catch(err => {
                     alert('something bad happen')
                 })

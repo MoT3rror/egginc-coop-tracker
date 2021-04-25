@@ -97,7 +97,10 @@ class CurrentContracts extends Controller
 
     public function makeCoops(Request $request, $guildId, $contractId)
     {
-        User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'player_earning_bonus', 'egg_inc_username'], true);
+        User::setStaticAppends(
+            ['player_earning_bonus_formatted', 'player_egg_rank', 'player_earning_bonus', 'egg_inc_username', 'highest_deflector_without_percent'],
+            true
+        );
 
         $coops = Coop::contract($contractId)
             ->guild($guildId)
