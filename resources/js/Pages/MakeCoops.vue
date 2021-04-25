@@ -130,9 +130,10 @@
                     .map((member) => {
                         member.selected = _.chain(this.coops).map('members').flatten().indexOf(member.id).value() !== -1
                         member.text = member.username + ' - ' + member.egg_inc_username + ' - ' + member.player_egg_rank + ' - ' + _.chain(member.roles).map((role) => {return role.name}).join(', ')
+                        member.username_lower = _.toLower(member.username)
                         return member
                     })
-                    .orderBy(['selected', 'username'], ['asc', 'asc'])
+                    .orderBy(['selected', 'username_lower'], ['asc', 'asc'])
                     .value()
             },
             makeChannels() {
