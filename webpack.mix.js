@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const path = require('path');
+require('vuetifyjs-mix-extension')
 
 /*
  |--------------------------------------------------------------------------
@@ -20,6 +21,6 @@ mix.webpackConfig({
     },
 });
 
-mix.js('resources/js/app.js', 'public/js').version();
+mix.js('resources/js/app.js', 'public/js').vuetify('vuetify-loader').vue().version();
 mix.sass('resources/sass/app.scss', 'public/css').version();
 mix.disableSuccessNotifications();

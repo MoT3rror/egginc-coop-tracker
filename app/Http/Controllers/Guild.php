@@ -24,14 +24,23 @@ class Guild extends Controller
 
     public function settings(Request $request, $guildId)
     {
+        $guildModel = GuildModel::findByDiscordGuildId($guildId);
+        $channelCategories = $guildModel->getChannelCategories();
+
         return Inertia::render('Settings', [
-            'guildModel' => GuildModel::findByDiscordGuildId($guildId),
+            'guildModel'        => $guildModel,
+            'channelCategories' => array_values($channelCategories),
         ]);
     }
 
     public function settingsSave(Request $request, $guildId)
     {
         $guild = GuildModel::findByDiscordGuildId($guildId);
+
+        $guild->coop_channel_parent = $request->input('coop_channel_parent');
+        $guild->role_to_add_to_coop = $request->input('role_to_add_to_coop');
+        $guild->tracker_sort_by = $request->input('tracker_sort_by');
+        $guild->show_link_on_status = (int) $request->input('show_link_on_status');
 
         foreach ($request->input('roles') as $roleId => $role) {
             $roleModel = $guild->roles->find($roleId);
@@ -41,6 +50,8 @@ class Guild extends Controller
             $roleModel->part_of_team = $role['part_of_team'];
             $roleModel->save();
         }
+
+        $guild->save();
 
         return redirect()
             ->route('guild.settings', ['guildId' => $guildId])

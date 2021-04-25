@@ -11,7 +11,10 @@ class Guild extends Model
     protected $appends = ['is_bot_member_of'];
 
     protected $casts = [
-        'last_sync' => 'datetime:Y-m-d',
+        'last_sync'           => 'datetime:Y-m-d',
+        'coop_channel_parent' => 'integer',
+        'role_to_add_to_coop' => 'integer',
+        'show_link_on_status' => 'integer',
     ];
 
     protected $attributes = [
@@ -99,6 +102,15 @@ class Guild extends Model
             $users[] = $user;
         }
         $this->members()->sync($users->pluck('id'));
+    }
+
+    public function getChannelCategories(): array
+    {
+        $channels = $this->getDiscordClient()->guild->getGuildChannels(['guild.id' => (int) $this->discord_id]);
+        return collect($channels)
+            ->where('type', 4)
+            ->all()
+        ;
     }
 
     // need to setup this to run when new server is added and add webhook to monitor members

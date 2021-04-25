@@ -3,6 +3,43 @@
         <form method="post" :action="route('guild.settingsSave', {'guildId': guildModel.discord_id})">
             <input type="hidden" name="_token" :value="csrfToken" />
 
+            <h3>Guild Settings</h3>
+            <div class="form-group">
+                <v-select
+                    :items="channelCategories"
+                    label="Coop Channel Category"
+                    item-text="name"
+                    item-value="id"
+                    v-model="guildModel.coop_channel_parent"
+                    name="coop_channel_parent"
+                ></v-select>
+
+                <v-select
+                    :items="guildModel.roles"
+                    label="Role to add to Coop Channels"
+                    item-text="name"
+                    item-value="discord_id"
+                    v-model="guildModel.role_to_add_to_coop"
+                    name="role_to_add_to_coop"
+                ></v-select>
+
+                <v-select
+                    :items="trackingOptions"
+                    label="Sort by in tracker"
+                    item-text="text"
+                    item-value="option"
+                    v-model="guildModel.tracker_sort_by"
+                    name="tracker_sort_by"
+                ></v-select>
+
+                <v-checkbox
+                  v-model="guildModel.show_link_on_status"
+                  label="Show link on status"
+                  name="show_link_on_status"
+                  :value="1"
+                ></v-checkbox>
+            </div>
+
             <h3>Roles</h3>
             <table class="table table-bordered table-striped">
                 <thead>
@@ -73,6 +110,21 @@
         },
         props: {
             guildModel: Object,
+            channelCategories: Array,
+        },
+        data() {
+            return {
+                trackingOptions: [
+                    {
+                        option: 'eggs_per_second',
+                        text: 'Eggs per second',
+                    },
+                    {
+                        option: 'earning_bonus',
+                        text: 'Earning Bonus',
+                    }
+                ]
+            }
         },
         computed: {
             csrfToken() {
