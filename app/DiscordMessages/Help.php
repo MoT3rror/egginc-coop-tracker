@@ -5,6 +5,8 @@ use App\Exceptions\DiscordErrorException;
 
 class Help extends Base
 {
+    public $slashSupport = true;
+
     public function message(): string
     {
         $commands = [
@@ -48,6 +50,11 @@ class Help extends Base
 
     public function help(): string
     {
-        return 'eb!help - Display list of available commands.';
+        return 'eb!help - ' . $this->description();
+    }
+
+    public function description(): string
+    {
+        return 'Display list of available commands.';
     }
 }

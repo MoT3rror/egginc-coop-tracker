@@ -81,4 +81,22 @@ class DiscordMessage extends Controller
             return ['message' => $e->getMessage()];
         }
     }
+
+    public function slashes(): array
+    {
+        $commandsData = [];
+
+        foreach ($this->validCommands as $command => $info) {
+            $class = $info['class'];
+            $commandClass = new $class(1, 'Slashes', null, null, [], true);
+            if ($commandClass->slashSupport) {
+                $commandsData[] = [
+                    'name'        => 'eb' . $command,
+                    'description' => $commandClass->description(),
+                ];
+            }
+        }
+
+        return $commandsData;
+    }
 }
