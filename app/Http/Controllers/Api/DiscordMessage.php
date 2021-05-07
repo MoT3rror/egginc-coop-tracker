@@ -2,26 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DiscordMessages\Add;
-use App\DiscordMessages\Available;
-use App\DiscordMessages\Contracts;
-use App\DiscordMessages\CoopLeaderBoard;
-use App\DiscordMessages\Delete;
-use App\DiscordMessages\Ge;
-use App\DiscordMessages\Help;
-use App\DiscordMessages\Hi;
-use App\DiscordMessages\Love;
-use App\DiscordMessages\ModSetPlayerId;
-use App\DiscordMessages\Players;
-use App\DiscordMessages\PlayersNotInCoop;
-use App\DiscordMessages\Rank;
-use App\DiscordMessages\Remind;
-use App\DiscordMessages\Replace;
-use App\DiscordMessages\SetPlayerId;
-use App\DiscordMessages\ShortStatus;
-use App\DiscordMessages\Status;
-use App\DiscordMessages\Tracker;
-use App\DiscordMessages\Unavailable;
 use App\Exceptions\DiscordErrorException;
 use App\Http\Controllers\Controller;
 use Arr;
@@ -29,30 +9,14 @@ use Illuminate\Http\Request;
 
 class DiscordMessage extends Controller
 {
-    private $validCommands = [
-        'help'          => ['class' => Help::class],
-        'status'        => ['class' => Status::class],
-        's'             => ['class' => ShortStatus::class],
-        'contracts'     => ['class' => Contracts::class],
-        'love'          => ['class' => Love::class],
-        'hi'            => ['class' => Hi::class],
-        'add'           => ['class' => Add::class],
-        'delete'        => ['class' => Delete::class],
-        'set-player-id' => ['class' => SetPlayerId::class],
-        'players'       => ['class' => Players::class],
-        'rank'          => ['class' => Rank::class],
-        'remind'        => ['class' => Remind::class],
-        'replace'       => ['class' => Replace::class],
-        'available'     => ['class' => Available::class],
-        'unavailable'   => ['class' => Unavailable::class],
-        'tracker'       =>  ['class' => Tracker::class],
-        'players-not-in-coop' => ['class' => PlayersNotInCoop::class],
-        'ge'                  => ['class' => Ge::class],
-        'mod-set-player-id'   => ['class' => ModSetPlayerId::class],
-        'coop-leaderboard'    => ['class' => CoopLeaderBoard::class],
-    ];
-
     private $guildId;
+
+    private $validCommands;
+
+    public function __construct()
+    {
+        $this->validCommands = app()->make('DiscordMessages');
+    }
 
     public function receive(Request $request): array
     {

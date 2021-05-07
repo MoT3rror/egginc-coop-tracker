@@ -9,34 +9,15 @@ class Help extends Base
 
     public function message(): string
     {
-        $commands = [
-            Help::class,
-            Add::class,
-            Available::class,
-            Contracts::class,
-            CoopLeaderBoard::class,
-            Delete::class,
-            Ge::class,
-            Hi::class,
-            ModSetPlayerId::class,
-            Players::class,
-            PlayersNotInCoop::class,
-            Rank::class,
-            Remind::class,
-            Replace::class,
-            SetPlayerId::class,
-            Status::class,
-            ShortStatus::class,
-            Tracker::class,
-            Unavailable::class,
-        ];
+        $commands = app()->make('DiscordMessages');
 
         $message = '```' . PHP_EOL;
 
         foreach ($commands as $command) {
             $helpText = '';
+            $class = $command['class'];
             try {
-                $commandObject = new $command($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
+                $commandObject = new $class($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
                 $helpText = $commandObject->help(); 
             } catch (DiscordErrorException $e) {}
             if ($helpText) {

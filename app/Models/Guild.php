@@ -24,9 +24,7 @@ class Guild extends Model
 
     private function getBotGuilds(): array
     {
-        return Cache::remember('discord-bot-guilds', 60 * 5, function () {
-            return $this->getDiscordClient()->user->getCurrentUserGuilds();
-        });
+        return app()->make('DiscordBotGuilds');
     }
 
     public function getIsBotMemberOfAttribute(): bool
