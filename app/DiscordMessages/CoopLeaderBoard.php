@@ -17,6 +17,8 @@ class CoopLeaderBoard extends Status
 
     protected $sortByOptions = ['rate', 'eggs_laid'];
 
+    public $guildOnly = true;
+
     public function memberData(Collection $coops, bool $hideSimilarText = false): array
     {
         $membersIds = $this->guild->members->pluck('egg_inc_player_id')->map(function ($id) {
@@ -87,7 +89,7 @@ class CoopLeaderBoard extends Status
         $coops = $this->validate();
 
         if (is_string($coops)) {
-            return $coops;
+            return [$coops];
         }
 
         $parts = $this->parts;
@@ -114,5 +116,28 @@ class CoopLeaderBoard extends Status
     public function help(): string
     {
         return '{Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid';
+    }
+
+    public function description(): string
+    {
+        return 'Display all members of coops order by rate/eggs_laid';
+    }
+
+    public function options(): array
+    {
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => [
+                    [
+                        'name'  => 'Massive Mother\'s Day',
+                        'value' => 'massive-mothers-2021',
+                    ],
+                ],
+            ]
+        ];
     }
 }

@@ -29,6 +29,9 @@ class UpdateInteractions extends Command
     public function handle()
     {
         $this->setGlobalCommands();
+        foreach ($this->botGuilds() as $guild) {            
+            $this->setGuildCommands($guild->id);
+        }
     }
 
     private function setGlobalCommands()
@@ -47,15 +50,50 @@ class UpdateInteractions extends Command
             $commandData = [
                 'name'        => $commandString,
                 'description' => $commandClass->description(),
+                'options'     => $commandClass->options(),
             ];
             if ($commandClass->globalSlash) {
                 if ($currentlySetKeyed->has($commandString)) {
                     $currentlySetInfo = $currentlySetKeyed->get($commandString);
-                    if (collect($currentlySetInfo)->only(['name', 'description'])->diff($commandData)->count() !== 0) {
+                    $differences = collect($currentlySetInfo)->only(['name', 'description'])->diffAssoc($commandData);
+                    if ($differences->count() !== 0) {
                         $this->httpClient()->post('/commands', $commandData)->json();
                     }
                 } else {
                     $this->httpClient()->post('/commands', $commandData)->json();
+                }
+            }
+        }
+    }
+
+    private function setGuildCommands($guildId)
+    {
+        $currentlySet = $this->httpClient()
+            ->get('/guilds/' . $guildId . '/commands')
+        ;
+        $currentlySetKeyed = collect($currentlySet->json())->keyBy('name');
+
+        $messages = app()->make('DiscordMessages');
+
+        foreach ($messages as $command => $message) {
+            $class = $message['class'];
+            $commandClass = new $class(1, 'Slashes', null, null, [], true);
+            $commandString = 'eb' . $command;
+            $commandData = [
+                'name'        => $commandString,
+                'description' => $commandClass->description(),
+                'options'     => $commandClass->options(),
+            ];
+
+            if ($commandClass->guildOnly) {
+                if ($currentlySetKeyed->has($commandString)) {
+                    $currentlySetInfo = $currentlySetKeyed->get($commandString);
+                    //$differences = collect($currentlySetInfo)->only(['name', 'description', 'options'])->diffAssoc($commandData);
+                    //if ($differences->count() !== 0) {
+                        // $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
+                    // }
+                } else {
+                    $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
                 }
             }
         }

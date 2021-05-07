@@ -25,6 +25,8 @@ class Base
 
     public $globalSlash = false;
 
+    public $guildOnly = false;
+
     public function __construct(int $authorId, string $authorName, ?int $guildId = null, ?int $channelId = null, $parts = [], $skipMiddleWareChecks = false)
     {
         $this->authorId = $authorId;
@@ -91,5 +93,10 @@ class Base
     public function description(): string
     {
         return '';
+    }
+
+    public function options(): array
+    {
+        return [];
     }
 }

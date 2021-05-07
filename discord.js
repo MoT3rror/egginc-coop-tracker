@@ -26,6 +26,12 @@ client.on('interaction', interaction => {
 
     let content = interaction.commandName
 
+    if (interaction.options) {
+        _.forEach(interaction.options, option => {
+            content += ' ' + option.value
+        })
+    }
+
     let message = {
         atBotUser: 'eb',
         channel: {
@@ -47,7 +53,9 @@ client.on('interaction', interaction => {
         .then(function (response) {
             if (response.data.message) {
                 if (_.isArray(response.data.message)) {
-                    reply = 'More than one message. Not done yet';
+                    _.forEach(response.data.message, function (messageToSend) {
+                        reply += messageToSend
+                    })
                 } else {
                     reply = response.data.message;
                 }
