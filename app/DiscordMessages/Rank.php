@@ -9,6 +9,8 @@ class Rank extends Base
 {
     protected $middlewares = [];
 
+    public $globalSlash = true;
+
     public function message(): string
     {
         $user = User::unguarded(function () {
@@ -73,5 +75,10 @@ RANK;
     public function help(): string
     {
         return 'Get player stats/rank.';
+    }
+
+    public function description(): string
+    {
+        return $this->help();
     }
 }

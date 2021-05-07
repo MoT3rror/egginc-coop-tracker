@@ -50,6 +50,7 @@ client.on('interaction', interaction => {
             }
         })
         .catch(function (error) {
+            console.log(error)
             reply = 'An error has occurred.';
         })
         .then(() => {
