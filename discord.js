@@ -9,16 +9,6 @@ require('dotenv').config();
 
 client.on('ready', () => {
     console.log('bot is ready');
-    axios.get(process.env.DISCORD_API_URL + '/api/slashes')
-        .then(response => {
-            response.data.map(command => {
-                client.application.commands.create(command)
-
-                // client.guilds.cache.get('741338066496520192').commands.create(command);
-            })
-        })
-    ;
-
 });
 
 client.on('interaction', interaction => {

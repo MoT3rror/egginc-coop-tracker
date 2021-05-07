@@ -23,7 +23,7 @@ class Base
 
     public $skipMiddleWareChecks;
 
-    public $slashSupport = false;
+    public $globalSlash = false;
 
     public function __construct(int $authorId, string $authorName, ?int $guildId = null, ?int $channelId = null, $parts = [], $skipMiddleWareChecks = false)
     {

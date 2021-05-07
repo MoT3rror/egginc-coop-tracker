@@ -36,6 +36,11 @@ class Kernel extends ConsoleKernel
             ->weeklyOn(5, '9:00')
             ->timezone('America/Chicago')
         ;
+
+        $schedule
+            ->command('update-interactions')
+            ->everyFifteenMinutes()
+        ;
     }
 
     /**

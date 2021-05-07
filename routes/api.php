@@ -16,5 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('only-local')->group(function() {
     Route::post('discord-message', 'DiscordMessage@receive');
-    Route::get('slashes', 'DiscordMessage@slashes');
 });

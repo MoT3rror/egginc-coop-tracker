@@ -5,7 +5,7 @@ use App\Exceptions\DiscordErrorException;
 
 class Help extends Base
 {
-    public $slashSupport = true;
+    public $globalSlash = true;
 
     public function message(): string
     {
