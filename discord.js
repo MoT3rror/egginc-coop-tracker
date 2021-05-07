@@ -1,7 +1,13 @@
 'use strict';
 
 const { Client, Intents } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({
+    intents: [
+        Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_TYPING,
+        Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.DIRECT_MESSAGE_TYPING,
+    ],
+    partials: ['MESSAGE', 'CHANNEL'],
+});
 const axios = require('axios');
 const _ = require('lodash');
 
@@ -9,7 +15,7 @@ require('dotenv').config();
 
 client.on('ready', () => {
     console.log('bot is ready');
-});
+})
 
 client.on('interaction', interaction => {
     if (!interaction.isCommand()) {
@@ -56,13 +62,11 @@ client.on('interaction', interaction => {
         .then(() => {
             interaction.editReply(reply)
         })
-    ;
 })
 
 client.on('message', message => {
     let atBotUser = 'eb!';
     message.content = message.content.toLowerCase();
-
     if (message.author.bot || !message.content.startsWith(atBotUser)) {
         return;
     }
