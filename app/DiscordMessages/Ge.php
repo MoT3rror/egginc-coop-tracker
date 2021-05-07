@@ -9,6 +9,8 @@ class Ge extends Base
 {
     protected $middlewares = [];
 
+    public $globalSlash = true;
+
     public function message(): string
     {
         $user = User::unguarded(function () {
@@ -53,5 +55,10 @@ RANK;
     public function help(): string
     {
         return 'Get player golden egg stats.';
+    }
+
+    public function description(): string
+    {
+        return $this->help();
     }
 }

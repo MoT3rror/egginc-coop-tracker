@@ -5,6 +5,8 @@ use App\Models\Contract;
 
 class Contracts extends Base
 {
+    public $globalSlash = true;
+
     public function message(): string
     {
         $contracts = $this->getContractsInfo();
@@ -29,5 +31,10 @@ class Contracts extends Base
     public function help(): string
     {
         return '- Display current contracts with IDs.';
+    }
+
+    public function description(): string
+    {
+        return 'Display current contract with IDs.';
     }
 }
