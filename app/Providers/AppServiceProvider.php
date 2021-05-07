@@ -64,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
                 'add'                 => ['class' => Add::class],
                 'available'           => ['class' => Available::class],
                 'contracts'           => ['class' => Contracts::class],
+                'coopless'            => ['class' => PlayersNotInCoop::class],
                 'coop-leaderboard'    => ['class' => CoopLeaderBoard::class],
                 'delete'              => ['class' => Delete::class],
                 'ge'                  => ['class' => Ge::class],
