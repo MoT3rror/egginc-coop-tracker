@@ -13,12 +13,14 @@ class Help extends Base
 
         $message = '```' . PHP_EOL;
 
-        foreach ($commands as $command) {
+        foreach ($commands as $start => $command) {
             $helpText = '';
             $class = $command['class'];
             try {
                 $commandObject = new $class($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
-                $helpText = $commandObject->help(); 
+                if ($commandObject->help()) {
+                    $helpText = 'eb!' . $start . ' ' .  $commandObject->help(); 
+                }
             } catch (DiscordErrorException $e) {}
             if ($helpText) {
                 $message .= $helpText . PHP_EOL;
@@ -31,7 +33,7 @@ class Help extends Base
 
     public function help(): string
     {
-        return 'eb!help - ' . $this->description();
+        return '- ' . $this->description();
     }
 
     public function description(): string

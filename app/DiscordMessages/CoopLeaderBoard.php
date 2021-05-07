@@ -113,6 +113,6 @@ class CoopLeaderBoard extends Status
 
     public function help(): string
     {
-        return 'eb!coop-leaderboard {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid';
+        return '{Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid';
     }
 }

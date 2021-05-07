@@ -28,6 +28,6 @@ class Contracts extends Base
 
     public function help(): string
     {
-        return 'eb!contracts - Display current contracts with IDs.';
+        return '- Display current contracts with IDs.';
     }
 }

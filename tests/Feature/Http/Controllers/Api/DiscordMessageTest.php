@@ -151,6 +151,7 @@ class DiscordMessageTest extends TestCase
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
 eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.
 eb!contracts - Display current contracts with IDs.
+eb!coopless {Contract ID}
 eb!coop-leaderboard {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid
 eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!ge Get player golden egg stats.

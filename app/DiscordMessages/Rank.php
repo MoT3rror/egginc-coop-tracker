@@ -72,6 +72,6 @@ RANK;
 
     public function help(): string
     {
-        return 'eb!rank Get player stats/rank.';
+        return 'Get player stats/rank.';
     }
 }

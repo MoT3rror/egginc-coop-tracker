@@ -145,6 +145,6 @@ class Tracker extends Base
 
     public function help(): string
     {
-        return 'eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.';
+        return '{Contract ID} {Coop ID} - Display boost/token info for coop.';
     }
 }

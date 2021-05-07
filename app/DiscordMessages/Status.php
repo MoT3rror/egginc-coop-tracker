@@ -142,6 +142,6 @@ class Status extends Base
 
     public function help(): string
     {
-        return 'eb!status {Contract ID} - Display coop info for contract';
+        return '{Contract ID} - Display coop info for contract';
     }
 }

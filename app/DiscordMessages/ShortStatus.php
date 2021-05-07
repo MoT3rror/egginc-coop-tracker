@@ -33,6 +33,6 @@ class ShortStatus extends Status
 
     public function help(): string
     {
-        return 'eb!s {Contract ID} - Short version of status';
+        return '{Contract ID} - Short version of status';
     }
 }

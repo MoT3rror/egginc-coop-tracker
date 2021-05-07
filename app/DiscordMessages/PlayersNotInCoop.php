@@ -48,6 +48,6 @@ class PlayersNotInCoop extends Status
 
     public function help(): string
     {
-        return 'eb!players-not-in-coop {Contract ID}';
+        return '{Contract ID}';
     }
 }

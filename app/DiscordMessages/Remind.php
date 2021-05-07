@@ -49,6 +49,6 @@ class Remind extends Base
 
     public function help(): string
     {
-        return 'eb!remind {Contract ID} {Hours} {Minutes}';
+        return '{Contract ID} {Hours} {Minutes}';
     }
 }

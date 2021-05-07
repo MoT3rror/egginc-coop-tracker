@@ -41,6 +41,6 @@ class Replace extends Base
 
     public function help(): string
     {
-        return 'eb!replace {Contract ID} {Coop} {New Coop} - Replace coop name';
+        return '{Contract ID} {Coop} {New Coop} - Replace coop name';
     }
 }

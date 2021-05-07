@@ -39,6 +39,6 @@ class Available extends Base
 
     public function help(): string
     {
-        return 'eb!available {Contract ID} - Get who has not complete contract. Will not validate contract ID.';
+        return '{Contract ID} - Get who has not complete contract. Will not validate contract ID.';
     }
 }

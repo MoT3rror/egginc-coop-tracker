@@ -52,6 +52,6 @@ RANK;
 
     public function help(): string
     {
-        return 'eb!ge Get player golden egg stats.';
+        return 'Get player golden egg stats.';
     }
 }

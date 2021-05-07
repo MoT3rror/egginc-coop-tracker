@@ -39,6 +39,6 @@ class Unavailable extends Base
 
     public function help(): string
     {
-        return 'eb!unavailable {Contract ID} - Get users that do not have the contract.';
+        return '{Contract ID} - Get users that do not have the contract.';
     }
 }

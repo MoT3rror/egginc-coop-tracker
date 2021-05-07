@@ -10,6 +10,6 @@ class Hi extends Base
 
     public function help(): string
     {
-        return 'eb!hi Just say hi.';
+        return 'Just say hi.';
     }
 }

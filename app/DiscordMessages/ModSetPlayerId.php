@@ -35,6 +35,6 @@ class ModSetPlayerId extends Base
 
     public function help(): string
     {
-        return 'eb!mod-set-player-id {@user} {Egg Inc Player ID} - Player ID starts with EI (letter i)';
+        return '{@user} {Egg Inc Player ID} - Player ID starts with EI (letter i)';
     }
 }

@@ -39,6 +39,6 @@ class Delete extends Base
 
     public function help(): string
     {
-        return 'eb!delete {contractID} {Coop} - Remove coop from tracking';
+        return '{contractID} {Coop} - Remove coop from tracking';
     }
 }
