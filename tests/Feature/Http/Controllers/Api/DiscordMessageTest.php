@@ -157,6 +157,7 @@ eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!ge Get player golden egg stats.
 eb!help - Display list of available commands.
 eb!hi Just say hi.
+eb!leaders {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid
 eb!mod-set-player-id {@user} {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!players-not-in-coop {Contract ID}
 eb!rank Get player stats/rank.

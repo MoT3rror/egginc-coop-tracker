@@ -13,10 +13,10 @@ class Contract extends Model
         'expiration' => 'datetime',
     ];
 
-    public static function getAllActiveContracts()
+    public static function getAllActiveContracts($additionalDays = 0)
     {
         return self::query()
-            ->whereDate('expiration', '>', now())
+            ->whereDate('expiration', '>', now()->subDays($additionalDays))
             ->get()
         ;
     }

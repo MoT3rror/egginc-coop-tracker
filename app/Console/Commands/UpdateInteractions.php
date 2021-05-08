@@ -29,7 +29,7 @@ class UpdateInteractions extends Command
     public function handle()
     {
         $this->setGlobalCommands();
-        foreach ($this->botGuilds() as $guild) {            
+        foreach ($this->botGuilds() as $guild) {
             $this->setGuildCommands($guild->id);
         }
     }
@@ -55,8 +55,7 @@ class UpdateInteractions extends Command
             if ($commandClass->globalSlash) {
                 if ($currentlySetKeyed->has($commandString)) {
                     $currentlySetInfo = $currentlySetKeyed->get($commandString);
-                    $differences = collect($currentlySetInfo)->only(['name', 'description'])->diffAssoc($commandData);
-                    if ($differences->count() !== 0) {
+                    if ($this->compareDiscordVsOurs($currentlySetInfo, $commandData)) {
                         $this->httpClient()->post('/commands', $commandData)->json();
                     }
                 } else {
@@ -88,15 +87,28 @@ class UpdateInteractions extends Command
             if ($commandClass->guildOnly) {
                 if ($currentlySetKeyed->has($commandString)) {
                     $currentlySetInfo = $currentlySetKeyed->get($commandString);
-                    //$differences = collect($currentlySetInfo)->only(['name', 'description', 'options'])->diffAssoc($commandData);
-                    //if ($differences->count() !== 0) {
-                        // $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
-                    // }
+                    if ($this->compareDiscordVsOurs($currentlySetInfo, $commandData)) {
+                        $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
+                    }
                 } else {
                     $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
                 }
             }
         }
+    }
+
+    private function compareDiscordVsOurs($discord, $ours): bool
+    {
+        $discord = collect($discord)->only(['name', 'description', 'options']);
+        if (!$discord->has('options')) {
+            $discord['options'] = [];
+        }
+        return $this->different($discord, $ours);
+    }
+
+    private function different($array1, $array2): bool
+    {
+        return json_encode($array1) !== json_encode($array2);
     }
 
     private function httpClient()

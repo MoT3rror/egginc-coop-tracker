@@ -70,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
                 'ge'                  => ['class' => Ge::class],
                 'help'                => ['class' => Help::class],
                 'hi'                  => ['class' => Hi::class],
+                'leaders'             => ['class' => CoopLeaderBoard::class],
                 'love'                => ['class' => Love::class],
                 'mod-set-player-id'   => ['class' => ModSetPlayerId::class],
                 'players'             => ['class' => Players::class],
