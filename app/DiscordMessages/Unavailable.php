@@ -7,6 +7,8 @@ class Unavailable extends Base
 {
     protected $middlewares = ['requiresGuild'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         $guild = $this->guild;
@@ -40,5 +42,25 @@ class Unavailable extends Base
     public function help(): string
     {
         return '{Contract ID} - Get users that do not have the contract.';
+    }
+
+    public function description(): string
+    {
+        return 'Get users that do not have the contract.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+        ];
     }
 }
