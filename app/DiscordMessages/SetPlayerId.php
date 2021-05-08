@@ -8,6 +8,8 @@ class SetPlayerId extends Base
 {
     protected $middlewares = [];
 
+    public $globalSlash = true;
+
     public function message(): string
     {
         $parts = $this->parts;
@@ -27,5 +29,22 @@ class SetPlayerId extends Base
     public function help(): string
     {
         return '{Egg Inc Player ID} - Player ID starts with EI (letter i)';
+    }
+
+    public function description(): string
+    {
+        return 'Player ID starts with EI (letter i)';
+    }
+
+    public function options(): array
+    {
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'player_id',
+                'description' => 'Player ID',
+                'required'    => true,
+            ],
+        ];
     }
 }
