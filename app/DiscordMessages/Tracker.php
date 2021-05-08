@@ -19,6 +19,8 @@ class Tracker extends Base
 
     public $coop;
 
+    public $globalSlash = true;
+
     public function validate()
     {
         $parts = $this->parts;
@@ -146,5 +148,31 @@ class Tracker extends Base
     public function help(): string
     {
         return '{Contract ID} {Coop ID} - Display boost/token info for coop.';
+    }
+
+    public function description(): string
+    {
+        return 'Display boost/token info for coop.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => false,
+                'choices'     => $contracts,
+            ],
+            [
+                'type'        => 3,
+                'name'        => 'coop_id',
+                'description' => 'Coop',
+                'required'    => false,
+            ]
+        ];
     }
 }
