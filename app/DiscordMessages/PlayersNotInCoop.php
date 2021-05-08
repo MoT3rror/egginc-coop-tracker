@@ -7,8 +7,6 @@ use kbATeam\MarkdownTable\Table;
 
 class PlayersNotInCoop extends Status
 {
-    public $guildOnly = true;
-
     public function message(): array
     {
         $coops = $this->validate();
@@ -56,20 +54,5 @@ class PlayersNotInCoop extends Status
     public function description(): string
     {
         return 'Find players not in contract.';
-    }
-
-    public function options(): array
-    {
-        $contracts = $this->getAvailableContractOptions();
-
-        return [
-            [
-                'type'        => 3,
-                'name'        => 'contract_id',
-                'description' => 'Contract ID',
-                'required'    => true,
-                'choices'     => $contracts,
-            ],
-        ];
     }
 }
