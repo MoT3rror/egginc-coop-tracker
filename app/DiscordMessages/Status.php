@@ -19,6 +19,8 @@ class Status extends Base
     protected $totalTeams = 0;
 
     protected $teamsOnTrack = 0;
+
+    public $guildOnly = true;
     
     public function coops(string $contract): Collection
     {
@@ -143,5 +145,25 @@ class Status extends Base
     public function help(): string
     {
         return '{Contract ID} - Display coop info for contract';
+    }
+
+    public function description(): string
+    {
+        return 'Display coop info for contract';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+        ];
     }
 }

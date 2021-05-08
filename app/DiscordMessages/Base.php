@@ -99,4 +99,17 @@ class Base
     {
         return [];
     }
+
+    public function getAvailableContractOptions(): array
+    {
+        return Contract::getAllActiveContracts(7)
+            ->map(function ($contract) {
+                return [
+                    'name'  => $contract->name,
+                    'value' => $contract->identifier,
+                ];
+            })
+            ->all()
+        ;
+    }
 }

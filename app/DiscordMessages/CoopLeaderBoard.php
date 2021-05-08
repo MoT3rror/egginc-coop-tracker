@@ -4,7 +4,6 @@ namespace App\DiscordMessages;
 use App\Formatters\Egg;
 use App\Exceptions\CoopNotFoundException;
 use App\Exceptions\DiscordErrorException;
-use App\Models\Contract;
 use App\Models\Coop;
 use Arr;
 use Illuminate\Database\Eloquent\Collection;
@@ -126,14 +125,7 @@ class CoopLeaderBoard extends Status
 
     public function options(): array
     {
-        $contracts = Contract::getAllActiveContracts(7)
-            ->map(function ($contract) {
-                return [
-                    'name'  => $contract->name,
-                    'value' => $contract->identifier,
-                ];
-            })
-        ;
+        $contracts = $this->getAvailableContractOptions();
 
         return [
             [
