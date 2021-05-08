@@ -7,6 +7,8 @@ class Available extends Base
 {
     protected $middlewares = ['requiresGuild'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         $guild = $this->guild;
@@ -40,5 +42,25 @@ class Available extends Base
     public function help(): string
     {
         return '{Contract ID} - Get who has not complete contract. Will not validate contract ID.';
+    }
+
+    public function description(): string
+    {
+        return 'Get who has not complete contract. Will not validate contract ID.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+        ];
     }
 }
