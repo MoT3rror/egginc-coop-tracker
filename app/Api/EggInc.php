@@ -27,6 +27,11 @@ class EggInc
                 throw new CoopNotFoundException;
             }
             Log::channel('coop')->info(json_encode($output));
+
+            if (!isset($output->members)) {
+                throw new CoopNotFoundException;
+            }
+
             return $output;
         });
     }
