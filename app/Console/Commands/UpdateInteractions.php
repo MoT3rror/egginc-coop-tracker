@@ -72,9 +72,13 @@ class UpdateInteractions extends Command
 
     private function setGuildCommands($guildId)
     {
-        $currentlySet = $this->httpClient()
-            ->get('/guilds/' . $guildId . '/commands')
-        ;
+        try {
+            $currentlySet = $this->httpClient()
+                ->get('/guilds/' . $guildId . '/commands')
+            ;
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return;
+        }
         $currentlySetKeyed = collect($currentlySet->json())->keyBy('name');
 
         $messages = app()->make('DiscordMessages');
