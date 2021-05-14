@@ -189,4 +189,11 @@ class UserTest extends TestCase
 
         $this->assertEquals($expects, $actual);
     }
+
+    public function testNeedsToCompleteContract()
+    {
+        $user = $this->getUser('mot3rror');
+
+        $this->assertTrue($user->hasCompletedContract('pumpkin-1'));
+    }
 }

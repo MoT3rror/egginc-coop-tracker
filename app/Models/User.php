@@ -338,6 +338,11 @@ class User extends Authenticatable
         return $complete;
     }
 
+    public function hasCompletedContract($contractId): bool
+    {
+        return in_array($contractId, $this->getCompleteContractsAttribute());
+    }
+
     public function getHighestDeflectorWithoutPercentAttribute(): int
     {
         $info = $this->getEggPlayerInfo(); 

@@ -30,6 +30,9 @@ class PlayersNotInCoop extends Status
             ->withEggIncId()
             ->partOfTeam($this->guild)
             ->get()
+            ->filter(function($user) {
+                return !$user->hasCompletedContract($this->parts[1]);
+            })
         ;
 
         foreach ($members as $key => $member) {
