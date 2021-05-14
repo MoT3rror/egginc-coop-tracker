@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
                 'replace'             => ['class' => Replace::class],
                 'set-player-id'       => ['class' => SetPlayerId::class],
                 'status'              => ['class' => Status::class],
-                's'                   => ['class' => ShortStatus::class],
+                'short-status'        => ['class' => ShortStatus::class],
                 'tracker'             => ['class' => Tracker::class],
                 'unavailable'         => ['class' => Unavailable::class],
             ];

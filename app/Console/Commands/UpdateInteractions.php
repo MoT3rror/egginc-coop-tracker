@@ -58,10 +58,15 @@ class UpdateInteractions extends Command
                     if ($this->compareDiscordVsOurs($currentlySetInfo, $commandData)) {
                         $this->httpClient()->post('/commands', $commandData)->json();
                     }
+                    unset($currentlySetKeyed[$commandString]);
                 } else {
                     $this->httpClient()->post('/commands', $commandData)->json();
                 }
             }
+        }
+
+        foreach ($currentlySetKeyed as $command) {
+            $this->httpClient()->delete('/guilds/' . $guildId . '/commands/' . $command['id']);
         }
     }
 
@@ -90,10 +95,15 @@ class UpdateInteractions extends Command
                     if ($this->compareDiscordVsOurs($currentlySetInfo, $commandData)) {
                         $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
                     }
+                    unset($currentlySetKeyed[$commandString]);
                 } else {
                     $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
                 }
             }
+        }
+
+        foreach ($currentlySetKeyed as $command) {
+            $this->httpClient()->delete('/guilds/' . $guildId . '/commands/' . $command['id']);
         }
     }
 
@@ -116,6 +126,9 @@ class UpdateInteractions extends Command
         return $currentlySet = Http::withHeaders([
             'Authorization' => 'Bot ' . config('services.discord.token'),
         ])
+            ->withOptions([
+                'http_errors' => true,
+            ])
             ->baseUrl('https://discord.com/api/v8/applications/' . config('services.discord.client_id'))
         ;
     }

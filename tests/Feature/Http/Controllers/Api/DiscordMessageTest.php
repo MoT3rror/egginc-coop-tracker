@@ -165,7 +165,7 @@ eb!remind {Contract ID} {Hours} {Minutes}
 eb!replace {Contract ID} {Coop} {New Coop} - Replace coop name
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!status {Contract ID} - Display coop info for contract
-eb!s {Contract ID} - Short version of status
+eb!short-status {Contract ID} - Short version of status
 eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.
 eb!unavailable {Contract ID} - Get users that do not have the contract.
 ```
@@ -511,7 +511,7 @@ STATUS;
         $this->makeSampleCoop($contract, 'honeyadv2');
         $this->makeSampleCoop($contract, 'honeyadv3');
 
-        $message = $this->sendDiscordMessage('s ' . $contract->identifier);
+        $message = $this->sendDiscordMessage('short-status ' . $contract->identifier);
         $expect = <<<STATUS
 Ion Drive II
 ```
