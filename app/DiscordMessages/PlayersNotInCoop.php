@@ -34,7 +34,7 @@ class PlayersNotInCoop extends Status
                 return !$user->hasCompletedContract($this->parts[1]);
             })
             ->filter(function($user) use ($players) {
-                return in_array($user->egg_inc_player_id, $players);
+                return !in_array($user->egg_inc_player_id, $players);
             })
         ;
 
