@@ -9,6 +9,7 @@ class Role extends Model
         'show_role'              => 'boolean',
         'is_admin'               => 'boolean',
         'part_of_team'           => 'boolean',
+        'discord_id'             => 'string',
     ];
 
     public function members()

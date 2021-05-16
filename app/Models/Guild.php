@@ -12,8 +12,8 @@ class Guild extends Model
 
     protected $casts = [
         'last_sync'           => 'datetime:Y-m-d',
-        'coop_channel_parent' => 'integer',
-        'role_to_add_to_coop' => 'integer',
+        'coop_channel_parent' => 'string',
+        'role_to_add_to_coop' => 'string',
         'show_link_on_status' => 'integer',
     ];
 
@@ -107,6 +107,11 @@ class Guild extends Model
         $channels = $this->getDiscordClient()->guild->getGuildChannels(['guild.id' => (int) $this->discord_id]);
         return collect($channels)
             ->where('type', 4)
+            ->map(function ($channel) {
+                $channel = (array) $channel;
+                $channel['id'] = (string) $channel['id'];
+                return $channel;
+            })
             ->all()
         ;
     }
