@@ -113,7 +113,7 @@ class CoopTest extends TestCase
         $expected = $this->initialMessage();
         $actual = $coop->getInitialMessage();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals([$expected], $actual);
     }
 
     public function testMakeChannels(): Coop

@@ -215,16 +215,21 @@ class Coop extends Model
         return $permissions;
     }
 
-    public function getInitialMessage(): string
+    public function getInitialMessage(): array
     {
+        $messages = [];
         $message = [$this->contractModel()->name . ' - ' . $this->coop];
 
-        foreach ($this->members as $member) {
-            $roles = $member->user->roles->where('guild_id', $this->guild()->id)->where('show_role', true)->pluck('name')->join(', ');
-            $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $roles . ' - ' . $member->user->getHighestDeflectorAttribute();
+        foreach ($this->members->chunk(30) as $chunk) {
+            foreach ($chunk as $member) {
+                $roles = $member->user->roles->where('guild_id', $this->guild()->id)->where('show_role', true)->pluck('name')->join(', ');
+                $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $roles . ' - ' . $member->user->getHighestDeflectorAttribute();
+            }
+            $messages[] = implode(PHP_EOL, $message);
+            $message = [];
         }
 
-        return implode(PHP_EOL, $message);
+        return $messages;
     }
 
     public function makeChannel()
@@ -249,10 +254,12 @@ class Coop extends Model
         $this->channel_id = $result->id;
         $this->save();
 
-        $this->getDiscordClient()->channel->createMessage([
-            'channel.id' => $this->channel_id,
-            'content'    => $this->getInitialMessage(),
-        ]);
+        foreach ($this->getInitialMessage() as $message) {
+            $this->getDiscordClient()->channel->createMessage([
+                'channel.id' => $this->channel_id,
+                'content'    => $message,
+            ]);
+        }
     }
 
     public function contractModel(): Contract
