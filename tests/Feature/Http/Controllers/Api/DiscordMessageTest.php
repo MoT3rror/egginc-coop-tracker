@@ -166,13 +166,6 @@ HELP;
         $this->assertEquals($expect, $message);
     }
 
-    public function testHi()
-    {
-        $message = $this->sendDiscordMessage('hi');
-
-        $this->assertEquals('Hello <@123456>!', $message);
-    }
-
     public function testCurrentContracts()
     {
         $contract = $this->makeSampleContract(['expiration' => now()->addDays(7)]);
