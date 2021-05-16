@@ -454,6 +454,7 @@ message CoopStatus {
     int32 _7 = 7;                   // unknown; example: 7
     double earning_bonus_oom = 11;  // EB is 10^(earning_bonus_oom + 2)%
     int32 tokens = 12;
+    bool leech = 16;
   }
   repeated Member members = 4;
   double seconds_until_production_deadline = 5;

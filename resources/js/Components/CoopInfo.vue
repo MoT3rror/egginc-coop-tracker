@@ -77,6 +77,11 @@
                             v-if="member.timeCheatDetected"
                             title="Cheating"
                         ></i>
+                        <i
+                            class="fas thumbs-down"
+                            v-if="member.leech"
+                            title="Leeching"
+                        ></i>
                     </td>
                     <td>
                         <EggFormater :eggs="member.eggsLaid" />
