@@ -135,13 +135,6 @@ class DiscordMessageTest extends TestCase
         });
     }
 
-    public function testLove()
-    {
-        $message = $this->sendDiscordMessage('love');
-
-        $this->assertEquals('What is this thing called love?', $message);
-    }
-
     public function testHelp()
     {
         $message = $this->sendDiscordMessage('help');
