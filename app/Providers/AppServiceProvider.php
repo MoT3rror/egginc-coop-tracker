@@ -6,6 +6,7 @@ use App\Api\EggInc;
 use App\DiscordMessages\Add;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\Contracts;
+use App\DiscordMessages\Contributions;
 use App\DiscordMessages\CoopLeaderBoard;
 use App\DiscordMessages\Delete;
 use App\DiscordMessages\Ge;
@@ -64,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
                 'add'                 => ['class' => Add::class],
                 'available'           => ['class' => Available::class],
                 'contracts'           => ['class' => Contracts::class],
+                'contributions'       => ['class' => Contributions::class],
                 'coopless'            => ['class' => PlayersNotInCoop::class],
                 'coop-leaderboard'    => ['class' => CoopLeaderBoard::class],
                 'delete'              => ['class' => Delete::class],
