@@ -42,6 +42,9 @@ class Players extends Base
                 case 'highest_deflector':
                     $table->addColumn('highest_deflector', new Column('Deflector', Column::ALIGN_LEFT));
                     break;
+                case 'eb_player':
+                    $table->addColumn('eb_player', new Column('EB Player', Column::ALIGN_LEFT));
+                    break;
             }
         }
 
@@ -55,6 +58,7 @@ class Players extends Base
                     'rank'          => str_replace('farmer', '', $user->getPlayerEggRank()),
                     'earning_bonus' => $user->getPlayerEarningBonusFormatted(),
                     'highest_deflector' => $user->getHighestDeflectorAttribute(),
+                    'eb_player'     => $user->getEggIncUsernameAttribute(),
                 ];
             }
 
