@@ -80,7 +80,7 @@ class Contributions extends Status
     {
         $groupOfMessages = [implode("\n", $this->getStarterMessage()) . "\n"];
 
-        foreach (collect($data)->chunk(35) as $index => $chunk) {
+        foreach (collect($data)->chunk(25) as $index => $chunk) {
             $messages = ['```'];
             foreach ($table->generate($chunk->all()) as $row) {
                 $messages[] = $row;
