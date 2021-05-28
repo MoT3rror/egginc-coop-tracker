@@ -19,6 +19,8 @@ class Available extends Base
             return 'Contract ID is required.';
         }
 
+        $contract = $this->getContractInfo($contractId);
+
         $guild->sync();
         $users = $guild
             ->members()
@@ -32,11 +34,13 @@ class Available extends Base
                 return !in_array($contractId, $user->getCompleteContractsAttribute());
             })
         ;
-        if ($users->count() == 0) {
+        if ($users->count() === 0) {
             return 'All users have completed the contract.';
         }
 
-        return '- ' . $users->implode('username', PHP_EOL . '- ');
+        $message = $contract->name . ' (' . $users->count() . ')' . PHP_EOL;
+
+        return $message . '- ' . $users->implode('username', PHP_EOL . '- ');
     }
 
     public function help(): string
