@@ -320,7 +320,7 @@ class User extends Authenticatable
     {
         $info = $this->getEggPlayerInfo(); 
 
-        if (!$info) {
+        if (!$info || !object_get($info, 'contracts.pastContracts')) {
             return [];
         }
 
@@ -347,7 +347,7 @@ class User extends Authenticatable
     {
         $info = $this->getEggPlayerInfo(); 
 
-        if (!$info) {
+        if (!$info || !object_get($info, 'artifactsDb.inventoryItems')) {
             return 0;
         }
         $inventoryitems = collect($info->artifactsDb->inventoryItems)
