@@ -27,7 +27,7 @@ class Players extends Base
                     case 'highest_deflector':
                         return $user->getHighestDeflectorWithoutPercentAttribute();
                     case 'eb_player':
-                        return $user->getEggIncUsernameAttribute();
+                        return strtolower($user->getEggIncUsernameAttribute());
                     case 'pe':
                         return $user->getEggsOfProphecyAttribute();
                     case 'soul_eggs':
@@ -39,7 +39,7 @@ class Players extends Base
                     default:
                         return $user->getPlayerEarningBonus();
                 }
-            }, SORT_REGULAR, true)
+            }, SORT_REGULAR, Arr::get($parts, 1) !== 'eb_player')
             ->chunk(10)
         ;
 
@@ -106,6 +106,6 @@ class Players extends Base
 
     public function help(): string
     {
-        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges';
+        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges. Sorts by the first column.';
     }
 }
