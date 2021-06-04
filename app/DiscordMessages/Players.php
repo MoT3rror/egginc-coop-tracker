@@ -3,6 +3,7 @@ namespace App\DiscordMessages;
 
 use kbATeam\MarkdownTable\Column;
 use kbATeam\MarkdownTable\Table;
+use Illuminate\Support\Arr;
 
 class Players extends Base
 {
@@ -19,8 +20,25 @@ class Players extends Base
             ->withEggIncId()
             ->inShowRoles($this->guild)
             ->get()
-            ->sortBy(function ($user) {
-                return $user->getPlayerEarningBonus();
+            ->sortBy(function ($user) use ($parts) {
+                switch (Arr::get($parts, 1)) {
+                    case 'egg_id':
+                        return $user->egg_inc_player_id;
+                    case 'highest_deflector':
+                        return $user->getHighestDeflectorWithoutPercentAttribute();
+                    case 'eb_player':
+                        return $user->getEggIncUsernameAttribute();
+                    case 'pe':
+                        return $user->getEggsOfProphecyAttribute();
+                    case 'soul_eggs':
+                        return $user->getSoulEggsAttribute();
+                    case 'prestiges':
+                        return $user->getPrestigesAttribute();
+                    case 'rank':
+                    case 'earning_bonus':
+                    default:
+                        return $user->getPlayerEarningBonus();
+                }
             }, SORT_REGULAR, true)
             ->chunk(10)
         ;
@@ -45,6 +63,15 @@ class Players extends Base
                 case 'eb_player':
                     $table->addColumn('eb_player', new Column('EB Player', Column::ALIGN_LEFT));
                     break;
+                case 'pe':
+                    $table->addColumn('pe', new Column('PE', Column::ALIGN_LEFT));
+                    break;
+                case 'soul_eggs':
+                    $table->addColumn('soul_eggs', new Column('Soul Eggs', Column::ALIGN_RIGHT));
+                    break;
+                case 'prestiges':
+                    $table->addColumn('prestiges', new Column('Prestiges', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -53,12 +80,15 @@ class Players extends Base
             $data = [];
             foreach ($users as $user) {
                 $data[] = [
-                    'discord'       => $user->username,
-                    'egg_inc'       => $user->egg_inc_player_id,
-                    'rank'          => str_replace('farmer', '', $user->getPlayerEggRank()),
-                    'earning_bonus' => $user->getPlayerEarningBonusFormatted(),
+                    'discord'           => $user->username,
+                    'egg_inc'           => $user->egg_inc_player_id,
+                    'rank'              => str_replace('farmer', '', $user->getPlayerEggRank()),
+                    'earning_bonus'     => $user->getPlayerEarningBonusFormatted(),
                     'highest_deflector' => $user->getHighestDeflectorAttribute(),
-                    'eb_player'     => $user->getEggIncUsernameAttribute(),
+                    'eb_player'         => $user->getEggIncUsernameAttribute(),
+                    'pe'                => $user->getEggsOfProphecyAttribute(),
+                    'soul_eggs'         => $user->getSoulEggsFormattedAttribute(),
+                    'prestiges'         => $user->getPrestigesAttribute(),
                 ];
             }
 
@@ -74,11 +104,8 @@ class Players extends Base
         return $groupOfMessages;
     }
 
-    /**
-     * this commands works but has issues. Discord has message limit. Formatting just doesn't flow like coop status does
-     */
     public function help(): string
     {
-        return '';
+        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges';
     }
 }
