@@ -53,10 +53,18 @@ class Tracker extends Base
         foreach ($members as $member) {
             $showDecimals = $member->eggsPerSecond * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
             $boosted = $member->eggsPerSecond * 60 * 60 > (1.2 * pow(10, 15));
+            $status = 'A';
+            if (!object_get($member, 'active')) {
+                $status = 'Z';
+            }
+            if (object_get($member, 'leech')) {
+                $status = 'L';
+            }
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
                 'tokens'  => object_get($member, 'tokens', 0),
+                'status'  => $status,
             ];
         }
 
@@ -136,6 +144,7 @@ class Tracker extends Base
         $table->addColumn('name', new Column('Boosted/Name', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
         $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
+        $table->addColumn('status', new Column('S', Column::ALIGN_LEFT));
 
         try {
             $coopData = $this->coopData();

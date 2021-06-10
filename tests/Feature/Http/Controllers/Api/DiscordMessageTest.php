@@ -677,13 +677,13 @@ Projected Eggs: 746q/600q
 Estimate/Time Left: CPLT/Past Due
 Members: 5/5
 ```
-Boosted/Name | Rate  | Tokens
------------- | ----- | ------
-X SukiDevil  | 3.77q | 83    
-X elbee1     | 3.77q | 102   
-X SuchPerson | 3.77q | 93    
-  27ThePulse | 4T    | 67    
-  Parasbabü  | 108T  | 56    
+Boosted/Name | Rate  | Tokens | S  
+------------ | ----- | ------ | ---
+X SukiDevil  | 3.77q | 83     | Z  
+X elbee1     | 3.77q | 102    | Z  
+X SuchPerson | 3.77q | 93     | Z  
+  27ThePulse | 4T    | 67     | Z  
+  Parasbabü  | 108T  | 56     | Z  
 ```
 STATUS;
 
