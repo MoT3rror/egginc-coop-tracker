@@ -1,6 +1,7 @@
 <?php
 namespace App\DiscordMessages;
 
+use App\Formatters\Egg;
 use kbATeam\MarkdownTable\Column;
 use kbATeam\MarkdownTable\Table;
 use Illuminate\Support\Arr;
@@ -34,6 +35,8 @@ class Players extends Base
                         return $user->getSoulEggsAttribute();
                     case 'prestiges':
                         return $user->getPrestigesAttribute();
+                    case 'se_divide_by_prestiges':
+                        return $user->getSoulEggsAttribute() / $user->getPrestigesAttribute();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -72,6 +75,9 @@ class Players extends Base
                 case 'prestiges':
                     $table->addColumn('prestiges', new Column('Prestiges', Column::ALIGN_RIGHT));
                     break;
+                case 'se_divide_by_prestiges':
+                    $table->addColumn('se_divide_by_prestiges', new Column('SE/Prestiges', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -79,16 +85,18 @@ class Players extends Base
         foreach ($chuckOfUsers as $users) {
             $data = [];
             foreach ($users as $user) {
+                $seDivideByPrestiges = resolve(Egg::class)->format($user->getSoulEggsAttribute() / $user->getPrestigesAttribute(), 3);
                 $data[] = [
-                    'discord'           => $user->username,
-                    'egg_inc'           => $user->egg_inc_player_id,
-                    'rank'              => str_replace('farmer', '', $user->getPlayerEggRank()),
-                    'earning_bonus'     => $user->getPlayerEarningBonusFormatted(),
-                    'highest_deflector' => $user->getHighestDeflectorAttribute(),
-                    'eb_player'         => $user->getEggIncUsernameAttribute(),
-                    'pe'                => $user->getEggsOfProphecyAttribute(),
-                    'soul_eggs'         => $user->getSoulEggsFormattedAttribute(),
-                    'prestiges'         => $user->getPrestigesAttribute(),
+                    'discord'                => $user->username,
+                    'egg_inc'                => $user->egg_inc_player_id,
+                    'rank'                   => str_replace('farmer', '', $user->getPlayerEggRank()),
+                    'earning_bonus'          => $user->getPlayerEarningBonusFormatted(),
+                    'highest_deflector'      => $user->getHighestDeflectorAttribute(),
+                    'eb_player'              => $user->getEggIncUsernameAttribute(),
+                    'pe'                     => $user->getEggsOfProphecyAttribute(),
+                    'soul_eggs'              => $user->getSoulEggsFormattedAttribute(),
+                    'prestiges'              => $user->getPrestigesAttribute(),
+                    'se_divide_by_prestiges' => $seDivideByPrestiges,
                 ];
             }
 
@@ -106,6 +114,6 @@ class Players extends Base
 
     public function help(): string
     {
-        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges. Sorts by the first column.';
+        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges, se_divide_by_prestiges. Sorts by the first column.';
     }
 }
