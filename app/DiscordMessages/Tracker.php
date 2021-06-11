@@ -88,6 +88,7 @@ class Tracker extends Base
     {
         $groupOfMessages = [implode("\n", $this->starterMessage()) . "\n"];
 
+        $ids = [];
         foreach (collect($data)->chunk(35) as $index => $chunk) {
             $messages = ['```'];
             foreach ($table->generate($chunk->all()) as $row) {
@@ -101,6 +102,20 @@ class Tracker extends Base
 
             $groupOfMessages[$index] .= implode("\n", $messages);
         }
+
+        if ($this->coop->id) {
+            $coopMembersIn = collect($this->coop->getCoopInfo()->members)->pluck('id')->all();
+            $usersNotIn = collect([]);
+            foreach ($this->coop->members as $member) {
+                if (!in_array(strtoupper($member->user->egg_inc_player_id), $coopMembersIn)) {
+                    $usersNotIn[] = $member->user;
+                }
+            }
+
+            if (count($usersNotIn) > 0) {
+                $groupOfMessages[$index] .= PHP_EOL . 'Missing:' . PHP_EOL . '- ' . $usersNotIn->implode('username', PHP_EOL . '- ');
+            }
+        } 
 
         return $groupOfMessages;
     }
