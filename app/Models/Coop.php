@@ -122,6 +122,10 @@ class Coop extends Model
 
         $seconds = ceil($this->getEggsLeftNeeded() / $this->getTotalRate());
 
+        if ($seconds > 60 * 60 * 24 * 30) {
+            return 'months';
+        }
+
         return resolve(TimeLeft::class)
             ->format($seconds)
         ;
