@@ -266,6 +266,15 @@ class Coop extends Model
         }
     }
 
+    public function deleteChannel()
+    {
+        if ($this->channel_id) {
+            $this->getDiscordClient()->channel->deleteOrcloseChannel([
+                'channel.id' => (int) $this->channel_id,
+            ]);
+        }
+    }
+
     public function contractModel(): Contract
     {
         return $this->belongsTo(Contract::class, 'contract', 'identifier')->first();
