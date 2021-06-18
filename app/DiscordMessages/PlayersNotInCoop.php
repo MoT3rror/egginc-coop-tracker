@@ -23,6 +23,7 @@ class PlayersNotInCoop extends Status
             }
         }
         $players = array_map('strtolower', $players);
+        $contract = $this->getContractInfo($this->parts[1]);
 
         $this->guild->sync();
         $members = $this->guild
@@ -43,7 +44,11 @@ class PlayersNotInCoop extends Status
                 return $user->getPlayerEarningBonus();
             }, SORT_REGULAR, true)
         ;
-        return ['- ' . $members->implode('username_with_roles', PHP_EOL . '- ')];
+
+        return [
+            $contract->name . ' (' . $members->count() . ')' . PHP_EOL .
+            '- ' . $members->implode('username_with_roles', PHP_EOL . '- ')
+        ];
     }
 
     public function help(): string
