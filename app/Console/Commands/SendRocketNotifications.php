@@ -41,11 +41,12 @@ class SendRocketNotifications extends Command
                 if ($mission->status != 'EXPLORING') {
                     continue;
                 }
-                if ($mission->secondsRemaining > 60 * 20) {
+                $timeLeft = $mission->durationSeconds + round($mission->startTimeDerived) - time();
+                if ($timeLeft > 60 * 20) {
                     continue;
                 }
 
-                SendRocketNotification::dispatch($user, $mission)->delay(now()->addSeconds($mission->secondsRemaining));
+                SendRocketNotification::dispatch($user, $mission)->delay(now()->addSeconds($timeLeft));
                 break;
             }
         }
