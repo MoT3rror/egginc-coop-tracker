@@ -1,7 +1,7 @@
 <?php
 namespace App\DiscordMessages;
 
-class UnsubscribeToRockets extends base
+class UnsubscribeToRockets extends Base
 {
     public function message(): string
     {
