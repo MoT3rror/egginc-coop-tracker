@@ -12,6 +12,7 @@ use App\DiscordMessages\CoopLeaderBoard;
 use App\DiscordMessages\Delete;
 use App\DiscordMessages\DeleteChannels;
 use App\DiscordMessages\Ge;
+use App\DiscordMessages\GetMyId;
 use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
 use App\DiscordMessages\Love;
@@ -75,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
                 'delete'              => ['class' => Delete::class],
                 'delete-channels'     => ['class' => DeleteChannels::class],
                 'ge'                  => ['class' => Ge::class],
+                'get-my-id'           => ['class' => GetMyId::class],
                 'help'                => ['class' => Help::class],
                 'hi'                  => ['class' => Hi::class],
                 'leaders'             => ['class' => CoopLeaderBoard::class],
