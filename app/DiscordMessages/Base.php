@@ -52,7 +52,7 @@ class Base
         return Guild::findByDiscordGuildId($this->guildId);
     }
     
-    private function isAdmin()
+    public function isAdmin()
     {
         $this->guild->sync();
         $admin = false;

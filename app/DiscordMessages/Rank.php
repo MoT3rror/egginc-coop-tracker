@@ -3,6 +3,7 @@ namespace App\DiscordMessages;
 
 use App\Models\User;
 use App\Exceptions\UserNotFoundException;
+use Arr;
 use Cache;
 
 class Rank extends Base
@@ -23,6 +24,16 @@ class Rank extends Base
                 ]
             );
         });
+
+        if (Arr::get($this->parts, 1)) {
+            $this->isAdmin();
+
+            $discordId = str_replace(['<@!', '<@', '>'], '', $this->parts[1]);
+            $user = $this->guild->members->firstWhere('discord_id', $discordId);
+            if (!$user) {
+                return 'User not found';
+            }
+        }
 
         if (!$user->egg_inc_player_id) {
             return 'Egg Inc Player ID not set. Use `eb!set-player-id {id}` to set.';
