@@ -8,6 +8,6 @@ class SubscribeToRockets extends Base
         $this->user->subscribe_to_rockets = true;
         $this->user->save();
 
-        return 'You are now subscribe for rocket notifications. Use `eb!unsubscribe-to-rockets` to remove.';
+        return 'You are now subscribed for rocket notifications. Use `eb!unsubscribe-to-rockets` to remove.';
     }
 }

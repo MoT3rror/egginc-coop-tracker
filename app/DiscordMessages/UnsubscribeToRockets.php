@@ -8,6 +8,6 @@ class UnsubscribeToRockets extends Base
         $this->user->subscribe_to_rockets = false;
         $this->user->save();
 
-        return 'You are now unsubscribe for rocket notifications. Use `eb!subscribe-to-rockets` to get notifications again.';
+        return 'You are now unsubscribed for rocket notifications. Use `eb!subscribe-to-rockets` to get notifications again.';
     }
 }
