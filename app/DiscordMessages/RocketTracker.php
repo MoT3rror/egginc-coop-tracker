@@ -23,7 +23,8 @@ class RocketTracker extends Base
             if ($mission->status != 'EXPLORING') {
                 continue;
             }
-            $message[] =  $mission->ship . ' - ' . resolve(TimeLeft::class)->format($mission->durationSeconds + round($mission->startTimeDerived) - time(), false, true);
+            $timeLeft = round($mission->secondsRemaining) - (time() - $playerInfo->approxTimestamp);
+            $message[] =  $mission->ship . ' - ' . resolve(TimeLeft::class)->format($timeLeft, false, true, false);
         }
         return implode(PHP_EOL, $message);
     }

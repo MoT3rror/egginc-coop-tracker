@@ -41,7 +41,7 @@ class SendRocketNotifications extends Command
                 if ($mission->status != 'EXPLORING') {
                     continue;
                 }
-                $timeLeft = $mission->durationSeconds + round($mission->startTimeDerived) - time();
+                $timeLeft = round($mission->secondsRemaining) - (time() - $playerInfo->approxTimestamp);
                 if ($timeLeft > 60 * 20) {
                     continue;
                 }
