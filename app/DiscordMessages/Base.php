@@ -4,12 +4,15 @@ namespace App\DiscordMessages;
 use App\Exceptions\DiscordErrorException;
 use App\Models\Contract;
 use App\Models\Guild;
+use App\Models\User;
 
 class Base
 {
     public $authorId;
 
     public $authorName;
+
+    public $user;
 
     public $guildId;
 
@@ -34,7 +37,8 @@ class Base
         $this->guildId = $guildId;
         $this->parts = $parts;
         $this->channelId = $channelId;
-
+        
+        $this->setUser();
         if ($this->guildId) {
             $this->guild = $this->setGuild();
         }
@@ -45,6 +49,20 @@ class Base
         foreach ($this->middlewares as $middleware) {
             $this->$middleware();
         }
+    }
+
+    private function setUser()
+    {
+        $this->user = User::unguarded(function () {
+            return User::firstOrCreate(
+                [
+                    'discord_id' => $this->authorId,
+                ],
+                [
+                    'username' => $this->authorName,
+                ]
+            );
+        });
     }
 
     private function setGuild(): Guild

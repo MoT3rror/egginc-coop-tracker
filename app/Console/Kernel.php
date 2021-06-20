@@ -41,6 +41,11 @@ class Kernel extends ConsoleKernel
             ->command('update-interactions')
             ->everyFifteenMinutes()
         ;
+
+        $schedule
+            ->command('send-rocket-notifications')
+            ->everyFifteenMinutes()
+        ;
     }
 
     /**
