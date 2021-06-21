@@ -112,7 +112,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         RateLimiter::for('rocket-notification', function ($job) {
-            return Limit::perHour(1)->by($job->uniqueId());
+            return Limit::perHour(7 * 24)->by($job->uniqueId());
         });
     }
 }
