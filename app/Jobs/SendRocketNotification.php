@@ -18,6 +18,8 @@ class SendRocketNotification implements ShouldQueue
 
     public $mission;
 
+    public $tries = 1;
+
     /**
      * Create a new job instance.
      *
@@ -27,11 +29,6 @@ class SendRocketNotification implements ShouldQueue
     {
         $this->user = $user;
         $this->mission = $mission;
-    }
-
-    public function middleware()
-    {
-        return [new RateLimited('rocket-notification')];
     }
 
     /**
@@ -49,16 +46,5 @@ class SendRocketNotification implements ShouldQueue
             'channel.id' => $channel->id,
             'content'    => $this->mission->ship . ' has returned.  Use `eb!unsubscribe-to-rockets` to be removed.',
         ]);
-    }
-
-
-    /**
-     * The unique ID of the job.
-     *
-     * @return string
-     */
-    public function uniqueId()
-    {
-        return $this->user->id . $this->mission->identifier;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SendRocketNotification;
+use App\Models\RocketNotification;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -29,7 +30,7 @@ class SendRocketNotifications extends Command
      */
     public function handle()
     {
-        $users = User::where('subscribe_to_rockets', true)->get();
+        $users = User::where('subscribe_to_rockets', true)->where('id', 1)->get();
         foreach ($users as $user) {
             $playerInfo = $user->getEggPlayerInfo();
 
@@ -45,6 +46,12 @@ class SendRocketNotifications extends Command
                 if ($timeLeft > 60 * 20) {
                     continue;
                 }
+
+                $notification = RocketNotification::firstWhere('mission_id', $mission->identifier);
+                if ($notification) {
+                    continue;
+                }
+                RocketNotification::create(['mission_id' => $mission->identifier]);
 
                 SendRocketNotification::dispatch($user, $mission)->delay(now()->addSeconds($timeLeft));
                 break;

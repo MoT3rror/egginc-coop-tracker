@@ -34,8 +34,6 @@ use App\Formatters\EarningBonus;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
 use Cache;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use RestCord\DiscordClient;
 
@@ -111,8 +109,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        RateLimiter::for('rocket-notification', function ($job) {
-            return Limit::perHour(7 * 24)->by($job->uniqueId());
-        });
+        
     }
 }
