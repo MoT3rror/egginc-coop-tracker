@@ -34,7 +34,7 @@ class SendRocketNotifications extends Command
         foreach ($users as $user) {
             $playerInfo = $user->getEggPlayerInfo();
 
-            if (!$playerInfo) {
+            if (!$playerInfo || !object_get($playerInfo, 'artifactsDb.missionInfos')) {
                 continue;
             }
 
