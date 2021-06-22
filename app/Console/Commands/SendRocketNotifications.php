@@ -30,7 +30,7 @@ class SendRocketNotifications extends Command
      */
     public function handle()
     {
-        $users = User::where('subscribe_to_rockets', true)->where('id', 1)->get();
+        $users = User::where('subscribe_to_rockets', true)->get();
         foreach ($users as $user) {
             $playerInfo = $user->getEggPlayerInfo();
 
