@@ -54,7 +54,6 @@ class SendRocketNotifications extends Command
                 RocketNotification::create(['mission_id' => $mission->identifier]);
 
                 SendRocketNotification::dispatch($user, $mission)->delay(now()->addSeconds($timeLeft));
-                break;
             }
         }
     }
