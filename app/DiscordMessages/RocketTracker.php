@@ -6,6 +6,8 @@ use Cache;
 
 class RocketTracker extends Base
 {
+    public $globalSlash = true;
+
     public function message(): string
     {
         if (!$this->user->egg_inc_player_id) {
@@ -27,5 +29,15 @@ class RocketTracker extends Base
             $message[] =  $mission->ship . ' - ' . ($timeLeft > 0 ? resolve(TimeLeft::class)->format($timeLeft, false, true, false) : 'Ready to Collect');
         }
         return implode(PHP_EOL, $message);
+    }
+
+    public function help(): string
+    {
+        return 'Get current status of rockets. Time left might be off by a couple of minutes because of backup/sync times.';
+    }
+
+    public function description(): string
+    {
+        return 'Get current status of rockets.';
     }
 }
