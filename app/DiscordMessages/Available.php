@@ -35,7 +35,7 @@ class Available extends Base
             })
         ;
         if ($users->count() === 0) {
-            return 'All users have completed the contract.';
+            return 'All users have completed this contract.';
         }
 
         $message = $contract->name . ' (' . $users->count() . ')' . PHP_EOL;
