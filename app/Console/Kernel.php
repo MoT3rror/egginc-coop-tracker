@@ -46,6 +46,8 @@ class Kernel extends ConsoleKernel
             ->command('send-rocket-notifications')
             ->everyFifteenMinutes()
         ;
+
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**
