@@ -47,7 +47,7 @@ class BootWarning extends Status
                     $type .= ' Sleeping';
                 }
                 if ($player->leech) {
-                    $type .= ' Leech';
+                    $type .= ' Low Rate';
                 }
                 $inTrouble .= $member->username . $type . PHP_EOL;
             }
