@@ -23,6 +23,7 @@ eb!delete {contractID} {Coop} - Remove coop from tracking
 eb!delete-channels {Contract ID} - Delete coop channels in mass.
 eb!ge Get player golden egg stats.
 eb!get-my-id - Get current set Egg Player ID.
+eb!get-player-id - Get current set Egg Player ID of user.
 eb!help - Display list of available commands.
 eb!hi Just say hi.
 eb!leaders {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid

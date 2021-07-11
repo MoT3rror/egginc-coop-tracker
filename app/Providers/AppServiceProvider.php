@@ -13,6 +13,7 @@ use App\DiscordMessages\Delete;
 use App\DiscordMessages\DeleteChannels;
 use App\DiscordMessages\Ge;
 use App\DiscordMessages\GetMyId;
+use App\DiscordMessages\GetPlayerId;
 use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
 use App\DiscordMessages\Love;
@@ -80,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
                 'delete-channels'        => ['class' => DeleteChannels::class],
                 'ge'                     => ['class' => Ge::class],
                 'get-my-id'              => ['class' => GetMyId::class],
+                'get-player-id'          => ['class' => GetPlayerId::class],
                 'help'                   => ['class' => Help::class],
                 'hi'                     => ['class' => Hi::class],
                 'leaders'                => ['class' => CoopLeaderBoard::class],
