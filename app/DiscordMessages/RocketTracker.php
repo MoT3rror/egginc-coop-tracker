@@ -33,7 +33,7 @@ class RocketTracker extends Base
 
     public function help(): string
     {
-        return 'Get current status of rockets. Time left might be off by a couple of minutes because of backup/sync times.';
+        return '- Get current status of rockets. Time left might be off by a couple of minutes because of backup/sync times.';
     }
 
     public function description(): string

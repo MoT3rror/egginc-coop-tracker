@@ -20,7 +20,9 @@ eb!contributions {Contract ID} - Display all members of coops order by eggs laid
 eb!coopless {Contract ID} - Find players not in contract.
 eb!coop-leaderboard {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid
 eb!delete {contractID} {Coop} - Remove coop from tracking
+eb!delete-channels {Contract ID} - Delete coop channels in mass.
 eb!ge Get player golden egg stats.
+eb!get-my-id - Get current set Egg Player ID.
 eb!help - Display list of available commands.
 eb!hi Just say hi.
 eb!leaders {Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid
@@ -30,11 +32,14 @@ eb!players-not-in-coop {Contract ID} - Find players not in contract.
 eb!rank Get player stats/rank.
 eb!remind {Contract ID} {Hours} {Minutes}
 eb!replace {Contract ID} {Coop} {New Coop} - Replace coop name
+eb!rocket-tracker - Get current status of rockets. Time left might be off by a couple of minutes because of backup/sync times.
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
-eb!status {Contract ID} - Display coop info for contract
 eb!short-status {Contract ID} - Short version of status
+eb!status {Contract ID} - Display coop info for contract
+eb!subscribe-to-rockets - Subscribe to notifications when your rockets come back.
 eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.
 eb!unavailable {Contract ID} - Get users that do not have the contract.
+eb!unsubscribe-to-rockets - Unsubscribe to notifications when your rockets come back.
 ```
 HELP;
         $actual = $message->message();

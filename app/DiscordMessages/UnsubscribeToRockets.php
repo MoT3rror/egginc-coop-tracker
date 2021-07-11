@@ -15,7 +15,7 @@ class UnsubscribeToRockets extends Base
 
     public function help(): string
     {
-        return 'Unsubscribe to notifications when your rockets come back.';
+        return '- Unsubscribe to notifications when your rockets come back.';
     }
 
     public function description(): string

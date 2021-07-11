@@ -436,6 +436,7 @@ Total Golden Eggs: 170,060,259
 Drones/Elite: 56,680/2,543
 Prestiges: 223
 Boosts Used: 1,593
+Soul Eggs Per Prestige: 84q
 ```
 RANK;
         $this->assertEquals($message, $expect);
@@ -581,6 +582,7 @@ Total Golden Eggs: 170,060,259
 Drones/Elite: 56,680/2,543
 Prestiges: 223
 Boosts Used: 1,593
+Soul Eggs Per Prestige: 84q
 ```
 RANK;
         $this->assertEquals($expect, $message);
@@ -616,6 +618,8 @@ RANK;
 
     public function testWhoHasCompleteContractWithAlreadyComplete()
     {
+        $this->makeSampleContract();
+
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
             $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
 
@@ -627,15 +631,17 @@ RANK;
         }));
 
         $this->testSetPlayerId();
-        $message = $this->sendDiscordMessage('available laurel-v-yanny');
+        $message = $this->sendDiscordMessage('available ion-production-2021');
 
-        $expect = 'All users have completed the contract.';
+        $expect = 'Ion Drive II (1)' . PHP_EOL . '- Test';
 
         $this->assertEquals($expect, $message);
     }
 
     public function testHelpless()
     {
+        $this->makeSampleContract();
+
         $this->instance(EggInc::class, Mockery::mock(EggInc::class, function ($mock) {
             $player = json_decode(file_get_contents(base_path('tests/files/mot3rror-player-info.json')));
 
@@ -647,9 +653,9 @@ RANK;
         }));
 
         $this->testSetPlayerId();
-        $message = $this->sendDiscordMessage('unavailable laurel-v-yanny');
+        $message = $this->sendDiscordMessage('unavailable ion-production-2021');
 
-        $expect = '- Test';
+        $expect = 'All users need to complete this contract.';
 
         $this->assertEquals($expect, $message);
     }
@@ -774,6 +780,7 @@ STATUS;
 
         $message = $this->sendDiscordMessage('players-not-in-coop ' . $contract->identifier);
         $expect = <<<STATUS
+Ion Drive II (1)
 - Test ()
 STATUS;
 

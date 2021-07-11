@@ -15,7 +15,7 @@ class SubscribeToRockets extends Base
 
     public function help(): string
     {
-        return 'Subscribe to notifications when your rockets come back.';
+        return '- Subscribe to notifications when your rockets come back.';
     }
 
     public function description(): string

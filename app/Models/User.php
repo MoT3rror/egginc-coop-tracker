@@ -161,6 +161,16 @@ class User extends Authenticatable
         return resolve(Egg::class)->format($this->getSoulEggsAttribute(), 3);
     }
 
+    public function getSoulEggsPerPrestige(): float
+    {
+        return $this->getSoulEggsAttribute() / $this->getPrestigesAttribute();
+    }
+
+    public function getSoulEggsPerPrestigeFormatted(): string
+    {
+        return resolve(Egg::class)->format($this->getSoulEggsPerPrestige());
+    }
+
     public function getPlayerEarningBonusFormatted(): string
     {
         return resolve(EarningBonus::class)->format($this->getPlayerEarningBonus());

@@ -34,11 +34,11 @@ class GetMyId extends Base
 
     public function help(): string
     {
-        return 'Get current set Egg Player ID.';
+        return '- Get current set Egg Player ID.';
     }
 
     public function description(): string
     {
-        return $this->help();
+        return 'Get current set Egg Player ID.';
     }
 }

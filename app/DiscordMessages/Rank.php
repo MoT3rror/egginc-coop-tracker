@@ -57,6 +57,7 @@ class Rank extends Base
         $boostsUsed = number_format($user->getBoostsUsedAttribute());
         $liftTimeGoldenEggs = number_format($user->getLifeTimeGoldenEggsAttribute());
         $currentGoldenEggs = number_format($user->getCurrentGoldenEggs());
+        $soulEggsPerPrestige = $user->getSoulEggsPerPrestigeFormatted();
         $roles = $user
             ->roles
             ->where('show_role')
@@ -79,6 +80,7 @@ Total Golden Eggs: $liftTimeGoldenEggs
 Drones/Elite: {$drones}/{$eliteDrones}
 Prestiges: $prestiges
 Boosts Used: $boostsUsed
+Soul Eggs Per Prestige: $soulEggsPerPrestige
 ```
 RANK;
     }
