@@ -9,7 +9,7 @@ class HelpTest extends Base
     public function testMessage()
     {
         $message = $this->makeDiscordMessage(Help::class);
-        $expects = <<<HELP
+        $expects = [<<<HELP
 ```
 eb!add {Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.
 eb!atrisk {Contract ID} - Coop Member Status.
@@ -36,13 +36,18 @@ eb!replace {Contract ID} {Coop} {New Coop} - Replace coop name
 eb!rocket-tracker - Get current status of rockets. Time left might be off by a couple of minutes because of backup/sync times.
 eb!set-player-id {Egg Inc Player ID} - Player ID starts with EI (letter i)
 eb!short-status {Contract ID} - Short version of status
+```
+HELP,
+            <<<HELP
+```
 eb!status {Contract ID} - Display coop info for contract
 eb!subscribe-to-rockets - Subscribe to notifications when your rockets come back.
 eb!tracker {Contract ID} {Coop ID} - Display boost/token info for coop.
 eb!unavailable {Contract ID} - Get users that do not have the contract.
 eb!unsubscribe-to-rockets - Unsubscribe to notifications when your rockets come back.
 ```
-HELP;
+HELP,
+];
         $actual = $message->message();
         $this->assertEquals($expects, $actual);
     }

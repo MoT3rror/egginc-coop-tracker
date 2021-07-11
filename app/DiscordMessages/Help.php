@@ -7,13 +7,16 @@ class Help extends Base
 {
     public $globalSlash = true;
 
-    public function message(): string
+    public function message(): array
     {
         $commands = app()->make('DiscordMessages');
 
+        $messages = [];
         $message = '```' . PHP_EOL;
 
+        $count = 0;
         foreach ($commands as $start => $command) {
+            $count++;
             $helpText = '';
             $class = $command['class'];
             try {
@@ -25,10 +28,17 @@ class Help extends Base
             if ($helpText) {
                 $message .= $helpText . PHP_EOL;
             }
+
+            if ($count > 25) {
+                $messages[] = $message . '```';
+                $message = '```' . PHP_EOL;
+                $count = 0;
+            }
         }
 
         $message .= '```';
-        return $message;
+        $messages[] = $message;
+        return $messages;
     }
 
     public function help(): string
