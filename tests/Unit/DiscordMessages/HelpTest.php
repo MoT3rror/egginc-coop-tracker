@@ -51,4 +51,12 @@ HELP,
         $actual = $message->message();
         $this->assertEquals($expects, $actual);
     }
+
+    public function testSingleHelp()
+    {
+        $message = $this->makeDiscordMessage(Help::class, ['help', 'players']);
+        $expects = ['eb!players {columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges, se_divide_by_prestiges. Sorts by the first column.'];
+        $actual = $message->message();
+        $this->assertEquals($expects, $actual);
+    }
 }

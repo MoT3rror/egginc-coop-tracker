@@ -11,6 +11,23 @@ class Help extends Base
     {
         $commands = app()->make('DiscordMessages');
 
+        if (count($this->parts) > 1) {
+            if (array_key_exists($this->parts[1], $commands)) {
+                $command = $commands[$this->parts[1]];
+                $start = $this->parts[1];
+                $class = $command['class'];
+                try {
+                    $commandObject = new $class($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
+                    if ($commandObject->help()) {
+                        return ['eb!' . $start . ' ' .  $commandObject->help()];
+                    }
+                } catch (DiscordErrorException $e) {
+                    return 'Command not found';
+                }
+            }
+            return 'Command not found';
+        }
+
         $messages = [];
         $message = '```' . PHP_EOL;
 
