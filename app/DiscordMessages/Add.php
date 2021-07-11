@@ -7,10 +7,27 @@ use Arr;
 
 class Add extends Base
 {
-    protected $middlewares = ['requiresGuild', 'isAdmin'];
+    protected $middlewares = ['requiresGuild',];
+
+    protected function canAdd()
+    {
+        $this->guild->sync();
+        $admin = false;
+        foreach ($this->guild->roles as $role) {
+            if (($role->is_admin || $role->can_add) && $role->members->contains('discord_id', $this->authorId))  {
+                $admin = true;
+                break;
+            }
+        }
+        if (!$admin) {
+            throw new DiscordErrorException('You are not allowed to do that.');
+        }
+    }
 
     public function message(): string
     {
+        $this->canAdd();
+
         $parts = $this->parts;
 
         if (!Arr::get($parts, 1)) {

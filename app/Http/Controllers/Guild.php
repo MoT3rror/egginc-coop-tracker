@@ -48,6 +48,7 @@ class Guild extends Controller
             $roleModel->show_members_on_roster = $role['show_members_on_roster'];
             $roleModel->show_role = $role['show_role'];
             $roleModel->part_of_team = $role['part_of_team'];
+            $roleModel->can_add = $role['can_add'];
             $roleModel->save();
         }
 

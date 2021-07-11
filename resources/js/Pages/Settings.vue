@@ -46,6 +46,7 @@
                     <tr>
                         <th>Role Name</th>
                         <th>Is Admin</th>
+                        <th>Can add coops</th>
                         <th>Show Member on Roster</th>
                         <th>Show Role for member</th>
                         <th>Part of team</th>
@@ -63,6 +64,15 @@
                                 :name="'roles[' + role.id + '][is_admin]'"
                                 value="1"
                                 :checked="role.is_admin"
+                            />
+                        </td>
+                        <td>
+                            <input type="hidden" :name="'roles[' + role.id + '][can_add]'" value="0" />
+                            <input
+                                type="checkbox"
+                                :name="'roles[' + role.id + '][can_add]'"
+                                value="1"
+                                :checked="role.can_add"
                             />
                         </td>
                         <td>
