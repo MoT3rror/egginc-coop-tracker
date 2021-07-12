@@ -19,7 +19,7 @@ class ModSetPlayerId extends Base
 
         $this->guild->sync();
 
-        $userId = str_replace(['<@!', '>'], '', $parts[1]);
+        $userId = str_replace(['<@!', '<@', '>'], '', $parts[1]);
 
         $user = User::query()->discordId($userId)->first();
 
