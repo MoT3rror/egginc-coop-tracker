@@ -9,6 +9,7 @@ const EggIncApi = require('./egg-inc-api');
 // web server around the API
 // setup express
 const app = express().set('env', process.env.NODE_ENV || 'development');
+app.set('json escape', true)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -33,7 +34,16 @@ app.get('/getCoopStatus', (req, res, next) => {
 
 app.get('/getPlayerInfo', (req, res, next) => {
     EggIncApi.getPlayerInfo(req.query.playerId).then((data) => {
-        res.send(data.payload.data);
+
+        data.payload.data.contracts.activeContracts.forEach((contract) => {
+            contract.props.description = ''
+        })
+
+        data.payload.data.contracts.pastContracts.forEach((contract) => {
+            contract.props.description = ''
+        })
+
+        res.json(data.payload.data);
     }).catch((error) => {
         console.error(error);
         return next(new createError.InternalServerError(error));
@@ -56,7 +66,7 @@ app.get('/getPlayerInfos', (req, res, next) => {
     }
     // run
     EggIncApi.getPlayerInfos(ids).then((data) => {
-        res.send(data);
+        res.json(data);
     }).catch((error) => {
         console.error(error);
         //return next(error);

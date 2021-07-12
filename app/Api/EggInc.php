@@ -51,7 +51,8 @@ class EggInc
 
         return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 4, function () use ($playerId) {
             $response = $this->getHttpClient()->get('getPlayerInfo', ['playerId' => strtoupper($playerId)]);
-            $player = json_decode($response->body());
+            $json = $response->body();
+            $player = json_decode($json, null, 512, JSON_THROW_ON_ERROR);
 
             if (!$player || !isset($player->approxTimestamp) || !$player->approxTimestamp) {
                 throw new UserNotFoundException('User not found');
