@@ -53,8 +53,12 @@ client.on('interaction', interaction => {
         .then(function (response) {
             if (response.data.message) {
                 if (_.isArray(response.data.message)) {
-                    _.forEach(response.data.message, function (messageToSend) {
-                        reply += messageToSend
+                    response.data.message.forEach((messageToSend, i) =>  {
+                        if (i == 0) {
+                            reply = messageToSend
+                        } else {
+                            interaction.channel.send(messageToSend)
+                        }
                     })
                 } else {
                     reply = response.data.message;
