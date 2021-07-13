@@ -451,7 +451,7 @@ message CoopStatus {
                       // have this field set to false
     int64 _5 = 5;     // unknown; example: 1 or 2
     double eggs_per_second = 6;
-    int64 time_cheat_detected = 7;
+    bool time_cheat_detected = 7;
     double earning_bonus_oom = 11;  // EB is 10^(earning_bonus_oom + 2)%
     int64 tokens = 12;
     bool leech = 16;
