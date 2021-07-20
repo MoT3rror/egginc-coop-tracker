@@ -71,7 +71,7 @@
 
     let generateRandomNumber = (numberOfCharacters) => {
         var randomValues = ''
-        var stringValues = 'abcdefghijklmnopqrstuvwxyz'
+        var stringValues = 'abcdefghjkmnpqrstuvwxyz'
         var sizeOfCharacter = stringValues.length
         for (var i = 0; i < numberOfCharacters; i++) {
             randomValues = randomValues+stringValues.charAt(Math.floor(Math.random() * sizeOfCharacter))
