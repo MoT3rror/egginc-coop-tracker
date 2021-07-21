@@ -36,7 +36,7 @@ class RemindUnfilled extends Base
             )->delay(now()->addMinutes($i));
         }
 
-        $status = new Status(
+        $status = new Unfilled(
             $this->authorId,
             $this->authorName,
             $this->guildId,
