@@ -18,15 +18,16 @@ class Unfilled extends Status
             $this->totalTeams++;
             $coopName = $hideSimilarText ? str_replace($similarPart, '', $coop->coop) : $coop->coop;
             try {
+                $isOnTrack = $coop->getIsOnTrackAttribute();
+                if ($isOnTrack) {
+                    $this->teamsOnTrack++;
+                }
+                
                 if ($coop->contractModel()->getMaxCoopSize() <= $coop->getMembers()) {
                     continue;
                 }
 
-                $isOnTrack = $coop->getIsOnTrackAttribute();
 
-                if ($isOnTrack) {
-                    $this->teamsOnTrack++;
-                }
                 $data[] = [
                     'name'      => $coopName . ' ' . $coop->getMembers() . '',
                     'progress'  => $coop->getCurrentEggsFormatted(),
