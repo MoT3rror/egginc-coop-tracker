@@ -24,6 +24,7 @@ use App\DiscordMessages\Players;
 use App\DiscordMessages\PlayersNotInCoop;
 use App\DiscordMessages\Rank;
 use App\DiscordMessages\Remind;
+use App\DiscordMessages\RemindUnfilled;
 use App\DiscordMessages\Replace;
 use App\DiscordMessages\RocketTracker;
 use App\DiscordMessages\SetPlayerId;
@@ -96,6 +97,7 @@ class AppServiceProvider extends ServiceProvider
                 'players-not-in-coop'    => ['class' => PlayersNotInCoop::class],
                 'rank'                   => ['class' => Rank::class],
                 'remind'                 => ['class' => Remind::class],
+                'remind-unfilled'        => ['class' => RemindUnfilled::class],
                 'replace'                => ['class' => Replace::class],
                 'rocket-tracker'         => ['class' => RocketTracker::class],
                 'set-player-id'          => ['class' => SetPlayerId::class],
