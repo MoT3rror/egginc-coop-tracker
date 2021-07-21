@@ -110,9 +110,14 @@ class Coop extends Model
         return $this->getEggsNeeded() - $this->getCurrentEggs();
     }
 
+    public function isComplete(): bool
+    {
+        return $this->getEggsLeftNeeded() < 0;
+    }
+
     public function getEstimateCompletion(): string
     {
-        if ($this->getEggsLeftNeeded() < 0) {
+        if ($this->isComplete()) {
             return 'CPLT';
         }
 
