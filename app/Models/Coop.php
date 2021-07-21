@@ -172,6 +172,15 @@ class Coop extends Model
         return count($this->getCoopInfo()->members);
     }
 
+    public function getCreator(): string
+    {
+        return collect($this->getCoopInfo()->members)
+            ->where('id', $this->getCoopInfo()->creatorId)
+            ->first()
+            ->name
+        ;
+    }
+
     public function getContractSize(): int
     {
         if (!$this->getContractInfo()) {
