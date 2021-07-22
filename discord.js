@@ -17,18 +17,20 @@ client.on('ready', () => {
     console.log('bot is ready');
 })
 
-client.on('interaction', interaction => {
+client.on('interactionCreate', interaction => {
     if (!interaction.isCommand()) {
         return
     }
 
-    interaction.reply('Loading')
+    interaction.defer()
 
     let content = interaction.commandName
 
     if (interaction.options) {
-        _.forEach(interaction.options, option => {
-            content += ' ' + option.value
+        _.forEach(interaction.options._hoistedOptions, option => {
+            if (option) {
+                content += ' ' + option.value
+            }
         })
     }
 
