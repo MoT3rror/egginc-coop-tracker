@@ -20,6 +20,7 @@ class Home extends Controller
             if (!$guilds) {
                 $guilds = new \StdClass;
             }
+            $user->load('userStats');
         }
 
         return Inertia::render('Home', [
@@ -27,5 +28,21 @@ class Home extends Controller
             'playerInfo' => $playerInfo,
             'user'       => $user,
         ]);
+    }
+
+    public function profile(Request $request)
+    {
+        $user = $request->user()->makeVisible('egg_inc_player_id');
+        return Inertia::render('Profile', ['user' => $user]);
+    }
+
+    public function profileSave(Request $request)
+    {
+        $user = $request->user();
+        $user->egg_inc_player_id = $request->input('egg_inc_player_id');
+        $user->keep_stats = (bool) $request->input('keep_stats');
+
+        $user->save();
+        return redirect(route('profile'));
     }
 }

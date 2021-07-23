@@ -7,6 +7,7 @@ use App\Formatters\EarningBonus;
 use App\Formatters\Egg;
 use App\Exceptions\UserNotFoundException;
 use Cache;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +23,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'discord_token_expires' => 'datetime',
+        'keep_stats' => 'boolean',
     ];
 
     protected $appends = ['player_earning_bonus_formatted', 'player_egg_rank', 'drones', 'soul_eggs', 'eggs_of_prophecy', 'player_earning_bonus', 'soul_eggs_needed_for_next_rank', 'p_e_needed_for_next_rank', 'egg_inc_username', 'highest_deflector'];
@@ -91,6 +93,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function userStats()
+    {
+        return $this->hasMany(UserStats::class);
     }
 
     public function getEggPlayerInfo(): ?StdClass
@@ -426,6 +433,21 @@ class User extends Authenticatable
         ;
 
         return $this->username . ' (' . $roles . ')';
+    }
+
+    public function createUserStat()
+    {
+        $statData = [
+            'soul_eggs'     => $this->getSoulEggsAttribute(),
+            'prestige_eggs' => $this->getEggsOfProphecyAttribute(),
+            'golden_eggs'   => $this->getCurrentGoldenEggs(),
+            'prestiges'     => $this->getPrestigesAttribute(),
+            'drones'        => $this->getDronesAttribute(),
+            'elite_drones'  => $this->getEliteDronesAttribute(),
+            'record_time'   => Carbon::now(),
+        ];
+
+        $this->userStats()->create($statData);
     }
 
     public function scopeWithEggIncId($query)

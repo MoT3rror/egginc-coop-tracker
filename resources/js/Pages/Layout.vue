@@ -37,7 +37,7 @@
                                 <a class="nav-link" :href="route('discord-login')">Login from Discord</a>
                             </li>
                             <li class="nav-item" v-if="$parent.$page.user">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" :href="route('profile')">
                                     {{ $parent.$page.user.username }}
                                 </a>
                             </li>

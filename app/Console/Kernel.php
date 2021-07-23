@@ -48,6 +48,12 @@ class Kernel extends ConsoleKernel
         ;
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
+        $schedule
+            ->command('update-user-stats')
+            ->dailyAt('0:00')
+            ->timezone('America/Chicago')
+        ;
     }
 
     /**

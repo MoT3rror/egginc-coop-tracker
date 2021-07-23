@@ -3,14 +3,6 @@
         <template v-if="$parent.$page.user">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Your Contracts</h2>
-                    <div class="list-group" v-if="playerInfo">
-                        <div class="list-group-item" v-for="contract in playerInfo.contracts.activeContracts">
-                            <h3>{{ contract.props.name }} - {{ contract.id }}</h3>
-                            
-                        </div>
-                    </div>
-
                     <h2>Discord Servers With EggBert</h2>
 
                     <div class="list-group">
@@ -57,6 +49,13 @@
                         </p>
                     </div>
                 </div>
+
+                <div class="col-lg-12">
+                    <UserStats :userStats="user.user_stats" label="Golden Eggs" dataKey="golden_eggs"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="Drones" dataKey="drones"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="Elite Drones" dataKey="elite_drones"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="PE" dataKey="prestige_eggs"></UserStats>
+                </div>
             </div>
         </template>
 
@@ -69,11 +68,13 @@
 <script>
     import Layout from './Layout'
     import EggFormater from '../Components/EggFormater'
+    import UserStats from '../Components/UserStats'
 
     export default {
         components: {
             Layout,
             EggFormater,
+            UserStats,
         },
         props: {
             guilds: Object,
