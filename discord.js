@@ -22,60 +22,61 @@ client.on('interactionCreate', interaction => {
         return
     }
 
-    interaction.defer()
+    interaction.defer().then(() => {
+        let content = interaction.commandName
 
-    let content = interaction.commandName
-
-    if (interaction.options) {
-        _.forEach(interaction.options._hoistedOptions, option => {
-            if (option) {
-                content += ' ' + option.value
-            }
-        })
-    }
-
-    let message = {
-        atBotUser: 'eb',
-        channel: {
-            id: interaction.channelID,
-            guild: {
-                id: interaction.guildID,
-            }
-        },
-        content: content,
-        author: {
-            id: interaction.user.id,
-            username: interaction.user.username,
-        }
-    }
-
-    let reply = '';
-
-    axios.post(process.env.DISCORD_API_URL + '/api/discord-message', message)
-        .then(function (response) {
-            if (response.data.message) {
-                if (_.isArray(response.data.message)) {
-                    response.data.message.forEach((messageToSend, i) =>  {
-                        if (i == 0) {
-                            reply = messageToSend
-                        } else {
-                            interaction.channel.send(messageToSend)
-                        }
-                    })
-                } else {
-                    reply = response.data.message;
+        if (interaction.options) {
+            _.forEach(interaction.options._hoistedOptions, option => {
+                if (option) {
+                    content += ' ' + option.value
                 }
-            } else {
-                reply = 'I have nothing to say.';
+            })
+        }
+
+        let message = {
+            atBotUser: 'eb',
+            channel: {
+                id: interaction.channelId,
+                guild: {
+                    id: interaction.guildId,
+                }
+            },
+            content: content,
+            author: {
+                id: interaction.user.id,
+                username: interaction.user.username,
             }
-        })
-        .catch(function (error) {
-            console.log(error)
-            reply = 'An error has occurred.';
-        })
-        .then(() => {
-            interaction.editReply(reply)
-        })
+        }
+
+        let reply = ''
+
+        axios.post(process.env.DISCORD_API_URL + '/api/discord-message', message)
+            .then(function (response) {
+                if (response.data.message) {
+                    if (_.isArray(response.data.message)) {
+                        response.data.message.forEach((messageToSend, i) =>  {
+                            if (i == 0) {
+                                reply = messageToSend
+                            } else {
+                                interaction.channel.send(messageToSend)
+                            }
+                        })
+                    } else {
+                        reply = response.data.message;
+                    }
+                } else {
+                    reply = 'I have nothing to say.';
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+                reply = 'An error has occurred.';
+            })
+            .then(() => {
+                interaction.editReply(reply)
+            })
+    })
+
 })
 
 client.on('message', message => {
