@@ -22,7 +22,7 @@
                 .value()
 
             let data = {
-                labels: [_.keys(dataSet)],
+                labels: _.keys(dataSet),
                 datasets: [
                     {
                         label: this.label,
