@@ -10,13 +10,14 @@ class UserStats extends Model
     use HasFactory;
 
     protected $casts = [
-        'prestige_eggs' => 'integer',
-        'golden_eggs'   => 'integer',
-        'prestiges'     => 'integer',
-        'drones'        => 'integer',
-        'elite_drones'  => 'integer',
-        'record_time'   => 'datetime',
+        'prestige_eggs'     => 'integer',
+        'golden_eggs'       => 'integer',
+        'total_golden_eggs' => 'integer',
+        'prestiges'         => 'integer',
+        'drones'            => 'integer',
+        'elite_drones'      => 'integer',
+        'record_time'       => 'datetime',
     ];
 
-    protected $fillable = ['prestige_eggs', 'soul_eggs', 'golden_eggs', 'prestiges', 'drones', 'elite_drones', 'record_time'];
+    protected $fillable = ['prestige_eggs', 'soul_eggs', 'golden_eggs', 'prestiges', 'drones', 'elite_drones', 'record_time', 'total_golden_eggs'];
 }

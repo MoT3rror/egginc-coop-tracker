@@ -438,13 +438,14 @@ class User extends Authenticatable
     public function createUserStat()
     {
         $statData = [
-            'soul_eggs'     => $this->getSoulEggsAttribute(),
-            'prestige_eggs' => $this->getEggsOfProphecyAttribute(),
-            'golden_eggs'   => $this->getCurrentGoldenEggs(),
-            'prestiges'     => $this->getPrestigesAttribute(),
-            'drones'        => $this->getDronesAttribute(),
-            'elite_drones'  => $this->getEliteDronesAttribute(),
-            'record_time'   => Carbon::now(),
+            'soul_eggs'         => $this->getSoulEggsAttribute(),
+            'prestige_eggs'     => $this->getEggsOfProphecyAttribute(),
+            'golden_eggs'       => $this->getCurrentGoldenEggs(),
+            'prestiges'         => $this->getPrestigesAttribute(),
+            'drones'            => $this->getDronesAttribute(),
+            'elite_drones'      => $this->getEliteDronesAttribute(),
+            'total_golden_eggs' => $this->getLifeTimeGoldenEggsAttribute(),
+            'record_time'       => Carbon::now(),
         ];
 
         $this->userStats()->create($statData);
