@@ -85,7 +85,7 @@ client.on('message', message => {
         return;
     }
 
-    message.channel.startTyping();
+    // message.channel.startTyping();
 
     let messageDetails = message.toJSON();
     messageDetails.atBotUser = atBotUser;
@@ -107,12 +107,12 @@ client.on('message', message => {
                 message.channel.send('I have nothing to say.');
             }
 
-            message.channel.stopTyping();
+            // message.channel.stopTyping();
         })
         .catch(function (error) {
             message.channel.send('An error has occurred.');
 
-            message.channel.stopTyping();
+            // message.channel.stopTyping();
         })
     ;
 })
