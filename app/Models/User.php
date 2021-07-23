@@ -71,7 +71,7 @@ class User extends Authenticatable
                 $guild->id = (string) $guild->id;
                 $guildModel = Guild::findByDiscordGuild($guild);
 
-                if (!$guild->isAdmin && !$guildModel->getIsBotMemberOfAttribute()) {
+                if (!$guildModel->getIsBotMemberOfAttribute()) {
                     unset($guilds[$key]);
                     continue;
                 }
