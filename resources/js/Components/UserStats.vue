@@ -18,7 +18,7 @@
                 options.tooltips = {
                     callbacks: {
                         label: toolTipItem => {
-                            return (new EggFormatter).format(toolTipItem.yLabel)
+                            return (new EggFormatter).format(toolTipItem.yLabel) + ' - ' + (this.showRole ? (new EggFormatter).role(toolTipItem.yLabel) : '')
                         }
                     }
                 }
@@ -28,7 +28,7 @@
                             type: 'logarithmic',
                             ticks: {
                                 callback: value => {
-                                    return (new EggFormatter).format(value)
+                                    return ((new EggFormatter).format(value))
                                 }
                             }
                         }
@@ -62,6 +62,6 @@
                 options: options,
             }
         },
-        props: ['userStats', 'label', 'dataKey', 'eggFormat'],
+        props: ['userStats', 'label', 'dataKey', 'eggFormat', 'showRole'],
     }
 </script>

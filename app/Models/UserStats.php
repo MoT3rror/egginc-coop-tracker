@@ -31,6 +31,6 @@ class UserStats extends Model
 
     public function getEarningBonusAttribute(): float
     {
-        return floor(((.1 + $this->soul_eggs_bonus * .01) * (1.05 + $this->prophecy_bous * .01) ** $this->prestige_eggs) * 100) * $this->soul_eggs;
+        return floor(((.1 + $this->soul_eggs_bonus * .01) * (1.05 + $this->prophecy_bonus * .01) ** $this->prestige_eggs) * 100) * $this->getSoulEggsFloatAttribute();
     }
 }
