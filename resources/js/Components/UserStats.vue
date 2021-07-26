@@ -36,6 +36,28 @@
                 }
             }
 
+            if (this.commaFormat) {
+                options.tooltips = {
+                    callbacks: {
+                        label: toolTipItem => {
+                            return parseInt(toolTipItem.yLabel).toLocaleString(undefined, {minimumFractionDigits: 0})
+                        }
+                    }
+                }
+                options.scales = {
+                    yAxes: [
+                        {
+                            type: 'logarithmic',
+                            ticks: {
+                                callback: value => {
+                                    return parseInt(value).toLocaleString(undefined, {minimumFractionDigits: 0})
+                                }
+                            }
+                        }
+                    ],
+                }
+            }
+
             let dataSet = {}
 
             _.chain(this.userStats)
@@ -62,6 +84,6 @@
                 options: options,
             }
         },
-        props: ['userStats', 'label', 'dataKey', 'eggFormat', 'showRole'],
+        props: ['userStats', 'label', 'dataKey', 'eggFormat', 'showRole', 'commaFormat'],
     }
 </script>

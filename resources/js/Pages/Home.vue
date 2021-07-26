@@ -51,9 +51,9 @@
                 </div>
 
                 <div class="col-lg-12">
-                    <UserStats :userStats="user.user_stats" label="Golden Eggs" dataKey="golden_eggs"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="Drones" dataKey="drones"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="Elite Drones" dataKey="elite_drones"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="Golden Eggs" dataKey="golden_eggs" :commaFormat="true"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="Drones" dataKey="drones" :commaFormat="true"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="Elite Drones" dataKey="elite_drones" :commaFormat="true"></UserStats>
                     <UserStats :userStats="user.user_stats" label="PE" dataKey="prestige_eggs"></UserStats>
                     <UserStats :userStats="user.user_stats" label="SE" dataKey="soul_eggs_float" :eggFormat="true"></UserStats>
                     <UserStats :userStats="user.user_stats" label="Earning Bonus" dataKey="earning_bonus" :eggFormat="true" :showRole="true"></UserStats>
