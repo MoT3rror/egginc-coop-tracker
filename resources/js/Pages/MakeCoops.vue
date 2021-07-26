@@ -103,7 +103,7 @@
                 numberOfCoops: this.coopsDb.length,
                 prefix: '',
                 blankCoop: {
-                    members: new Array(this.contractInfo.maxCoopSize),
+                    members: new Array(parseInt(this.contractInfo.maxCoopSize)),
                     name: '',
                     channel_id: '',
                 },
