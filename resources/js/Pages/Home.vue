@@ -56,6 +56,7 @@
                     <UserStats :userStats="user.user_stats" label="Elite Drones" dataKey="elite_drones"></UserStats>
                     <UserStats :userStats="user.user_stats" label="PE" dataKey="prestige_eggs"></UserStats>
                     <UserStats :userStats="user.user_stats" label="SE" dataKey="soul_eggs_float" :eggFormat="true"></UserStats>
+                    <UserStats :userStats="user.user_stats" label="Earning Bonus" dataKey="earning_bonus" :eggFormat="true"></UserStats>
                 </div>
             </div>
         </template>

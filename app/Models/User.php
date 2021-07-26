@@ -129,17 +129,40 @@ class User extends Authenticatable
 
     public function getEachSoulEggBonus(): int
     {
-        $info = $this->getEggPlayerInfo();
-        if (!$info) {
+        if (!$this->getEggPlayerInfo()) {
             return 0;
         }
 
-        $epicResearch = collect($info->progress->epicResearches);
-        $prophecyBonus = $epicResearch->where('id', 'prophecy_bonus')->first()->level;
-        $soulBonus = $epicResearch->where('id', 'soul_eggs')->first()->level;
+        $prophecyBonus = $this->getProphecyBonus();
+        $soulBonus = $this->getSoulEggsBonus();
         $eggsOfProphecy = $this->getEggsOfProphecyAttribute();
 
         return floor(((.1 + $soulBonus * .01) * (1.05 + $prophecyBonus * .01) ** $eggsOfProphecy) * 100);
+    }
+
+    public function getSoulEggsBonus(): int
+    {
+        return $this->getEpicResearchLevel('soul_eggs');
+    }
+
+    public function getProphecyBonus(): int
+    {
+        return $this->getEpicResearchLevel('prophecy_bonus');
+    }
+
+    public function getEpicResearchLevel(string $bonus): int
+    {
+        return object_get(collect($this->getEpicResearches())->where('id', $bonus)->first(), 'level');
+    }
+
+    public function getEpicResearches(): array
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return [];
+        }
+
+        return $info->progress->epicResearches;
     }
 
     public function getPlayerEarningBonus(): float
@@ -289,8 +312,7 @@ class User extends Authenticatable
 
     public function getPENeededForNextRankAttribute(): int
     {
-        $info = $this->getEggPlayerInfo();
-        if (!$info) {
+        if (!$this->getEggPlayerInfo()) {
             return 0;
         }
 
@@ -300,9 +322,8 @@ class User extends Authenticatable
 
         $nextLevelMagnitude = $this->getPlayerEggRankInfo()->magnitude + 1;
         $nextLevelEarningBonus = pow(10, $nextLevelMagnitude);
-        $epicResearch = collect($info->progress->epicResearches);
-        $prophecyBonus = $epicResearch->where('id', 'prophecy_bonus')->first()->level;
-        $soulBonus = $epicResearch->where('id', 'soul_eggs')->first()->level;
+        $prophecyBonus = $this->getProphecyBonus();
+        $soulBonus = $this->getSoulEggsBonus();
         $eggsOfProphecy = $this->getEggsOfProphecyAttribute();
         $soulEggs = $this->getSoulEggsAttribute();
 
@@ -446,6 +467,8 @@ class User extends Authenticatable
             'elite_drones'      => $this->getEliteDronesAttribute(),
             'total_golden_eggs' => $this->getLifeTimeGoldenEggsAttribute(),
             'record_time'       => Carbon::now(),
+            'prophecy_bonus'    => $this->getProphecyBonus(),
+            'soul_eggs_bonus'   => $this->getSoulEggsBonus(),
         ];
 
         $this->userStats()->create($statData);
