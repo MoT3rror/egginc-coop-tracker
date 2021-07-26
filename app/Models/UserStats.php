@@ -20,4 +20,12 @@ class UserStats extends Model
     ];
 
     protected $fillable = ['prestige_eggs', 'soul_eggs', 'golden_eggs', 'prestiges', 'drones', 'elite_drones', 'record_time', 'total_golden_eggs'];
+
+    protected $appends = ['soul_eggs_float'];
+
+
+    public function getSoulEggsFloatAttribute(): float
+    {
+        return (float) $this->soul_eggs;
+    }
 }

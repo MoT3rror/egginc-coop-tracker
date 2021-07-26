@@ -1,17 +1,44 @@
 <template>
-    <line-chart :chart-data="dataSet" :height="300" :width="300" :options="{maintainAspectRatio:false}"></line-chart>
+    <line-chart :chart-data="dataSet" :height="300" :width="300" :options="options"></line-chart>
 </template>
 
 <script>
     import LineChart from './LineChart'
     import _ from 'lodash'
+    import EggFormatter from '../Helpers/EggFormatter'
 
     export default {
         components: {LineChart},
         data() {
+            let options = {
+                maintainAspectRatio: false,
+            }
+
+            if (this.eggFormat) {
+                options.tooltips = {
+                    callbacks: {
+                        label: toolTipItem => {
+                            return (new EggFormatter).format(toolTipItem.yLabel)
+                        }
+                    }
+                }
+                options.scales = {
+                    yAxes: [
+                        {
+                            type: 'logarithmic',
+                            ticks: {
+                                callback: value => {
+                                    return (new EggFormatter).format(value)
+                                }
+                            }
+                        }
+                    ],
+                }
+            }
+
             let dataSet = {}
 
-            let test = _.chain(this.userStats)
+            _.chain(this.userStats)
                 .sortBy(value => new Date(value.record_time))
                 .forEach(value => {
                     let recordDate = new Date(value.record_time)
@@ -30,8 +57,11 @@
                     }
                 ]
             }
-            return {dataSet: data}
+            return {
+                dataSet: data,
+                options: options,
+            }
         },
-        props: ['userStats', 'label', 'dataKey'],
+        props: ['userStats', 'label', 'dataKey', 'eggFormat'],
     }
 </script>
