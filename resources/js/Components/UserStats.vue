@@ -12,6 +12,15 @@
         data() {
             let options = {
                 maintainAspectRatio: false,
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    ]
+                }
             }
 
             if (this.eggFormat) {
