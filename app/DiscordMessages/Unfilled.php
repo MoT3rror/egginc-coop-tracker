@@ -1,6 +1,7 @@
 <?php
 namespace App\DiscordMessages;
 
+use App\Exceptions\CoopNotFoundException;
 use App\SimilarText;
 use Illuminate\Database\Eloquent\Collection;
 use kbATeam\MarkdownTable\Column;
@@ -26,7 +27,6 @@ class Unfilled extends Status
                 if ($coop->contractModel()->getMaxCoopSize() <= $coop->getMembers() || $coop->isComplete()) {
                     continue;
                 }
-
 
                 $data[] = [
                     'name'      => $coopName . ' ' . $coop->getMembers() . '',
