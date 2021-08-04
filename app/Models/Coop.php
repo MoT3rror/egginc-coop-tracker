@@ -179,10 +179,9 @@ class Coop extends Model
 
     public function getCreator(): string
     {
-        return collect($this->getCoopInfo()->members)
+        return object_get(collect($this->getCoopInfo()->members)
             ->where('id', $this->getCoopInfo()->creatorId)
-            ->first()
-            ->name
+            ->first(), 'name', '')
         ;
     }
 
