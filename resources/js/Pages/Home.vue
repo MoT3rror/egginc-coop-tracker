@@ -51,12 +51,63 @@
                 </div>
 
                 <div class="col-lg-12">
-                    <UserStats :userStats="user.user_stats" label="Golden Eggs" dataKey="golden_eggs" :commaFormat="true"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="Drones" dataKey="drones" :commaFormat="true"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="Elite Drones" dataKey="elite_drones" :commaFormat="true"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="PE" dataKey="prestige_eggs"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="SE" dataKey="soul_eggs_float" :eggFormat="true"></UserStats>
-                    <UserStats :userStats="user.user_stats" label="Earning Bonus" dataKey="earning_bonus" :eggFormat="true" :showRole="true"></UserStats>
+                    <UserStats
+                        :userStats="user.user_stats"
+                        :dataPoints="[
+                            {
+                                label: 'Golden Eggs',
+                                dataKey: 'golden_eggs',
+                            },
+                            {
+                                label: 'Earned Golden Eggs',
+                                dataKey: 'total_golden_eggs',
+                            },
+                        ]"
+                        :commaFormat="true"
+                    ></UserStats>
+                    <UserStats
+                        :userStats="user.user_stats"
+                        :dataPoints="[
+                            {
+                                label: 'Elite Drones',
+                                dataKey: 'elite_drones',
+                            },
+                            {
+                                label: 'Drones',
+                                dataKey: 'drones',
+                            },
+                        ]"
+                        :commaFormat="true"
+                    ></UserStats>
+                    <UserStats
+                        :userStats="user.user_stats"
+                        :dataPoints="[
+                            {
+                                label: 'PE',
+                                dataKey: 'prestige_eggs',
+                            },
+                        ]"
+                    ></UserStats>
+                    <UserStats
+                        :userStats="user.user_stats"
+                        :dataPoints="[
+                            {
+                                label: 'SE',
+                                dataKey: 'soul_eggs_float',
+                            },
+                        ]"
+                        :eggFormat="true"
+                    ></UserStats>
+                    <UserStats
+                        :userStats="user.user_stats"
+                        :dataPoints="[
+                            {
+                                label: 'Earning Bonus',
+                                dataKey: 'earning_bonus',
+                            },
+                        ]"
+                        :eggFormat="true"
+                    ></UserStats>
                 </div>
             </div>
         </template>

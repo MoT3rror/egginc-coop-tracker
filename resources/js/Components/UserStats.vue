@@ -67,7 +67,17 @@
                 }
             }
 
+            let colors = ['#d14e40', '#5b6cf7', '#68f948']
+            let labels = {}
             let dataSet = {}
+            this.dataPoints.forEach((dataPoint, key) => {
+                dataSet[dataPoint.dataKey] = {
+                    label: dataPoint.label,
+                    data: {},
+                    fill: false,
+                    borderColor: colors[key],
+                }
+            })
 
             _.chain(this.userStats)
                 .sortBy(value => new Date(value.record_time))
@@ -75,24 +85,27 @@
                     let recordDate = new Date(value.record_time)
                     let key = (recordDate.getMonth() + 1) + '/' + recordDate.getDate() + '/' + recordDate.getFullYear()
 
-                    dataSet[key] = value[this.dataKey]
+                    this.dataPoints.forEach(dataPoint => {
+                        labels[key] = true
+                        dataSet[dataPoint.dataKey].data[key] = value[dataPoint.dataKey]
+                    })
                 })
                 .value()
 
+            this.dataPoints.forEach(dataPoint => {
+                dataSet[dataPoint.dataKey].data = _.values(dataSet[dataPoint.dataKey].data)
+            })
+
             let data = {
-                labels: _.keys(dataSet),
-                datasets: [
-                    {
-                        label: this.label,
-                        data: _.values(dataSet),
-                    }
-                ]
+                labels: _.keys(labels),
+                datasets: _.values(dataSet),
             }
+
             return {
                 dataSet: data,
                 options: options,
             }
         },
-        props: ['userStats', 'label', 'dataKey', 'eggFormat', 'showRole', 'commaFormat'],
+        props: ['userStats', 'dataPoints', 'commaFormat', 'eggFormat', 'showRole',],
     }
 </script>
