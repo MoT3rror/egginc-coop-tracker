@@ -85,6 +85,10 @@ class Players extends Base
         foreach ($chuckOfUsers as $users) {
             $data = [];
             foreach ($users as $user) {
+                if (!$user->getEggPlayerInfo()) {
+                    continue;
+                }
+
                 $seDivideByPrestiges = resolve(Egg::class)->format($user->getSoulEggsAttribute() / $user->getPrestigesAttribute(), 3);
                 $data[] = [
                     'discord'                => $user->username,
