@@ -183,7 +183,7 @@
             totalBoosts() {
                 let total = 0
                 this.coop.members.forEach((member) => {
-                    total += member.tokens ? member.tokens : 0
+                    total += member.tokens ? parseInt(member.tokens) : 0
                 })
                 return total
             },
