@@ -2,6 +2,7 @@
 namespace App\DiscordMessages;
 
 use App\Formatters\TimeLeft;
+use Arr;
 use Cache;
 
 class RocketTracker extends Base
@@ -10,11 +11,23 @@ class RocketTracker extends Base
 
     public function message(): string
     {
-        if (!$this->user->egg_inc_player_id) {
+        $user = $this->user;
+
+        if (Arr::get($this->parts, 1)) {
+            $this->isAdmin();
+
+            $discordId = str_replace(['<@!', '<@', '>'], '', $this->parts[1]);
+            $user = $this->guild->members->firstWhere('discord_id', $discordId);
+            if (!$user) {
+                return 'User not found';
+            }
+        }
+
+        if (!$user->egg_inc_player_id) {
             return 'Egg Inc Player ID not set. Use `eb!set-player-id {id}` to set.';
         }
-        Cache::forget('egg-player-info-' . $this->user->egg_inc_player_id);
-        $playerInfo = $this->user->getEggPlayerInfo();
+        Cache::forget('egg-player-info-' . $user->egg_inc_player_id);
+        $playerInfo = $user->getEggPlayerInfo();
         if (!$playerInfo) {
             return 'Invalid Egg Inc Player ID. Use `eb!set-player-id {id}` to set correct ID';
         }
