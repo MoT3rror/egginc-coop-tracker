@@ -37,6 +37,7 @@ use App\DiscordMessages\Tracker;
 use App\DiscordMessages\Unavailable;
 use App\DiscordMessages\UnsubscribeToRockets;
 use App\DiscordMessages\Unfilled;
+use App\DiscordMessages\UpdateContracts;
 use App\Formatters\EarningBonus;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
@@ -112,6 +113,7 @@ class AppServiceProvider extends ServiceProvider
                 'unavailable'            => ['class' => Unavailable::class],
                 'unsubscribe-to-rockets' => ['class' => UnsubscribeToRockets::class],
                 'unfilled'               => ['class' => Unfilled::class],
+                'update-contracts'       => ['class' => UpdateContracts::class],
             ];
         });
     }
