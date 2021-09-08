@@ -32,6 +32,7 @@ use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\SubscribeToRockets;
 use App\DiscordMessages\Status;
+use App\DiscordMessages\Sync;
 use App\DiscordMessages\Tracker;
 use App\DiscordMessages\Unavailable;
 use App\DiscordMessages\UnsubscribeToRockets;
@@ -106,6 +107,7 @@ class AppServiceProvider extends ServiceProvider
                 'short-status'           => ['class' => ShortStatus::class],
                 'status'                 => ['class' => Status::class],
                 'subscribe-to-rockets'   => ['class' => SubscribeToRockets::class],
+                'sync'                   => ['class' => Sync::class],
                 'tracker'                => ['class' => Tracker::class],
                 'unavailable'            => ['class' => Unavailable::class],
                 'unsubscribe-to-rockets' => ['class' => UnsubscribeToRockets::class],
