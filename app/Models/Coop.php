@@ -253,7 +253,7 @@ class Coop extends Model
     {
         if ($this->channel_id) {
             $this->getDiscordClient()->channel->modifyChannel([
-                'channel.id'            => $this->channel_id,
+                'channel.id'            => (int) $this->channel_id,
                 'name'                  => $this->coop,
                 'permission_overwrites' => $this->getChannelPermissions(),
             ]);
