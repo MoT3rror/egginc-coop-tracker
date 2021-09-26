@@ -33,12 +33,14 @@ class AddMember extends Base
             ->first()
         ;
 
+        $coopWasCreated = false;
         if (!$coop) {
             $coop = new Coop;
             $coop->guild_id = $this->guild->discord_id;
             $coop->contract = $parts[1];
             $coop->coop = $parts[2];
             $coop->save();
+            $coopWasCreated = true;
         }
 
         $user = User::query()
@@ -65,7 +67,11 @@ class AddMember extends Base
         $coopMember->user_id = $user->id;
         $coop->members()->save($coopMember);
 
-        $coop->sendMessageToChannel('I added <@' . $user->discord_id . '> to this coop.');
+        $coop->makeChannel();
+
+        if (!$coopWasCreated) {
+            $coop->sendMessageToChannel('I added <@' . $user->discord_id . '> to this coop.');
+        }
 
         return 'Member added.';
     }
