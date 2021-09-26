@@ -28,6 +28,7 @@ use App\DiscordMessages\Remind;
 use App\DiscordMessages\RemindUnfilled;
 use App\DiscordMessages\Replace;
 use App\DiscordMessages\RocketTracker;
+use App\DiscordMessages\SetCoopChannelParent;
 use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\SubscribeToRockets;
@@ -104,6 +105,7 @@ class AppServiceProvider extends ServiceProvider
                 'remind-unfilled'        => ['class' => RemindUnfilled::class],
                 'replace'                => ['class' => Replace::class],
                 'rocket-tracker'         => ['class' => RocketTracker::class],
+                'set-coop-channel-parent' => ['class' => SetCoopChannelParent::class],
                 'set-player-id'          => ['class' => SetPlayerId::class],
                 'short-status'           => ['class' => ShortStatus::class],
                 'status'                 => ['class' => Status::class],
