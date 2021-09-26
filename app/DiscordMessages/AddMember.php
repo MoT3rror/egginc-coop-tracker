@@ -47,11 +47,23 @@ class AddMember extends Base
             ->first()
         ;
 
-        if ($user) {
-            $coopMember = new CoopMember;
-            $coopMember->user_id = $user->id;
-            $coop->members()->save($coopMember);
+        if (!$user) {
+            return 'User not found';
         }
+
+        $memberExists = CoopMember::query()
+            ->user($user->id)
+            ->contractGuild($parts[1], $this->guild->discord_id)
+            ->first()
+        ;
+
+        if ($memberExists) {
+            $memberExists->delete();
+        }
+
+        $coopMember = new CoopMember;
+        $coopMember->user_id = $user->id;
+        $coop->members()->save($coopMember);
 
         $coop->sendMessageToChannel('I added <@' . $user->discord_id . '> to this coop.');
 
