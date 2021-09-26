@@ -11,6 +11,11 @@ class CoopMember extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function coop()
+    {
+        return $this->belongsTo(Coop::class);
+    }
+
     public function scopeUser($query, int $userId)
     {
         return $query->where('user_id', $userId);

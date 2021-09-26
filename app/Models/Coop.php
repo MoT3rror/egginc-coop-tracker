@@ -203,7 +203,7 @@ class Coop extends Model
         $permissions = [
             [
                 'id'    => config('services.discord.client_id'),
-                'allow' => $allow,
+                'allow' => 3088,
                 'type'  => 1,
             ]
         ];
@@ -251,6 +251,7 @@ class Coop extends Model
 
     public function makeChannel()
     {
+        $this->load('members');
         if ($this->channel_id) {
             $this->getDiscordClient()->channel->modifyChannel([
                 'channel.id'            => (int) $this->channel_id,

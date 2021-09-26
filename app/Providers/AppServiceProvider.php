@@ -28,6 +28,7 @@ use App\DiscordMessages\PlayersNotInCoop;
 use App\DiscordMessages\Rank;
 use App\DiscordMessages\Remind;
 use App\DiscordMessages\RemindUnfilled;
+use App\DiscordMessages\RemoveMember;
 use App\DiscordMessages\Replace;
 use App\DiscordMessages\RocketTracker;
 use App\DiscordMessages\SetCoopChannelParent;
@@ -109,6 +110,7 @@ class AppServiceProvider extends ServiceProvider
                 'remind-unfilled'        => ['class' => RemindUnfilled::class],
                 'replace'                => ['class' => Replace::class],
                 'rocket-tracker'         => ['class' => RocketTracker::class],
+                'remove-member'          => ['class' => RemoveMember::class],
                 'set-coop-channel-parent' => ['class' => SetCoopChannelParent::class],
                 'set-player-id'          => ['class' => SetPlayerId::class],
                 'short-status'           => ['class' => ShortStatus::class],
