@@ -6,7 +6,7 @@ use App\Exceptions\DiscordErrorException;
 use App\Formatters\Egg;
 use App\Models\Coop;
 use App\SimilarText;
-use Arr;
+use Illuminate\Support\Arr;
 use Cache;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\URL;

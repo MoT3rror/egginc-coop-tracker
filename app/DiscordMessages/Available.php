@@ -1,7 +1,7 @@
 <?php
 namespace App\DiscordMessages;
 
-use Arr;
+use Illuminate\Support\Arr;
 
 class Available extends Base
 {

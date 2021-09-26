@@ -19,6 +19,7 @@ use App\DiscordMessages\Hi;
 use App\DiscordMessages\LinkToRocketTracker;
 use App\DiscordMessages\Links;
 use App\DiscordMessages\Love;
+use App\DiscordMessages\MakeCoop;
 use App\DiscordMessages\ModSetPlayerId;
 use App\DiscordMessages\Ping;
 use App\DiscordMessages\Players;
@@ -96,6 +97,7 @@ class AppServiceProvider extends ServiceProvider
                 'link-to-rocket-tracker' => ['class' => LinkToRocketTracker::class],
                 'links'                  => ['class' => Links::class],
                 'love'                   => ['class' => Love::class],
+                'make-coop'              => ['class' => MakeCoop::class],
                 'mod-set-player-id'      => ['class' => ModSetPlayerId::class],
                 'ping'                   => ['class' => Ping::class],
                 'players'                => ['class' => Players::class],

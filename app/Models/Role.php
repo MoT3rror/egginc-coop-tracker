@@ -16,4 +16,14 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function scopeDiscordId($query, int $discordId)
+    {
+        return $query->where('discord_id', $discordId);
+    }
+
+    public function scopeGuildId($query, int $guildId)
+    {
+        return $query->where('guild_id', $guildId);
+    }
 }

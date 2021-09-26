@@ -261,7 +261,7 @@ class Coop extends Model
         }
 
         $result = $this->getDiscordClient()->guild->createGuildChannel([
-            'guild.id'              => $this->guild_id,
+            'guild.id'              => (int) $this->guild_id,
             'name'                  => $this->coop,
             'permission_overwrites' => $this->getChannelPermissions(),
             'parent_id'             => (int) $this->guild()->coop_channel_parent,

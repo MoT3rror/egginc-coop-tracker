@@ -130,4 +130,9 @@ class Base
             ->all()
         ;
     }
+
+    public function cleanAt(string $text): string
+    {
+        return str_replace(['<@!', '<@', '>', '&'], '', $text);
+    }
 }
