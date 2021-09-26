@@ -272,11 +272,16 @@ class Coop extends Model
         $this->save();
 
         foreach ($this->getInitialMessage() as $message) {
-            $this->getDiscordClient()->channel->createMessage([
-                'channel.id' => $this->channel_id,
-                'content'    => $message,
-            ]);
+            $this->sendMessageToChannel($message);
         }
+    }
+
+    public function sendMessageToChannel($message)
+    {
+        return $this->getDiscordClient()->channel->createMessage([
+            'channel.id' => (int) $this->channel_id,
+            'content'    => $message,
+        ]);
     }
 
     public function deleteChannel()

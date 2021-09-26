@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Api\EggInc;
 use App\DiscordMessages\Add;
+use App\DiscordMessages\AddMember;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\BootWarning;
 use App\DiscordMessages\Contracts;
@@ -79,6 +80,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('DiscordMessages', function () {
             return [
                 'add'                    => ['class' => Add::class],
+                'add-member'             => ['class' => AddMember::class],
                 'atrisk'                 => ['class' => BootWarning::class],
                 'available'              => ['class' => Available::class],
                 'boot-warning'           => ['class' => BootWarning::class],
