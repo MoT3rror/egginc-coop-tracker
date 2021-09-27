@@ -60,6 +60,7 @@ class AddMember extends Base
         ;
 
         if ($memberExists) {
+            $memberExists->coop->makeChannel();
             $memberExists->delete();
         }
 
