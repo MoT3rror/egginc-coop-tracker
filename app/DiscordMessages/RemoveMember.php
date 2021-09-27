@@ -51,6 +51,6 @@ class RemoveMember extends Base
 
     public function help(): string
     {
-        return '{contractID} {Coop} {member} - Add member to coop.';
+        return '{contractID} {member} - Remove member from contract coops.';
     }
 }
