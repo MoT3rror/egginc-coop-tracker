@@ -22,18 +22,7 @@ class Available extends Base
         $contract = $this->getContractInfo($contractId);
 
         $guild->sync();
-        $users = $guild
-            ->members()
-            ->withEggIncId()
-            ->inShowRoles($this->guild)
-            ->get()
-            ->sortBy(function ($user) {
-                return $user->getPlayerEarningBonus();
-            }, SORT_REGULAR, true)
-            ->filter(function ($user) use ($contractId) {
-                return !in_array($contractId, $user->getCompleteContractsAttribute());
-            })
-        ;
+        $users = $guild->getMembersAvailableForContract($contractId);
         if ($users->count() === 0) {
             return 'All users have completed this contract.';
         }

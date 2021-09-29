@@ -44,11 +44,7 @@ class MakeCoop extends Base
         foreach ($members as $member) {
             $id = $this->cleanAt($member);
 
-            $user = User::query()
-                ->discordId($id)
-                ->partOfTeam($this->guild->id)
-                ->first()
-            ;
+            $user = $this->guild->members->firstWhere('discord_id', $id);
 
             if ($user) {
                 $coopMember = new CoopMember;
