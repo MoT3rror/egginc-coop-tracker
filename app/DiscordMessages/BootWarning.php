@@ -25,7 +25,8 @@ class BootWarning extends Status
 
                 $players = $players->merge(
                     collect($coop->getCoopInfo()->members)
-                        ->filter(function ($player) {
+                        ->filter(function ($player) use ($coop) {
+                            $player->coop = $coop->coop;
                             return !$player->active || $player->leech;
                         })
                 );
@@ -53,7 +54,7 @@ class BootWarning extends Status
                 if ($player->leech) {
                     $type .= ' Low Rate';
                 }
-                $inTrouble .= $member->username . $type . PHP_EOL;
+                $inTrouble .= $member->username . ' - ' . $player->coop . $type . PHP_EOL;
             }
         }
 
