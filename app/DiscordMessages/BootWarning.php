@@ -19,6 +19,10 @@ class BootWarning extends Status
         $players = collect([]);
         foreach ($coops as $coop) {
             try {
+                if ($coop->isComplete()) {
+                    continue;
+                }
+
                 $players = $players->merge(
                     collect($coop->getCoopInfo()->members)
                         ->filter(function ($player) {
