@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Api\EggInc;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
+use GuzzleHttp\Command\Exception\CommandClientException;
 
 class Coop extends Model
 {
@@ -288,9 +289,13 @@ class Coop extends Model
     public function deleteChannel()
     {
         if ($this->channel_id) {
-            $this->getDiscordClient()->channel->deleteOrcloseChannel([
-                'channel.id' => (int) $this->channel_id,
-            ]);
+            try {
+                $this->getDiscordClient()->channel->deleteOrcloseChannel([
+                    'channel.id' => (int) $this->channel_id,
+                ]);
+            } catch (CommandClientException $exception) {
+
+            }
         }
     }
 
