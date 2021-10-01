@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Cache;
+use Illuminate\Database\Eloquent\Collection;
 
 class Guild extends Model
 {
@@ -153,5 +154,21 @@ class Guild extends Model
             $guild->save();
             return $guild;
         });
+    }
+
+    public function getMembersAvailableForContract(string $contractId): Collection
+    {
+        return $this
+            ->members()
+            ->withEggIncId()
+            ->inShowRoles($this)
+            ->get()
+            ->sortBy(function ($user) {
+                return $user->getPlayerEarningBonus();
+            }, SORT_REGULAR, true)
+            ->filter(function ($user) use ($contractId) {
+                return !in_array($contractId, $user->getCompleteContractsAttribute());
+            })
+        ;
     }
 }
