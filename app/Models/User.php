@@ -100,6 +100,11 @@ class User extends Authenticatable
         return $this->hasMany(UserStats::class);
     }
 
+    public function coopsMembers()
+    {
+        return $this->hasMany(CoopMember::class);
+    }
+
     public function getEggPlayerInfo(): ?StdClass
     {
         if (!$this->egg_inc_player_id) {
