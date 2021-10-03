@@ -39,7 +39,6 @@ class MakeCoops extends Base
             $coop->contract = $contractId;
             $coop->guild_id = $this->guild->discord_id;
             $coop->coop = $this->getCoopName($prefix, $i);
-            $coop->position = $i;
             $coop->save();
             $coopsAdded[] = $coop;
         }
