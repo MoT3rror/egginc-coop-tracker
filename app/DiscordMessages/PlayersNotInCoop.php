@@ -26,29 +26,33 @@ class PlayersNotInCoop extends Status
         $contract = $this->getContractInfo($this->parts[1]);
 
         $this->guild->sync();
-        $members = $this->guild
-            ->members()
-            ->withEggIncId()
-            ->partOfTeam($this->guild)
-            ->get()
-            ->filter(function($user) {
-                return !$user->hasCompletedContract($this->parts[1]);
-            })
+        $members = $this->guild->getMembersAvailableForContract($this->parts[1])
             ->filter(function($user) use ($players) {
                 return !in_array($user->egg_inc_player_id, $players);
             })
-        ;
-
-        $members
             ->sortBy(function ($user) {
                 return $user->getPlayerEarningBonus();
             }, SORT_REGULAR, true)
         ;
 
-        return [
-            $contract->name . ' (' . $members->count() . ')' . PHP_EOL .
-            '- ' . $members->implode('username_with_roles', PHP_EOL . '- ')
-        ];
+        $message = $contract->name . ' (' . $members->count() . ')';
+        
+        foreach ($members as $member) {
+            $coopMember = $member->coopsMembers()
+                ->select('coop_members.*')
+                ->join('coops', 'coops.id', '=', 'coop_members.coop_id')
+                ->where('coops.contract', '=', $this->parts[1])
+                ->first()
+            ;
+
+            $message .= PHP_EOL . $member->username_with_roles;
+
+            if ($coopMember) {
+                $message .= ' - ' . $coopMember->coop->coop;
+            }
+        }
+
+        return [$message];
     }
 
     public function help(): string
