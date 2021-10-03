@@ -267,7 +267,7 @@ class Coop extends Model
             'name'                  => $this->coop,
             'permission_overwrites' => $this->getChannelPermissions(),
             'parent_id'             => (int) $this->guild()->coop_channel_parent,
-            'position'              => $this->position, 
+            'position'              => $this->position,
         ]);
 
         $this->channel_id = $result->id;
@@ -297,6 +297,13 @@ class Coop extends Model
 
             }
         }
+    }
+
+    public function addMember(User $user)
+    {
+        $coopMember = new CoopMember;
+        $coopMember->user_id = $user->id;
+        $this->members()->save($coopMember);
     }
 
     public function contractModel(): Contract

@@ -60,9 +60,7 @@ class AddMember extends Base
             $memberExists->delete();
         }
 
-        $coopMember = new CoopMember;
-        $coopMember->user_id = $user->id;
-        $coop->members()->save($coopMember);
+        $coop->addMember($user);
 
         $coop->makeChannel();
 

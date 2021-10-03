@@ -56,9 +56,7 @@ class MakeCoops extends Base
             }
 
             $coopToAddTo = $coopsAdded[$currentCoop];
-            $coopMember = new CoopMember;
-            $coopMember->user_id = $user->id;
-            $coopToAddTo->members()->save($coopMember);
+            $coopToAddTo->addMember($user);
 
             if ($currentCoop < count($coopsAdded)) {
                 $currentCoop++;
