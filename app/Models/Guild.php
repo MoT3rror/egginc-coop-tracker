@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Cache;
 use Illuminate\Database\Eloquent\Collection;
 
 class Guild extends Model
@@ -48,9 +47,21 @@ class Guild extends Model
 
         $this->syncRoles();
         $this->syncMembers();
+        $this->cleanUpOldMembers();
         $this->last_sync = now();
         $this->save();
         $this->refresh();
+    }
+
+    public function cleanUpOldMembers()
+    {
+        foreach ($this->roles as $role) {
+            foreach ($role->members as $member) {
+                if (!in_array($role->guild_id, $member->guilds->pluck('id')->all())) {
+                    $role->members()->detach($member);
+                }
+            }
+        }
     }
 
     public function syncRoles()
@@ -93,7 +104,6 @@ class Guild extends Model
                     ['username' => $member->user->username]
                 );
             });
-
 
             $currentRoles = $user->roles->where('guild_id', $this->id);
             $user->roles()->detach($currentRoles);
