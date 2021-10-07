@@ -238,7 +238,7 @@ class Coop extends Model
     public function getInitialMessage(): array
     {
         $messages = [];
-        $message = [$this->contractModel()->name . ' - ' . $this->coop];
+        $message = [$this->contractModel()->name . ' - ' . $this->coop, 'Members: ' . count($this->members) . '/' . $this->contractModel()->getMaxCoopSize()];
 
         foreach ($this->members->chunk(30) as $chunk) {
             foreach ($chunk as $member) {
