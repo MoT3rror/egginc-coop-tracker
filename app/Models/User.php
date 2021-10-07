@@ -458,7 +458,7 @@ class User extends Authenticatable
             ->join(', ')
         ;
 
-        return $this->username . ' (' . $roles . ')';
+        return $this->username . ($roles ? ' (' . $roles . ')' : '');
     }
 
     public function createUserStat()
