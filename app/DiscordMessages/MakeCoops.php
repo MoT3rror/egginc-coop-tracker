@@ -22,13 +22,13 @@ class MakeCoops extends Base
         $coops = Arr::get($this->parts, 2);
 
         if (!$coops) {
-            return 'Stragery required';
+            return 'Number of coops is required.';
         }
 
         $prefix = Arr::get($this->parts, 3);
 
         if (!$prefix) {
-            return 'Prefix required';
+            return 'Prefix is required.';
         }
         
         $users = $this->guild->getMembersAvailableForContract($contractId);
@@ -58,7 +58,7 @@ class MakeCoops extends Base
             $coopToAddTo = $coopsAdded[$currentCoop];
             $coopToAddTo->addMember($user);
 
-            if ($currentCoop < count($coopsAdded)) {
+            if ($currentCoop < count($coopsAdded) - 1) {
                 $currentCoop++;
             } else {
                 $currentCoop = 0;

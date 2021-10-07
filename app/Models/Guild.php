@@ -14,7 +14,7 @@ class Guild extends Model
     protected $casts = [
         'last_sync'           => 'datetime:Y-m-d',
         'coop_channel_parent' => 'string',
-        'role_to_add_to_coop' => 'string',
+        'role_to_add_to_coop' => 'array',
         'show_link_on_status' => 'integer',
     ];
 

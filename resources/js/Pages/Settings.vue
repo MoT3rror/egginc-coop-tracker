@@ -21,6 +21,8 @@
                     item-value="discord_id"
                     v-model="guildModel.role_to_add_to_coop"
                     name="role_to_add_to_coop"
+                    multiple
+                    chips
                 ></v-select>
 
                 <v-select

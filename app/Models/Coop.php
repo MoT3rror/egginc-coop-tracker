@@ -210,10 +210,12 @@ class Coop extends Model
         ];
 
         if ($this->guild()->role_to_add_to_coop) {
-            $permissions[] = [
-                'id'    => $this->guild()->role_to_add_to_coop,
-                'allow' => $allow,
-            ];
+            foreach ($this->guild()->role_to_add_to_coop as $role) {
+                $permissions[] = [
+                    'id'    => $role,
+                    'allow' => $allow,
+                ];
+            }
         }
 
         if ($this->guild()->roles->where('name', '@everyone')->first()) {
@@ -241,7 +243,7 @@ class Coop extends Model
         foreach ($this->members->chunk(30) as $chunk) {
             foreach ($chunk as $member) {
                 $roles = $member->user->roles->where('guild_id', $this->guild()->id)->where('show_role', true)->pluck('name')->join(', ');
-                $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ' - ' . $roles . ' - ' . $member->user->getHighestDeflectorAttribute();
+                $message[] = '<@' . $member->user->discord_id . '> - ' . $member->user->getPlayerEggRank() . ($roles ? ' - ' . $roles : '') . ' - ' . $member->user->getHighestDeflectorAttribute();
             }
             $messages[] = implode(PHP_EOL, $message);
             $message = [];
@@ -273,6 +275,11 @@ class Coop extends Model
         $this->channel_id = $result->id;
         $this->save();
 
+        $this->sendInitialMessage();
+    }
+
+    public function sendInitialMessage()
+    {
         foreach ($this->getInitialMessage() as $message) {
             $this->sendMessageToChannel($message);
         }

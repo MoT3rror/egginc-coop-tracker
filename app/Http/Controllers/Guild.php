@@ -38,7 +38,7 @@ class Guild extends Controller
         $guild = GuildModel::findByDiscordGuildId($guildId);
 
         $guild->coop_channel_parent = $request->input('coop_channel_parent');
-        $guild->role_to_add_to_coop = $request->input('role_to_add_to_coop');
+        $guild->role_to_add_to_coop = explode(',', $request->input('role_to_add_to_coop'));
         $guild->tracker_sort_by = $request->input('tracker_sort_by');
         $guild->show_link_on_status = (int) $request->input('show_link_on_status');
 
