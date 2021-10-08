@@ -22,7 +22,7 @@ class RemoveMember extends Base
             return 'Member required';
         }
 
-        $user = $this->guild->members->firstWhere('discord_id', $this->cleanAt($parts[3]));
+        $user = $this->guild->members->firstWhere('discord_id', $this->cleanAt($parts[2]));
 
         if (!$user) {
             return 'User not found';

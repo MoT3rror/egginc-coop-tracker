@@ -30,6 +30,10 @@ class Base
 
     public $guildOnly = false;
 
+    public $channelType;
+
+    public $channelParent;
+
     public function __construct(int $authorId, string $authorName, ?int $guildId = null, ?int $channelId = null, $parts = [], $skipMiddleWareChecks = false)
     {
         $this->authorId = $authorId;
@@ -134,5 +138,15 @@ class Base
     public function cleanAt(string $text): string
     {
         return str_replace(['<@!', '<@', '>', '&'], '', $text);
+    }
+
+    public function setChannelType(string $type)
+    {
+        $this->channelType = $type;
+    }
+
+    public function setChannelParent(string $parent)
+    {
+        $this->channelParent = $parent;
     }
 }

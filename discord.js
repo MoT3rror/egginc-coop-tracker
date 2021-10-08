@@ -86,9 +86,10 @@ client.on('message', message => {
         return;
     }
 
-    // message.channel.startTyping();
+    message.channel.sendTyping();
 
     let messageDetails = message.toJSON();
+    console.log(message.channel, message.channel.isThread())
     messageDetails.atBotUser = atBotUser;
     messageDetails.channel = message.channel.toJSON();
     messageDetails.channel.guild = message.channel.guild ? message.channel.guild.toJSON() : {};
@@ -107,13 +108,9 @@ client.on('message', message => {
             } else {
                 message.channel.send('I have nothing to say.');
             }
-
-            // message.channel.stopTyping();
         })
         .catch(function (error) {
             message.channel.send('An error has occurred.');
-
-            // message.channel.stopTyping();
         })
     ;
 })

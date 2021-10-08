@@ -125,7 +125,7 @@ class Tracker extends Base
     {
         if (count($this->parts) == 1) {
             $this->coop = Coop::query()
-                ->channelId($this->channelId)
+                ->channelId($this->channelType == 'GUILD_PUBLIC_THREAD' ? $this->channelParent : $this->channelId)
                 ->first()
             ;
             if ($this->coop) {
