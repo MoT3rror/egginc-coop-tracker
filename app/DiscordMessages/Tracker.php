@@ -1,15 +1,10 @@
 <?php
 namespace App\DiscordMessages;
 
-use App\Exceptions\CoopNotFoundException;
-use App\Exceptions\DiscordErrorException;
 use App\Formatters\Egg;
 use App\Models\Coop;
-use App\SimilarText;
 use Illuminate\Support\Arr;
 use Cache;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\URL;
 use kbATeam\MarkdownTable\Column;
 use kbATeam\MarkdownTable\Table;
 
@@ -60,11 +55,17 @@ class Tracker extends Base
             if (object_get($member, 'leech')) {
                 $status = 'L';
             }
+            $deflector = 0;
+            $buffs = object_get($member, 'buffHistory');
+            if ($buffs && object_get($buffs[0], 'eggLayingRate')) {
+                $deflector = (object_get($buffs[0], 'eggLayingRate') - 1) * 100;
+            }
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
                 'tokens'  => object_get($member, 'tokens', 0),
                 'status'  => $status,
+                'deflector' => $deflector . '%',
             ];
         }
 
@@ -161,6 +162,7 @@ class Tracker extends Base
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
         $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
         $table->addColumn('status', new Column('S', Column::ALIGN_LEFT));
+        $table->addColumn('deflector', new Column('D', Column::ALIGN_LEFT));
 
         try {
             $coopData = $this->coopData();

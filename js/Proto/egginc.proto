@@ -454,6 +454,8 @@ message CoopStatus {
     bool time_cheat_detected = 7;
     double earning_bonus_oom = 11;  // EB is 10^(earning_bonus_oom + 2)%
     int64 tokens = 12;
+    repeated CoopBuffState buff_history = 13;
+    optional FarmProductionParams production_params = 15;
     bool leech = 16;
   }
   repeated Member members = 4;
@@ -622,4 +624,19 @@ message InGameMail {
 
 message MailDB {
     repeated InGameMail mail = 1;
+}
+
+message FarmProductionParams {
+  optional double farm_population = 1;
+  optional double farm_capacity = 2;
+  optional double elr = 3;
+  optional double ihr = 4;
+  optional double sr = 5;
+  optional double delivered = 6;
+}
+
+message CoopBuffState {
+  optional double egg_laying_rate = 1 [default = 1];
+  optional double earnings = 2 [default = 1];
+  optional double server_timestamp = 3;
 }
