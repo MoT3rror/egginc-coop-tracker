@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
 
         $schedule
             ->command('update-interactions')
-            ->everyFifteenMinutes()
+            ->hourlyAt(15)
         ;
 
         $schedule

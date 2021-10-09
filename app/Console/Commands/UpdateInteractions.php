@@ -30,6 +30,7 @@ class UpdateInteractions extends Command
     {
         $this->setGlobalCommands();
         foreach ($this->botGuilds() as $guild) {
+            sleep(60);
             $this->setGuildCommands($guild->id);
         }
     }
