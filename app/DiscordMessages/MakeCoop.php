@@ -2,9 +2,7 @@
 namespace App\DiscordMessages;
 
 use App\Models\Coop;
-use App\Models\CoopMember;
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Support\Arr;
 
 class MakeCoop extends Base

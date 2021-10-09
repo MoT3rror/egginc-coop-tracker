@@ -22,7 +22,7 @@ client.on('interactionCreate', interaction => {
         return
     }
 
-    interaction.defer().then(() => {
+    interaction.deferReply().then(() => {
         let content = interaction.commandName
 
         if (interaction.options) {
@@ -37,6 +37,8 @@ client.on('interactionCreate', interaction => {
             atBotUser: 'eb',
             channel: {
                 id: interaction.channelId,
+                type: interaction.channel.type,
+                parentId: interaction.channel.parentId,
                 guild: {
                     id: interaction.guildId,
                 }
@@ -89,7 +91,7 @@ client.on('message', message => {
     message.channel.sendTyping();
 
     let messageDetails = message.toJSON();
-    console.log(message.channel, message.channel.isThread())
+    
     messageDetails.atBotUser = atBotUser;
     messageDetails.channel = message.channel.toJSON();
     messageDetails.channel.guild = message.channel.guild ? message.channel.guild.toJSON() : {};

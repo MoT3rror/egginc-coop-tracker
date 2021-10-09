@@ -40,8 +40,8 @@ class DiscordMessage extends Controller
                 $request->input('channel.id'),
                 $parts
             );
-            $object->setChannelType($request->input('channel.type'));
-            $object->setChannelParent($request->input('channel.parentId'));
+            $object->setChannelType($request->input('channel.type', ''));
+            $object->setChannelParent($request->input('channel.parentId', ''));
             return ['message' => $object->message()];
         } catch (DiscordErrorException $e) {
             return ['message' => $e->getMessage()];

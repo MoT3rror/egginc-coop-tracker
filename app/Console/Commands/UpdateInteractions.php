@@ -42,31 +42,34 @@ class UpdateInteractions extends Command
         $currentlySetKeyed = collect($currentlySet->json())->keyBy('name');
 
         $messages = app()->make('DiscordMessages');
+        $commands = [];
 
         foreach ($messages as $command => $message) {
             $class = $message['class'];
             $commandClass = new $class(1, 'Slashes', null, null, [], true);
+
+            if (!$commandClass->globalSlash) {
+                continue;
+            }
+
             $commandString = 'eb' . $command;
             $commandData = [
                 'name'        => $commandString,
                 'description' => $commandClass->description(),
                 'options'     => $commandClass->options(),
+                'type'        => 1,
             ];
-            if ($commandClass->globalSlash) {
-                if ($currentlySetKeyed->has($commandString)) {
-                    $currentlySetInfo = $currentlySetKeyed->get($commandString);
-                    if ($this->compareDiscordVsOurs($currentlySetInfo, $commandData)) {
-                        $this->httpClient()->post('/commands', $commandData)->json();
-                    }
-                    unset($currentlySetKeyed[$commandString]);
-                } else {
-                    $this->httpClient()->post('/commands', $commandData)->json();
-                }
+
+            if ($currentlySetKeyed->has($commandString)) {
+                unset($currentlySetKeyed[$commandString]);
             }
+            $commands[] = $commandData;
         }
 
+        $this->httpClient()->put('/commands', array_values($commands))->json();
+
         foreach ($currentlySetKeyed as $command) {
-            $this->httpClient()->delete('/guilds/' . $guildId . '/commands/' . $command['id']);
+            $this->httpClient()->delete('/commands/' . $command['id']);
         }
     }
 
@@ -82,47 +85,33 @@ class UpdateInteractions extends Command
         $currentlySetKeyed = collect($currentlySet->json())->keyBy('name');
 
         $messages = app()->make('DiscordMessages');
+        $commands = [];
 
         foreach ($messages as $command => $message) {
             $class = $message['class'];
             $commandClass = new $class(1, 'Slashes', null, null, [], true);
+            if (!$commandClass->guildOnly) {
+                continue;
+            }
             $commandString = 'eb' . $command;
             $commandData = [
                 'name'        => $commandString,
                 'description' => $commandClass->description(),
                 'options'     => $commandClass->options(),
+                'type'        => 1,
             ];
 
-            if ($commandClass->guildOnly) {
-                if ($currentlySetKeyed->has($commandString)) {
-                    $currentlySetInfo = $currentlySetKeyed->get($commandString);
-                    if ($this->compareDiscordVsOurs($currentlySetInfo, $commandData)) {
-                        $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
-                    }
-                    unset($currentlySetKeyed[$commandString]);
-                } else {
-                    $this->httpClient()->post('/guilds/' . $guildId . '/commands', $commandData)->json();
-                }
+            if ($currentlySetKeyed->has($commandString)) {
+                unset($currentlySetKeyed[$commandString]);
             }
+            $commands[] = $commandData;
         }
+
+        $this->httpClient()->put('/guilds/' . $guildId . '/commands', array_values($commands))->json();
 
         foreach ($currentlySetKeyed as $command) {
             $this->httpClient()->delete('/guilds/' . $guildId . '/commands/' . $command['id']);
         }
-    }
-
-    private function compareDiscordVsOurs($discord, $ours): bool
-    {
-        $discord = collect($discord)->only(['name', 'description', 'options']);
-        if (!$discord->has('options')) {
-            $discord['options'] = [];
-        }
-        return $this->different($discord, $ours);
-    }
-
-    private function different($array1, $array2): bool
-    {
-        return json_encode($array1) !== json_encode($array2);
     }
 
     private function httpClient()
@@ -133,7 +122,7 @@ class UpdateInteractions extends Command
             ->withOptions([
                 'http_errors' => true,
             ])
-            ->baseUrl('https://discord.com/api/v8/applications/' . config('services.discord.client_id'))
+            ->baseUrl('https://discord.com/api/v9/applications/' . config('services.discord.client_id'))
         ;
     }
 

@@ -9,8 +9,6 @@ class MakeCoops extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
 
-    public $guildOnly = true;
-
     public function message(): string
     {
         $contractId = Arr::get($this->parts, '1');
