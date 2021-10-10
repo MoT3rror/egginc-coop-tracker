@@ -88,33 +88,34 @@ client.on('message', message => {
         return;
     }
 
-    message.channel.sendTyping();
-
-    let messageDetails = message.toJSON();
+    message.channel.sendTyping().then(() => {
+        let messageDetails = message.toJSON();
+        
+        messageDetails.atBotUser = atBotUser;
+        messageDetails.channel = message.channel.toJSON();
+        messageDetails.channel.guild = message.channel.guild ? message.channel.guild.toJSON() : {};
+        messageDetails.author = message.author.toJSON();
     
-    messageDetails.atBotUser = atBotUser;
-    messageDetails.channel = message.channel.toJSON();
-    messageDetails.channel.guild = message.channel.guild ? message.channel.guild.toJSON() : {};
-    messageDetails.author = message.author.toJSON();
-
-    axios.post(process.env.DISCORD_API_URL + '/api/discord-message', messageDetails)
-        .then(function (response) {
-            if (response.data.message) {
-                if (_.isArray(response.data.message)) {
-                    _.forEach(response.data.message, function (messageToSend) {
-                        message.channel.send(messageToSend)
-                    })
+        axios.post(process.env.DISCORD_API_URL + '/api/discord-message', messageDetails)
+            .then(function (response) {
+                if (response.data.message) {
+                    if (_.isArray(response.data.message)) {
+                        _.forEach(response.data.message, function (messageToSend) {
+                            message.channel.send(messageToSend)
+                        })
+                    } else {
+                        message.channel.send(response.data.message);
+                    }
                 } else {
-                    message.channel.send(response.data.message);
+                    message.channel.send('I have nothing to say.');
                 }
-            } else {
-                message.channel.send('I have nothing to say.');
-            }
-        })
-        .catch(function (error) {
-            message.channel.send('An error has occurred.');
-        })
-    ;
+            })
+            .catch(function (error) {
+                message.channel.send('An error has occurred.');
+            })
+        ;
+    });
+
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN);
