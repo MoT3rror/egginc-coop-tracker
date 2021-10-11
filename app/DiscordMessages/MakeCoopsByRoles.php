@@ -43,7 +43,7 @@ class MakeCoopsByRoles extends Base
 
         $currentCoop = 0;
 
-        $roles = array_splice($parts, 4);
+        $roles = array_splice($this->parts, 4);
         foreach ($roles as $role) {
             $id = $this->cleanAt($role);
 
@@ -55,7 +55,7 @@ class MakeCoopsByRoles extends Base
 
             if ($role) {
                 foreach ($role->members as $roleMember) {
-                    if (!$roleMember->hasCompletedContract($parts[1])) {
+                    if (!$roleMember->hasCompletedContract($this->parts[1])) {
                         $coopToAddTo = $coopsAdded[$currentCoop];
                         $coopToAddTo->addMember($roleMember);
 
