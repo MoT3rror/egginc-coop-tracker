@@ -57,8 +57,8 @@ class Tracker extends Base
             }
             $deflector = 0;
             $buffs = object_get($member, 'buffHistory');
-            if ($buffs && object_get($buffs[0], 'eggLayingRate')) {
-                $deflector = (object_get($buffs[0], 'eggLayingRate') - 1) * 100;
+            if ($buffs && object_get($buffs[count($buffs) - 1], 'eggLayingRate')) {
+                $deflector = (object_get($buffs[count($buffs) - 1], 'eggLayingRate') - 1) * 100;
             }
             $data[] = [
                 'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
