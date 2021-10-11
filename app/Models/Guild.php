@@ -177,7 +177,7 @@ class Guild extends Model
                 return $user->getPlayerEarningBonus();
             }, SORT_REGULAR, true)
             ->filter(function ($user) use ($contractId) {
-                return !in_array($contractId, $user->getCompleteContractsAttribute());
+                return !$user->hasCompletedContract($contractId);
             })
         ;
     }

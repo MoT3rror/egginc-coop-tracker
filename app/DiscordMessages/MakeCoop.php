@@ -44,7 +44,7 @@ class MakeCoop extends Base
 
             $user = $this->guild->members->firstWhere('discord_id', $id);
 
-            if ($user) {
+            if ($user && !$user->hasCompletedContract($parts[1])) {
                 $coop->addMember($user);
                 continue;
             }
@@ -57,8 +57,9 @@ class MakeCoop extends Base
 
             if ($role) {
                 foreach ($role->members as $roleMember) {
-                    $coop->addMember($roleMember);
-                    continue;
+                    if (!$roleMember->hasCompletedContract($parts[1])) {
+                        $coop->addMember($roleMember);
+                    }
                 }
             }
         }

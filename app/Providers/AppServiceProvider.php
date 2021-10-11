@@ -23,6 +23,7 @@ use App\DiscordMessages\Links;
 use App\DiscordMessages\Love;
 use App\DiscordMessages\MakeCoop;
 use App\DiscordMessages\MakeCoops;
+use App\DiscordMessages\MakeCoopsByRoles;
 use App\DiscordMessages\ModSetPlayerId;
 use App\DiscordMessages\Ping;
 use App\DiscordMessages\Players;
@@ -105,6 +106,7 @@ class AppServiceProvider extends ServiceProvider
                 'love'                   => ['class' => Love::class],
                 'make-coop'              => ['class' => MakeCoop::class],
                 'make-coops'             => ['class' => MakeCoops::class],
+                'make-coops-by-roles'    => ['class' => MakeCoopsByRoles::class],
                 'mod-set-player-id'      => ['class' => ModSetPlayerId::class],
                 'ping'                   => ['class' => Ping::class],
                 'players'                => ['class' => Players::class],
