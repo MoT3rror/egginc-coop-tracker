@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use RestCord\DiscordClient;
 use StdClass;
 
@@ -31,6 +32,8 @@ class User extends Authenticatable
     protected $with = ['roles'];
 
     protected $hidden = ['email', 'discord_id', 'discord_refresh_token', 'discord_token', 'discord_token_expires', 'egg_inc_player_id'];
+
+    protected $discordGuildsCache = null;
 
     public function getCurrentDiscordToken()
     {
@@ -57,32 +60,43 @@ class User extends Authenticatable
 
     public function discordGuilds()
     {
-        return Cache::remember('user-discord-guilds-' . $this->id, 60 * 5, function () {
-            // just in case we keep calling it
-            $discord = new DiscordClient([
-                'token'     => $this->getCurrentDiscordToken(),
-                'tokenType' => 'OAuth',
-            ]);
-            $guilds = $discord->user->getCurrentUserGuilds();
-
-            foreach ($guilds as $key => $guild) {
-                $guild->isAdmin = ($guild->permissions & 8) == 8;
-                // weird bug with vue or something that causes this number to change
-                $guild->id = (string) $guild->id;
-                $guildModel = Guild::findByDiscordGuild($guild);
-
-                if (!$guildModel->getIsBotMemberOfAttribute()) {
-                    unset($guilds[$key]);
-                    continue;
+        if (!$this->discordGuildsCache) {
+            $this->discordGuildsCache = Cache::remember('user-discord-guilds-' . $this->id, 60 * 5, function () {
+                // just in case we keep calling it
+                $discord = new DiscordClient([
+                    'token'     => $this->getCurrentDiscordToken(),
+                    'tokenType' => 'OAuth',
+                ]);
+                $guilds = $discord->user->getCurrentUserGuilds();
+                $guildModels = Guild::query()
+                    ->whereIn('discord_id', Arr::pluck($guilds, 'id'))
+                    ->get()
+                ;
+    
+                foreach ($guilds as $key => $guild) {
+                    $guild->isAdmin = ($guild->permissions & 8) == 8;
+                    // weird bug with vue or something that causes this number to change
+                    $guild->id = (string) $guild->id;
+                    $guildModel = $guildModels->where('discord_id', $guild->id)->first();
+                    
+                    if (!$guildModel) {
+                        $guildModel = Guild::findByDiscordGuild($guild);
+                    }
+    
+                    if (!$guildModel->getIsBotMemberOfAttribute()) {
+                        unset($guilds[$key]);
+                        continue;
+                    }
+                    $guildModel->sync();
+    
+                    if (!$guild->isAdmin) {
+                        $guild->isAdmin = $this->roles()->get()->where('is_admin', true)->count() >= 1;
+                    }
                 }
-                $guildModel->sync();
-
-                if (!$guild->isAdmin) {
-                    $guild->isAdmin = $this->roles()->get()->where('is_admin', true)->count() >= 1;
-                }
-            }
-            return $guilds;
-        });
+                return $guilds;
+            });
+        }
+        return $this->discordGuildsCache;
     }
 
     public function guilds()

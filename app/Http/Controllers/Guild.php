@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 class Guild extends Controller
 {
-    public function index(Request $request, $guildId)
+    public function index($guildId)
     {
         User::setStaticAppends(['player_earning_bonus_formatted', 'player_egg_rank', 'soul_eggs', 'eggs_of_prophecy', 'drones', 'player_earning_bonus', 'highest_deflector_without_percent'], true);
 
@@ -22,10 +22,12 @@ class Guild extends Controller
         ]);
     }
 
-    public function settings(Request $request, $guildId)
+    public function settings($guildId)
     {
         $guildModel = GuildModel::findByDiscordGuildId($guildId);
         $channelCategories = $guildModel->getChannelCategories();
+
+        $guildModel->unsetRelation('members');
 
         return Inertia::render('Settings', [
             'guildModel'        => $guildModel,

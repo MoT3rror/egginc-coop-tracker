@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Guild extends Model
 {
+    use Traits\Appendable;
+
     protected $with = ['members', 'roles'];
 
     protected $appends = ['is_bot_member_of'];

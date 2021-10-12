@@ -54,7 +54,10 @@ class MakeCoopsByRoles extends Base
             ;
 
             if ($role) {
-                foreach ($role->members as $roleMember) {
+                $members = $role->members->sortBy(function ($user) {
+                    return $user->getPlayerEarningBonus();
+                }, SORT_REGULAR, true);
+                foreach ($members as $roleMember) {
                     if (!$roleMember->hasCompletedContract($this->parts[1])) {
                         $coopToAddTo = $coopsAdded[$currentCoop];
                         $coopToAddTo->addMember($roleMember);
@@ -78,7 +81,7 @@ class MakeCoopsByRoles extends Base
 
     public function help(): string
     {
-        return '{Contract ID} {Number of Coops} {Coop Prefix} - Make coops with all members available. Will add members by EB rating till all coops made.';
+        return '{Contract ID} {Number of Coops} {Coop Prefix} - Make coops with roles specified. The command will check if the user has the contract available.';
     }
 
     private function getCoopName($prefix, $number): string
