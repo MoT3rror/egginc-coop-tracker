@@ -76,6 +76,8 @@ class Base
     
     public function isAdmin()
     {
+        $this->requiresGuild();
+        
         $this->guild->sync();
         $admin = false;
         foreach ($this->guild->roles as $role) {
