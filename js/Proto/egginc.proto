@@ -58,7 +58,7 @@ message FirstContact {
       bool developer_analytics_2 = 23;
       double backup_timestamp = 24;  // epoch timestamp
     }
-    Settings settings = 4;
+    // Settings settings = 4;
 
     message Stats {
       int64 drone_takedowns = 6;
@@ -75,14 +75,14 @@ message FirstContact {
       int64 lifetime_golden_eggs_spent = 3;
       double prestige_earnings = 5;
       double lifetime_earnings = 6;
-      int64 piggy_bank = 7;
+      // int64 piggy_bank = 7;
       repeated EpicResearch epic_researches = 9;
-      repeated int64 max_farm_populations_reached = 18;  // One entry for
+      // repeated int64 max_farm_populations_reached = 18;  // One entry for
                                                          // each egg type.
-      repeated TrophyType farm_trophy_level = 19;        // One entry for
+      // repeated TrophyType farm_trophy_level = 19;        // One entry for
                                                          // each egg type.
       int64 prophecy_eggs = 23;
-      int64 num_daily_gifts_collected = 28;
+      // int64 num_daily_gifts_collected = 28;
       message Boost {
         string id = 1;
         int64 count = 2;
@@ -92,7 +92,7 @@ message FirstContact {
     }
     Progress progress = 7;
 
-    repeated Farm farms = 12;
+    // repeated Farm farms = 12;
 
     message Contracts {
       repeated Contract active_contracts = 1;
@@ -186,17 +186,17 @@ message Contract {
   ContractProperties props = 1;
   string code = 2;
   double started = 3;              // epoch timestamp
-  int64 _4 = 4;                    // unknown; example: 1
+  // int64 _4 = 4;                    // unknown; example: 1
   double production_deadline = 5;  // epoch timestamp
   double completed_goal = 6;
-  int64 _7 = 7;                    // unknown; example: 1
+  // int64 _7 = 7;                    // unknown; example: 1
   double collection_deadline = 9;  // epoch timestamp
                                    // 2 days after production deadline
-  int64 _10 = 10;                  // unknown; example: 10
+  // int64 _10 = 10;                  // unknown; example: 10
   double player_contribution = 11;
   string player_id = 13;
   int64 num_goals_completed = 14;
-  int64 _15 = 15;  // unknown; example: 1
+  // int64 _15 = 15;  // unknown; example: 1
 }
 
 // ContractProperties contains player/session-agnostic properties of a contract.
@@ -223,12 +223,12 @@ message ContractProperties {
 }
 
 message Reward {
-  int64 _1 = 1;
+  // int64 _1 = 1;
   double goal = 2;
   RewardType type = 3;
   string name = 4;
   double count = 5;
-  double _6 = 6;  // unknown; maybe a difficulty indicator?
+  // double _6 = 6;  // unknown; maybe a difficulty indicator?
 }
 
 enum RewardType {
@@ -366,7 +366,7 @@ message ArtifactInventoryItem {
   uint64 item_id = 1;
   CompleteArtifact artifact = 2;
   double quantity = 3;
-  string server_id = 4;
+  // string server_id = 4;
 }
 
 message CompleteArtifact {
