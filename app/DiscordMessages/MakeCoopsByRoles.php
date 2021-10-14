@@ -59,15 +59,28 @@ class MakeCoopsByRoles extends Base
                 }, SORT_REGULAR, true);
                 foreach ($members as $roleMember) {
                     if (!$roleMember->hasCompletedContract($this->parts[1])) {
-                        $coopToAddTo = $coopsAdded[$currentCoop];
-                        $coopToAddTo->addMember($roleMember);
-
-                        if ($currentCoop < count($coopsAdded) - 1) {
-                            $currentCoop++;
-                        } else {
-                            $currentCoop = 0;
-                        }
+                        continue;
                     }
+
+                    $checkIfAlreadyOnTeam = $roleMember->coopsMembers()
+                        ->join('coops', 'coops.id', '=', 'coop_members.coop_id')
+                        ->where('coops.contract', '=', $this->parts[1])
+                        ->first()
+                    ;
+
+                    if ($checkIfAlreadyOnTeam) {
+                        continue;
+                    }
+
+                    $coopToAddTo = $coopsAdded[$currentCoop];
+                    $coopToAddTo->addMember($roleMember);
+
+                    if ($currentCoop < count($coopsAdded) - 1) {
+                        $currentCoop++;
+                    } else {
+                        $currentCoop = 0;
+                    }
+                    
                 }
             }
         }
