@@ -160,7 +160,7 @@ class Tracker extends Base
         $table = new Table();
         $table->addColumn('name', new Column('Boosted/Name', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
-        $table->addColumn('tokens', new Column('Tokens', Column::ALIGN_LEFT));
+        $table->addColumn('tokens', new Column('T', Column::ALIGN_LEFT));
         $table->addColumn('status', new Column('S', Column::ALIGN_LEFT));
         $table->addColumn('deflector', new Column('D', Column::ALIGN_LEFT));
 
