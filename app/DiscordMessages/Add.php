@@ -3,11 +3,13 @@ namespace App\DiscordMessages;
 
 use App\Exceptions\DiscordErrorException;
 use App\Models\Coop;
-use Arr;
+use Illuminate\Support\Arr;
 
 class Add extends Base
 {
     protected $middlewares = ['requiresGuild',];
+
+    public $guildOnly = true;
 
     protected function canAdd()
     {
@@ -92,5 +94,31 @@ class Add extends Base
     public function help(): string
     {
         return '{Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.';
+    }
+
+    public function description(): string
+    {
+        return 'Add coop to tracker.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+            [
+                'type'        => 3,
+                'name'        => 'coop',
+                'description' => 'Coop',
+                'required'    => true,
+            ],
+        ];
     }
 }
