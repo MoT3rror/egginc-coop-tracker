@@ -197,7 +197,7 @@ class Coop extends Model
     public function getChannelPermissions(): array
     {
         // view and send
-        $allow = 3072;
+        $allow = $this->guild()->group_permissions ?? 3072;
         // view
         $deny = 1024;
 

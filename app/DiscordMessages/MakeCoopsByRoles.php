@@ -28,8 +28,6 @@ class MakeCoopsByRoles extends Base
         if (!$prefix) {
             return 'Prefix is required.';
         }
-        
-        $users = $this->guild->getMembersAvailableForContract($contractId);
 
         $coopsAdded = [];
         for ($i = 1; $i <= $coops; $i++) { 
