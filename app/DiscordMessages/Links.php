@@ -2,9 +2,8 @@
 namespace App\DiscordMessages;
 
 use App\Models\User;
-use App\Exceptions\UserNotFoundException;
-use Arr;
-use Cache;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 class Links extends Base
 {

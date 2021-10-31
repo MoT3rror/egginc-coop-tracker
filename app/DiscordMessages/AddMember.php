@@ -10,6 +10,8 @@ class AddMember extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         $parts = $this->parts;
@@ -74,5 +76,37 @@ class AddMember extends Base
     public function help(): string
     {
         return '{contractID} {Coop} {member} - Add member to coop.';
+    }
+
+    public function description(): string
+    {
+        return 'Add member to coop.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+            [
+                'type'        => 3,
+                'name'        => 'coop',
+                'description' => 'Coop',
+                'required'    => true,
+            ],
+            [
+                'type'        => 6,
+                'name'        => 'user',
+                'description' => 'User',
+                'required'    => true,
+            ]
+        ];
     }
 }
