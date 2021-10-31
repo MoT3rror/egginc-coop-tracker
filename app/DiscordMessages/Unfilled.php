@@ -24,7 +24,7 @@ class Unfilled extends Status
                     $this->teamsOnTrack++;
                 }
                 
-                if ($coop->contractModel()->getMaxCoopSize() <= $coop->getMembers() || $coop->isComplete()) {
+                if ($isOnTrack && ($coop->contractModel()->getMaxCoopSize() <= $coop->getMembers() || $coop->isComplete())) {
                     continue;
                 }
 
