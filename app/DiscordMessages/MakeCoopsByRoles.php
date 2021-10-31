@@ -58,7 +58,7 @@ class MakeCoopsByRoles extends Base
                     return $user->getPlayerEarningBonus();
                 }, SORT_REGULAR, true);
                 foreach ($members as $roleMember) {
-                    if (!$roleMember->hasCompletedContract($this->parts[1])) {
+                    if ($roleMember->hasCompletedContract($this->parts[1])) {
                         continue;
                     }
 
