@@ -180,9 +180,13 @@ class Coop extends Model
 
     public function getCreator(): string
     {
-        return object_get(collect($this->getCoopInfo()->members)
-            ->where('id', $this->getCoopInfo()->creatorId)
-            ->first(), 'name', '')
+        return str_replace(
+            '_',
+            '', 
+            object_get(collect($this->getCoopInfo()->members)
+                ->where('id', $this->getCoopInfo()->creatorId)
+                ->first(), 'name', '')
+            )
         ;
     }
 

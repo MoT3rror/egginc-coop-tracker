@@ -36,8 +36,6 @@ class MakeCoop extends Base
             $coop->save();
         }
 
-        $coop->members()->delete();
-
         $members = array_splice($parts, 3);
         foreach ($members as $member) {
             $id = $this->cleanAt($member);
