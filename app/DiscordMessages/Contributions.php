@@ -15,7 +15,7 @@ class Contributions extends Status
 {    
     protected $sort = 'eggs_laid';
 
-    protected $sortByOptions = ['eggs_laid'];
+    protected $sortByOptions = ['eggs_laid', 'contribution_percent', 'rate'];
 
     public $guildOnly = true;
 
@@ -44,11 +44,12 @@ class Contributions extends Status
                     }
 
                     $data[] = [
-                        'name'         => $member->name,
-                        'rate'         => round($member->eggsPerSecond * 60 * 60),
-                        'eggs_laid'    => round($member->eggsLaid),
-                        'contribution' => round($member->eggsLaid / $coop->getCurrentEggs() * 100) . '%',
-                        'status'       => $status,
+                        'name'                 => $member->name,
+                        'rate'                 => round($member->eggsPerSecond * 60 * 60),
+                        'eggs_laid'            => round($member->eggsLaid),
+                        'contribution'         => round($member->eggsLaid / $coop->getCurrentEggs() * 100) . '%',
+                        'status'               => $status,
+                        'contribution_percent' => round($member->eggsLaid / $coop->getCurrentEggs() * 100),
                     ];
                 }
             } catch (CoopNotFoundException $e) {}
@@ -126,11 +127,38 @@ class Contributions extends Status
 
     public function help(): string
     {
-        return '{Contract ID} - Display all members of coops order by eggs laid';
+        return '{Contract ID} {order=eggs_laid,contribution_percent,rate} - Display all members of coops order by selected order. Default = eggs_laid';
     }
 
     public function description(): string
     {
         return 'Display all members of coops order by eggs laid';
+    }
+
+    public function options(): array
+    {
+        $parent = parent::options();
+
+        $parent[] = [
+            'type'        => 3,
+            'name'        => 'sort',
+            'description' => 'Sort (Default = eggs_laid)',
+            'required'    => false,
+            'choices'     => [
+                [
+                    'name'  => 'Eggs Laid',
+                    'value' => 'eggs_laid',
+                ],
+                [
+                    'name'  => 'Contribution %',
+                    'value' => 'contribution_percent',
+                ],
+                [
+                    'name'  => 'Rate',
+                    'value' => 'rate',
+                ]
+            ],
+        ];
+        return $parent;
     }
 }
