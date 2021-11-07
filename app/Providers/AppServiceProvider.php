@@ -37,6 +37,7 @@ use App\DiscordMessages\Replace;
 use App\DiscordMessages\RocketTracker;
 use App\DiscordMessages\SetCoopChannelParent;
 use App\DiscordMessages\SetCoopChannelPermission;
+use App\DiscordMessages\SetCreateThreadOnNewChannel;
 use App\DiscordMessages\SetPlayerId;
 use App\DiscordMessages\ShortStatus;
 use App\DiscordMessages\SubscribeToRockets;
@@ -122,6 +123,7 @@ class AppServiceProvider extends ServiceProvider
                 'remove-member'          => ['class' => RemoveMember::class],
                 'set-coop-channel-parent' => ['class' => SetCoopChannelParent::class],
                 'set-coop-channel-permissions' => ['class' => SetCoopChannelPermission::class],
+                'set-create-thread-on-new-channel' => ['class' => SetCreateThreadOnNewChannel::class],
                 'set-player-id'          => ['class' => SetPlayerId::class],
                 'short-status'           => ['class' => ShortStatus::class],
                 'status'                 => ['class' => Status::class],

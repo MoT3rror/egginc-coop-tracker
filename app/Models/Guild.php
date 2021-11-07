@@ -13,10 +13,11 @@ class Guild extends Model
     protected $appends = ['is_bot_member_of'];
 
     protected $casts = [
-        'last_sync'           => 'datetime:Y-m-d',
-        'coop_channel_parent' => 'string',
-        'role_to_add_to_coop' => 'array',
-        'show_link_on_status' => 'integer',
+        'last_sync'                    => 'datetime:Y-m-d',
+        'coop_channel_parent'          => 'string',
+        'role_to_add_to_coop'          => 'array',
+        'show_link_on_status'          => 'integer',
+        'create_thread_on_new_channel' => 'boolean',
     ];
 
     protected $attributes = [

@@ -284,8 +284,15 @@ class Coop extends Model
 
     public function sendInitialMessage()
     {
+        $lastMessage = null;
         foreach ($this->getInitialMessage() as $message) {
-            $this->sendMessageToChannel($message);
+            $lastMessage = $this->sendMessageToChannel($message);
+        }
+
+        if ($lastMessage && $this->guild()->create_thread_on_new_channel) {
+            $this->discordHttpClient()
+                ->post('/channels/' . $this->channel_id . '/messages/' . $lastMessage['id'] . '/threads', ['name' => 'Bot Commands'])
+            ;
         }
     }
 
