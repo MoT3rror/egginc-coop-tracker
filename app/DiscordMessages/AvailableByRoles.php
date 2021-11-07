@@ -3,7 +3,6 @@ namespace App\DiscordMessages;
 
 use App\Models\Role;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 
 class AvailableByRoles extends Base
 {

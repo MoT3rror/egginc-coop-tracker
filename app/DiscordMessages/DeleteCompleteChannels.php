@@ -15,8 +15,11 @@ class DeleteCompleteChannels extends Status
         }
 
         foreach ($coops as $coop) {
-            if ($coop->isComplete()) {
-                $coop->deleteChannel();
+            try {
+                if ($coop->isComplete()) {
+                    $coop->deleteChannel();
+                }
+            } catch (\App\Exceptions\CoopNotFoundException $e) {
             }
         }
         
