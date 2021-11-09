@@ -61,7 +61,7 @@ class Tracker extends Base
                 $deflector = (object_get($buffs[count($buffs) - 1], 'eggLayingRate') - 1) * 100;
             }
             $data[] = [
-                'name'    => ($boosted ? 'X ' : '  ') .  $member->name,
+                'name'    => ($boosted ? 'X ' : '  ') .  substr($member->name, 0, 20),
                 'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
                 'tokens'  => object_get($member, 'tokens', 0),
                 'status'  => $status,
