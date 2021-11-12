@@ -35,6 +35,7 @@ use App\DiscordMessages\RemindUnfilled;
 use App\DiscordMessages\RemoveMember;
 use App\DiscordMessages\Replace;
 use App\DiscordMessages\RocketTracker;
+use App\DiscordMessages\SendInitialMessage;
 use App\DiscordMessages\SetCoopChannelParent;
 use App\DiscordMessages\SetCoopChannelPermission;
 use App\DiscordMessages\SetCreateThreadOnNewChannel;
@@ -121,6 +122,7 @@ class AppServiceProvider extends ServiceProvider
                 'replace'                => ['class' => Replace::class],
                 'rocket-tracker'         => ['class' => RocketTracker::class],
                 'remove-member'          => ['class' => RemoveMember::class],
+                'send-initial-message'   => ['class' => SendInitialMessage::class],
                 'set-coop-channel-parent' => ['class' => SetCoopChannelParent::class],
                 'set-coop-channel-permissions' => ['class' => SetCoopChannelPermission::class],
                 'set-create-thread-on-new-channel' => ['class' => SetCreateThreadOnNewChannel::class],
