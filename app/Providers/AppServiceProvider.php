@@ -7,6 +7,7 @@ use App\DiscordMessages\Add;
 use App\DiscordMessages\AddMember;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\AvailableByRoles;
+use App\DiscordMessages\AvailableByRolesCount;
 use App\DiscordMessages\BootWarning;
 use App\DiscordMessages\Contracts;
 use App\DiscordMessages\Contributions;
@@ -92,6 +93,7 @@ class AppServiceProvider extends ServiceProvider
                 'atrisk'                 => ['class' => BootWarning::class],
                 'available'              => ['class' => Available::class],
                 'available-by-roles'     => ['class' => AvailableByRoles::class],
+                'available-by-roles-count' => ['class' => AvailableByRolesCount::class],
                 'boot-warning'           => ['class' => BootWarning::class],
                 'contracts'              => ['class' => Contracts::class],
                 'contributions'          => ['class' => Contributions::class],
