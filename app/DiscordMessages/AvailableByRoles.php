@@ -17,6 +17,8 @@ class AvailableByRoles extends Base
             return 'Contract ID is required.';
         }
 
+        $contract = $this->getContractInfo($contractId);
+
         $roles = array_splice($parts, 2);
         $messages = [];
         foreach ($roles as $roleId) {
@@ -31,7 +33,7 @@ class AvailableByRoles extends Base
 
             if ($role) {
                 foreach ($role->members as $roleMember) {
-                    if (!$roleMember->hasCompletedContract($parts[1])) {
+                    if (!$roleMember->hasCompletedContract($contract->identifier)) {
                         $users[] = $roleMember->username;
                     }
                 }

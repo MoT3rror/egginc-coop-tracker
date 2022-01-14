@@ -22,7 +22,7 @@ class Available extends Base
         $contract = $this->getContractInfo($contractId);
 
         $guild->sync();
-        $users = $guild->getMembersAvailableForContract($contractId);
+        $users = $guild->getMembersAvailableForContract($contract->identifier);
         if ($users->count() === 0) {
             return 'All users have completed this contract.';
         }

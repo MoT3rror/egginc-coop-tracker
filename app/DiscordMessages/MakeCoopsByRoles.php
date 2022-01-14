@@ -17,6 +17,8 @@ class MakeCoopsByRoles extends Base
             return 'Contract ID is required.';
         }
 
+        $contract = $this->getContractInfo($contractId);
+
         $coops = Arr::get($this->parts, 2);
 
         if (!$coops) {
@@ -56,13 +58,13 @@ class MakeCoopsByRoles extends Base
                     return $user->getPlayerEarningBonus();
                 }, SORT_REGULAR, true);
                 foreach ($members as $roleMember) {
-                    if ($roleMember->hasCompletedContract($this->parts[1])) {
+                    if ($roleMember->hasCompletedContract($contract->identifier)) {
                         continue;
                     }
 
                     $checkIfAlreadyOnTeam = $roleMember->coopsMembers()
                         ->join('coops', 'coops.id', '=', 'coop_members.coop_id')
-                        ->where('coops.contract', '=', $this->parts[1])
+                        ->where('coops.contract', '=', $contract->identifier)
                         ->first()
                     ;
 

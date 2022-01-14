@@ -17,6 +17,8 @@ class MakeCoop extends Base
             return 'Contract ID required';
         }
 
+        $contract = $this->getContractInfo($parts['1']);
+
         if (!Arr::get($parts, 2)) {
             return 'Coop name required';
         }
@@ -31,7 +33,7 @@ class MakeCoop extends Base
         if (!$coop) {
             $coop = new Coop;
             $coop->guild_id = $this->guild->discord_id;
-            $coop->contract = $parts[1];
+            $coop->contract = $contract->identifier;
             $coop->coop = $parts[2];
             $coop->save();
         }
@@ -42,7 +44,7 @@ class MakeCoop extends Base
 
             $user = $this->guild->members->firstWhere('discord_id', $id);
 
-            if ($user && !$user->hasCompletedContract($parts[1])) {
+            if ($user && !$user->hasCompletedContract($contract->identifier)) {
                 $coop->addMember($user);
                 continue;
             }
@@ -55,7 +57,7 @@ class MakeCoop extends Base
 
             if ($role) {
                 foreach ($role->members as $roleMember) {
-                    if (!$roleMember->hasCompletedContract($parts[1])) {
+                    if (!$roleMember->hasCompletedContract($contract->identifier)) {
                         $coop->addMember($roleMember);
                     }
                 }

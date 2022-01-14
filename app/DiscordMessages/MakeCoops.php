@@ -17,6 +17,8 @@ class MakeCoops extends Base
             return 'Contract ID is required.';
         }
 
+        $contract = $this->getContractInfo($contractId);
+
         $coops = Arr::get($this->parts, 2);
 
         if (!$coops) {
@@ -29,12 +31,12 @@ class MakeCoops extends Base
             return 'Prefix is required.';
         }
         
-        $users = $this->guild->getMembersAvailableForContract($contractId);
+        $users = $this->guild->getMembersAvailableForContract($contract->identifier);
 
         $coopsAdded = [];
         for ($i = 1; $i <= $coops; $i++) { 
             $coop = new Coop();
-            $coop->contract = $contractId;
+            $coop->contract = $contract->identifier;
             $coop->guild_id = $this->guild->discord_id;
             $coop->coop = $this->getCoopName($prefix, $i);
             $coop->save();
@@ -45,7 +47,7 @@ class MakeCoops extends Base
         foreach ($users as $user) {
             $checkIfAlreadyOnTeam = $user->coopsMembers()
                 ->join('coops', 'coops.id', '=', 'coop_members.coop_id')
-                ->where('coops.contract', '=', $contractId)
+                ->where('coops.contract', '=', $contract->identifier)
                 ->first()
             ;
 
