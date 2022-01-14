@@ -42,7 +42,7 @@ class AvailableByRolesCount extends Base
 
     public function help(): string
     {
-        return '{Contract ID} {@roles...} - Get who has not complete contract by roles.';
+        return '{Contract ID} - Get who has not completed contract by roles that are part of the team.';
     }
 
     public function description(): string
