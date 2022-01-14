@@ -61,6 +61,7 @@ class User extends Authenticatable
     public function discordGuilds()
     {
         if (!$this->discordGuildsCache) {
+            Cache::forget('user-discord-guilds-' . $this->id);
             $this->discordGuildsCache = Cache::remember('user-discord-guilds-' . $this->id, 60 * 5, function () {
                 // just in case we keep calling it
                 $discord = new DiscordClient([
@@ -82,17 +83,22 @@ class User extends Authenticatable
                     if (!$guildModel) {
                         $guildModel = Guild::findByDiscordGuild($guild);
                     }
-    
+                    
                     if (!$guildModel->getIsBotMemberOfAttribute()) {
                         unset($guilds[$key]);
                         continue;
                     }
                     $guildModel->sync();
-    
+                    
                     if (!$guild->isAdmin) {
-                        $guild->isAdmin = $this->roles()->get()->where('is_admin', true)->count() >= 1;
+                        $guild->isAdmin = $this->roles
+                            ->where('is_admin', true)
+                            ->where('guild_id', $guildModel->id)
+                            ->count() >= 1
+                        ;
                     }
                 }
+
                 return $guilds;
             });
         }
