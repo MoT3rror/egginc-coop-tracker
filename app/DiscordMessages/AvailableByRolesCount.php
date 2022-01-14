@@ -17,27 +17,24 @@ class AvailableByRolesCount extends Base
             return 'Contract ID is required.';
         }
 
-        $roles = array_splice($parts, 2);
+        $contract = $this->getContractInfo($contractId);
+
+        $roles = Role::query()
+            ->where('part_of_team', true)
+            ->guildId($this->guild->id)
+            ->get()
+        ;
         $messages = [];
-        foreach ($roles as $roleId) {
+        foreach ($roles as $role) {
             $users = [];
-            $id = $this->cleanAt($roleId);
 
-            $role = Role::query()
-                ->discordId((int) $id)
-                ->guildId($this->guild->id)
-                ->first()
-            ;
-
-            if ($role) {
-                foreach ($role->members as $roleMember) {
-                    if (!$roleMember->hasCompletedContract($parts[1])) {
-                        $users[] = $roleMember->username;
-                    }
+            foreach ($role->members as $roleMember) {
+                if (!$roleMember->hasCompletedContract($contract->identifier)) {
+                    $users[] = $roleMember->username;
                 }
-
-                $messages[] = $role->name . ' (' . count($users) . ')';
             }
+
+            $messages[] = $role->name . ' (' . count($users) . ')';
         }
 
         return implode(PHP_EOL, $messages);
