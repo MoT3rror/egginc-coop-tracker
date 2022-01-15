@@ -22,10 +22,10 @@ class Help extends Base
                         return ['eb!' . $start . ' ' .  $commandObject->help()];
                     }
                 } catch (DiscordErrorException $e) {
-                    return 'Command not found';
+                    return ['Command not found'];
                 }
             }
-            return 'Command not found';
+            return ['Command not found'];
         }
 
         $messages = [];
@@ -46,7 +46,7 @@ class Help extends Base
                 $message .= $helpText . PHP_EOL;
             }
 
-            if ($count > 25) {
+            if ($count > 20) {
                 $messages[] = $message . '```';
                 $message = '```' . PHP_EOL;
                 $count = 0;
