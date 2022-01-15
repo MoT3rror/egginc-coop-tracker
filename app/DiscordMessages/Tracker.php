@@ -140,22 +140,20 @@ class Tracker extends Base
             return [$errorMessage];
         }
 
+        $this->contract = $this->getContractInfo($this->parts[1]);
         if (!$this->coop) {
             $this->coop = new Coop;
-            $this->coop->contract = $this->parts['1'];
+            $this->coop->contract = $this->contract->identifier;
             $this->coop->coop = $this->parts['2'];
         }
         try {
-            $cacheKey = $this->parts['1'] . '-' . $this->parts['2'];
+            $cacheKey = $this->contract->identifier . '-' . $this->parts['2'];
 
             Cache::forget($cacheKey);
             $this->coop->getCoopInfo()->members;
         } catch (\Exception $e) {
             return ['Coop not created'];
         }
-
-        $parts = $this->parts;
-        $this->contract = $this->getContractInfo($parts[1]);
 
         $table = new Table();
         $table->addColumn('name', new Column('Boosted/Name', Column::ALIGN_LEFT));
