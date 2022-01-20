@@ -92,7 +92,7 @@ class Players extends Base
                 $seDivideByPrestiges = resolve(Egg::class)->format($user->getSoulEggsAttribute() / $user->getPrestigesAttribute(), 3);
                 $data[] = [
                     'discord'                => $user->username,
-                    'egg_inc'                => $user->egg_inc_player_id,
+                    'egg_inc'                => strtoupper($user->egg_inc_player_id),
                     'rank'                   => str_replace('farmer', '', $user->getPlayerEggRank()),
                     'earning_bonus'          => $user->getPlayerEarningBonusFormatted(),
                     'highest_deflector'      => $user->getHighestDeflectorAttribute(),
