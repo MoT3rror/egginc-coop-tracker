@@ -312,8 +312,10 @@ class Coop extends Model
                     'channel.id' => (int) $this->channel_id,
                 ]);
             } catch (CommandClientException $exception) {
-
+                
             }
+            $this->channel_id = null;
+            $this->save();
         }
     }
 
