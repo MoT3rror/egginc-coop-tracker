@@ -403,7 +403,24 @@ class User extends Authenticatable
 
     public function hasCompletedContract($contractId): bool
     {
-        return in_array($contractId, $this->getCompleteContractsAttribute());
+        $info = $this->getEggPlayerInfo();
+
+        if (!$info || !object_get($info, 'contracts.pastContracts')) {
+            return false;
+        }
+
+        $previousContracts = $info->contracts->pastContracts;
+        foreach ($previousContracts as $previousContract) {
+            if ($previousContract->props->id != $contractId) {
+                continue;
+            }
+
+            $goalsCompleted = object_get($previousContract, 'numGoalsCompleted', 0);
+            $goals = count($previousContract->props->rewards);
+            return $goalsCompleted == $goals;
+        }
+
+        return false;
     }
 
     public function getHighestDeflectorWithoutPercentAttribute(): int

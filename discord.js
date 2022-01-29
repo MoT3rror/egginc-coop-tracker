@@ -82,11 +82,13 @@ client.on('interactionCreate', interaction => {
 })
 
 client.on('message', message => {
+    
     let atBotUser = 'eb!';
     message.content = message.content.toLowerCase();
     if (message.author.bot || !message.content.startsWith(atBotUser)) {
         return;
     }
+    console.time(message.id + message.content.toLowerCase());
 
     message.channel.sendTyping().then(() => {
         let messageDetails = message.toJSON();
@@ -104,14 +106,16 @@ client.on('message', message => {
                             message.channel.send(messageToSend)
                         })
                     } else {
-                        message.channel.send(response.data.message);
+                        message.channel.send(response.data.message)
                     }
                 } else {
                     message.channel.send('I have nothing to say.');
                 }
+                console.timeEnd(message.id + message.content.toLowerCase())
             })
             .catch(function (error) {
-                message.channel.send('An error has occurred.');
+                message.channel.send('An error has occurred.')
+                console.timeEnd(message.content.toLowerCase())
             })
         ;
     });
