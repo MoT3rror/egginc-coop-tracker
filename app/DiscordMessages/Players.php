@@ -81,6 +81,10 @@ class Players extends Base
             }
         }
 
+        if (count($chuckOfUsers) == 0) {
+            return ['This guild has no players.'];
+        }
+
         $groupOfMessages = [];
         foreach ($chuckOfUsers as $users) {
             $data = [];
@@ -113,6 +117,7 @@ class Players extends Base
 
             $groupOfMessages[] = implode("\n", $messages);
         }
+
         return $groupOfMessages;
     }
 
