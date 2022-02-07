@@ -13,6 +13,7 @@ use App\DiscordMessages\Contracts;
 use App\DiscordMessages\Contributions;
 use App\DiscordMessages\CoopLeaderBoard;
 use App\DiscordMessages\Delete;
+use App\DiscordMessages\DeleteAll;
 use App\DiscordMessages\DeleteChannels;
 use App\DiscordMessages\DeleteCompleteChannels;
 use App\DiscordMessages\Ge;
@@ -100,6 +101,7 @@ class AppServiceProvider extends ServiceProvider
                 'coopless'               => ['class' => PlayersNotInCoop::class],
                 'coop-leaderboard'       => ['class' => CoopLeaderBoard::class],
                 'delete'                 => ['class' => Delete::class],
+                'delete-all'             => ['class' => DeleteAll::class],
                 'delete-channels'        => ['class' => DeleteChannels::class],
                 'delete-complete-channels' => ['class' => DeleteCompleteChannels::class],
                 'ge'                     => ['class' => Ge::class],

@@ -20,21 +20,23 @@ class Delete extends Base
             return 'Coop name is required';
         }
 
-        $coop = Coop::contract($parts[1])
-            ->coop($parts[2])
-            ->guild($this->guildId)
-            ->first()
-        ;
-
-        if (!$coop) {
-            return 'Coop does not exist yet.';
+        $coops = array_slice($parts, 2);
+        foreach ($coops as $coopName) {
+            $coop = Coop::contract($parts[1])
+                ->coop($coopName)
+                ->guild($this->guildId)
+                ->first()
+            ;
+    
+            if (!$coop) {
+                return 'Coop ' . $coopName . ' does not exist yet.';
+            }
+    
+            if (!$coop->delete()) {
+                return 'Was not able to delete the ' . $coopName . ' coop.';
+            }
         }
-
-        if ($coop->delete()) {
-            return 'Coop has been deleted.';
-        } else {
-            return 'Was not able to delete the coop.';
-        }
+        return 'Coops have been deleted.';
     }
 
     public function help(): string

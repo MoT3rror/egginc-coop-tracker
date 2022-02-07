@@ -88,6 +88,7 @@ client.on('message', message => {
     if (message.author.bot || !message.content.startsWith(atBotUser)) {
         return;
     }
+    console.log('received: ' + message.id + ' ' + message.content.toLowerCase())
     console.time(message.id + message.content.toLowerCase());
 
     message.channel.sendTyping().then(() => {
