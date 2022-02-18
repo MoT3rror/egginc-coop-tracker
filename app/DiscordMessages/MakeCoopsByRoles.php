@@ -34,7 +34,7 @@ class MakeCoopsByRoles extends Base
         $coopsAdded = [];
         for ($i = 1; $i <= $coops; $i++) { 
             $coop = new Coop();
-            $coop->contract = $contractId;
+            $coop->contract = $contract->identifier;
             $coop->guild_id = $this->guild->discord_id;
             $coop->coop = $this->getCoopName($prefix, $i);
             $coop->save();
