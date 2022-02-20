@@ -26,7 +26,7 @@ class PlayersNotInCoop extends Status
         $contract = $this->getContractInfo($this->parts[1]);
 
         $this->guild->sync();
-        $members = $this->guild->getMembersAvailableForContract($this->parts[1])
+        $members = $this->guild->getMembersAvailableForContract($contract->identifier)
             ->filter(function($user) use ($players) {
                 return !in_array($user->egg_inc_player_id, $players);
             })
