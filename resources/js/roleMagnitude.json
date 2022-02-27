@@ -122,5 +122,73 @@
     {
         "name": "Weccafarmer",
         "magnitude": 32
+    },
+    {
+        "name": "Weccafarmer 2",
+        "magnitude": 33 
+    },
+    {
+        "name": "Weccafarmer 3",
+        "magnitude": 34
+    },
+    {
+        "name": "Vendafarmer",
+        "magnitude": 35
+    },
+    {
+        "name": "Vendafarmer 2",
+        "magnitude": 36
+    },
+    {
+        "name": "Vendafarmer 3",
+        "magnitude": 37
+    },
+    {
+        "name": "Uadafarmer",
+        "magnitude": 38
+    },
+    {
+        "name": "Uadafarmer 2",
+        "magnitude": 39
+    },
+    {
+        "name": "Uadafarmer 3",
+        "magnitude": 40
+    },
+    {
+        "name": "Treidafarmer",
+        "magnitude": 41
+    },
+    {
+        "name": "Treidafarmer 2",
+        "magnitude": 42
+    },
+    {
+        "name": "Treidafarmer 3",
+        "magnitude": 43
+    },
+    {
+        "name": "Quadafarmer",
+        "magnitude": 44
+    },
+    {
+        "name": "Quadafarmer 2",
+        "magnitude": 45
+    },
+    {
+        "name": "Quadafarmer 3",
+        "magnitude": 46
+    },
+    {
+        "name": "Pendafarmer",
+        "magnitude": 47
+    },
+    {
+        "name": "Pendafarmer 2",
+        "magnitude": 48
+    },
+    {
+        "name": "Pendafarmer 3",
+        "magnitude": 49
     }
 ]
