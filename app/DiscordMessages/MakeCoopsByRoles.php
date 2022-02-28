@@ -44,6 +44,31 @@ class MakeCoopsByRoles extends Base
         $currentCoop = 0;
 
         $roles = array_splice($this->parts, 4);
+
+        $count = 0;
+        foreach ($roles as $role) {
+            $id = $this->cleanAt($role);
+
+            $role = Role::query()
+                ->discordId((int) $id)
+                ->guildId($this->guild->id)
+                ->first()
+            ;
+
+            if ($role) {
+                foreach ($role->members as $member) {
+                    if ($member->hasCompletedContract($contract->identifier)) {
+                        continue;
+                    }
+                    $count++;
+                }
+            }
+        }
+
+        if ($count > $coops * $contract->getMaxCoopSize()) {
+            return 'Figure out your math. You are attempting to make ' . $coops . ' that has size restrion of ' . ($coops * $contract->getMaxCoopSize()) . ' for ' . $count . ' players.';
+        }
+
         foreach ($roles as $role) {
             $id = $this->cleanAt($role);
 

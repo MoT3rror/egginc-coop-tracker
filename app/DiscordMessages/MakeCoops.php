@@ -21,7 +21,7 @@ class MakeCoops extends Base
 
         $coops = Arr::get($this->parts, 2);
 
-        if (!$coops) {
+        if (!$coops || !is_numeric($coops)) {
             return 'Number of coops is required.';
         }
 
@@ -32,6 +32,10 @@ class MakeCoops extends Base
         }
         
         $users = $this->guild->getMembersAvailableForContract($contract->identifier);
+
+        if ($users->count() > $coops * $contract->getMaxCoopSize()) {
+            return 'Figure out your math. You are attempting to make ' . $coops . ' that has size restrion of ' . ($coops * $contract->getMaxCoopSize()) . ' for ' . $users->count() . ' players.';
+        }
 
         $coopsAdded = [];
         for ($i = 1; $i <= $coops; $i++) { 
