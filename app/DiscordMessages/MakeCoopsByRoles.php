@@ -31,21 +31,10 @@ class MakeCoopsByRoles extends Base
             return 'Prefix is required.';
         }
 
-        $coopsAdded = [];
-        for ($i = 1; $i <= $coops; $i++) { 
-            $coop = new Coop();
-            $coop->contract = $contract->identifier;
-            $coop->guild_id = $this->guild->discord_id;
-            $coop->coop = $this->getCoopName($prefix, $i);
-            $coop->save();
-            $coopsAdded[] = $coop;
-        }
-
-        $currentCoop = 0;
-
         $roles = array_splice($this->parts, 4);
 
         $count = 0;
+        $found = [];
         foreach ($roles as $role) {
             $id = $this->cleanAt($role);
 
@@ -60,6 +49,11 @@ class MakeCoopsByRoles extends Base
                     if ($member->hasCompletedContract($contract->identifier)) {
                         continue;
                     }
+
+                    if (Arr::get($found, $member->id)) {
+                        continue;
+                    }
+                    $found[$member->id] = true;
                     $count++;
                 }
             }
@@ -68,6 +62,18 @@ class MakeCoopsByRoles extends Base
         if ($count > $coops * $contract->getMaxCoopSize()) {
             return 'Figure out your math. You are attempting to make ' . $coops . ' that has size restrion of ' . ($coops * $contract->getMaxCoopSize()) . ' for ' . $count . ' players.';
         }
+
+        $coopsAdded = [];
+        for ($i = 1; $i <= $coops; $i++) { 
+            $coop = new Coop();
+            $coop->contract = $contract->identifier;
+            $coop->guild_id = $this->guild->discord_id;
+            $coop->coop = $this->getCoopName($prefix, $i);
+            $coop->save();
+            $coopsAdded[] = $coop;
+        }
+
+        $currentCoop = 0;
 
         foreach ($roles as $role) {
             $id = $this->cleanAt($role);
@@ -81,7 +87,7 @@ class MakeCoopsByRoles extends Base
             if ($role) {
                 $members = $role->members->sortBy(function ($user) {
                     return $user->getPlayerEarningBonus();
-                }, SORT_REGULAR, true);
+                }, SORT_REGULAR, true)->shuffle();
                 foreach ($members as $roleMember) {
                     if ($roleMember->hasCompletedContract($contract->identifier)) {
                         continue;
