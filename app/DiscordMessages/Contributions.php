@@ -43,13 +43,14 @@ class Contributions extends Status
                         $status = 'L';
                     }
 
+                    $coopEggsLaid = $coop->getCurrentEggs() ?: 1;
                     $data[] = [
                         'name'                 => $member->name,
                         'rate'                 => round($member->eggsPerSecond * 60 * 60),
                         'eggs_laid'            => round($member->eggsLaid),
-                        'contribution'         => round($member->eggsLaid / $coop->getCurrentEggs() * 100) . '%',
+                        'contribution'         => round($member->eggsLaid / $coopEggsLaid * 100) . '%',
                         'status'               => $status,
-                        'contribution_percent' => round($member->eggsLaid / $coop->getCurrentEggs() * 100),
+                        'contribution_percent' => round($member->eggsLaid / $coopEggsLaid * 100),
                     ];
                 }
             } catch (CoopNotFoundException $e) {}
