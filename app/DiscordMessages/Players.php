@@ -81,7 +81,7 @@ class Players extends Base
                     $table->addColumn('se_divide_by_prestiges', new Column('SE/Prestiges', Column::ALIGN_RIGHT));
                     break;
                 case 'legendary_artifacts':
-                    $table->addColumn('legendary_artifacts', new Column('Legendary Artifacts', Column::ALIGN_RIGHT));
+                    $table->addColumn('legendary_artifacts', new Column('LA', Column::ALIGN_RIGHT));
                     break;
             }
         }
