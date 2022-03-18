@@ -481,6 +481,20 @@ class User extends Authenticatable
         return $highest;
     }
 
+    public function getLegendaryArtifactsCount(): int
+    {
+        $info = $this->getEggPlayerInfo();
+
+        if (!$info || !object_get($info, 'artifactsDb.inventoryItems')) {
+            return 0;
+        }
+
+        return collect($info->artifactsDb->inventoryItems)
+            ->where('artifact.spec.rarity', 'LEGENDARY')
+            ->count()
+        ;
+    }
+
     public function getHighestDeflectorAttribute(): string
     {
         return $this->getHighestDeflectorWithoutPercentAttribute() . '%';

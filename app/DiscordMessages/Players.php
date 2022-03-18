@@ -37,6 +37,8 @@ class Players extends Base
                         return $user->getPrestigesAttribute();
                     case 'se_divide_by_prestiges':
                         return $user->getSoulEggsAttribute() / $user->getPrestigesAttribute();
+                    case 'legendary_artifacts':
+                        return $user->getLegendaryArtifactsCount();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -78,6 +80,9 @@ class Players extends Base
                 case 'se_divide_by_prestiges':
                     $table->addColumn('se_divide_by_prestiges', new Column('SE/Prestiges', Column::ALIGN_RIGHT));
                     break;
+                case 'legendary_artifacts':
+                    $table->addColumn('legendary_artifacts', new Column('Legendary Artifacts', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -105,6 +110,7 @@ class Players extends Base
                     'soul_eggs'              => $user->getSoulEggsFormattedAttribute(),
                     'prestiges'              => $user->getPrestigesAttribute(),
                     'se_divide_by_prestiges' => $seDivideByPrestiges,
+                    'legendary_artifacts'    => $user->getLegendaryArtifactsCount(),
                 ];
             }
 

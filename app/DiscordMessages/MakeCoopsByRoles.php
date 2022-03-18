@@ -87,7 +87,7 @@ class MakeCoopsByRoles extends Base
             if ($role) {
                 $members = $role->members->sortBy(function ($user) {
                     return $user->getPlayerEarningBonus();
-                }, SORT_REGULAR, true)->shuffle();
+                }, SORT_REGULAR, true);
                 foreach ($members as $roleMember) {
                     if ($roleMember->hasCompletedContract($contract->identifier)) {
                         continue;
