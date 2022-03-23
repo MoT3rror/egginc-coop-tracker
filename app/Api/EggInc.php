@@ -3,11 +3,9 @@ namespace App\Api;
 
 use App\Exceptions\CoopNotFoundException;
 use App\Exceptions\UserNotFoundException;
-use Cache;
-use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Log;
-use mikehaertl\shellcommand\Command;
+use JsonException;
 
 class EggInc
 {
@@ -26,7 +24,7 @@ class EggInc
             if (!$output) {
                 throw new CoopNotFoundException;
             }
-            Log::channel('coop')->info(json_encode($output));
+            // Log::channel('coop')->info(json_encode($output));
 
             if (!isset($output->members)) {
                 throw new CoopNotFoundException;
@@ -52,7 +50,11 @@ class EggInc
         return Cache::remember('egg-player-info-' . $playerId, 60 * 60 * 4, function () use ($playerId) {
             $response = $this->getHttpClient()->get('getPlayerInfo', ['playerId' => strtoupper($playerId)]);
             $json = $response->body();
-            $player = json_decode($json, null, 512, JSON_THROW_ON_ERROR);
+            try {
+                $player = json_decode($json, null, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $e) {
+                $player = null;
+            }    
 
             if (!$player || !isset($player->approxTimestamp) || !$player->approxTimestamp) {
                 throw new UserNotFoundException('User not found');
