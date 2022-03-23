@@ -46,6 +46,7 @@ class Unfilled extends Status
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Show coops that are not filled.';
     }
 

@@ -67,6 +67,7 @@ class BootWarning extends Status
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Coop Member Status.';
     }
 

@@ -93,6 +93,7 @@ class Add extends Base
 
     public function help(): string
     {
+        $this->canAdd();
         return '{Contract ID} {Coop} {?Coop} - Add coop to tracking, multiple can be added by this command. When multiple is added, the position of the coops is set.';
     }
 

@@ -144,6 +144,7 @@ class Status extends Base
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Display coop info for contract';
     }
 

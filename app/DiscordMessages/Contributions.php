@@ -128,6 +128,7 @@ class Contributions extends Status
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} {order=eggs_laid,contribution_percent,rate} - Display all members of coops order by selected order. Default = eggs_laid';
     }
 

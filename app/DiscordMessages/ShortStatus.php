@@ -33,6 +33,7 @@ class ShortStatus extends Status
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Short version of status';
     }
 }

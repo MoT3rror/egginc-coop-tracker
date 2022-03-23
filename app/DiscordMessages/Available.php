@@ -34,6 +34,7 @@ class Available extends Base
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Get who has not complete contract. Will not validate contract ID.';
     }
 

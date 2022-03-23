@@ -115,6 +115,7 @@ class CoopLeaderBoard extends Status
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} {sort default=rate} - Display all members of coops order by rate/eggs_laid';
     }
 

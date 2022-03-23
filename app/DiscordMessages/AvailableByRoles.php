@@ -47,6 +47,7 @@ class AvailableByRoles extends Base
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} {@roles...} - Get who has not complete contract by roles.';
     }
 

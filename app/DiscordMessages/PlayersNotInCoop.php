@@ -57,6 +57,7 @@ class PlayersNotInCoop extends Status
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Find players not in contract.';
     }
 

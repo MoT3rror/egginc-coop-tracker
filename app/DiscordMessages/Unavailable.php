@@ -45,6 +45,7 @@ class Unavailable extends Base
 
     public function help(): string
     {
+        $this->isAdmin();
         return '{Contract ID} - Get users that do not have the contract.';
     }
 

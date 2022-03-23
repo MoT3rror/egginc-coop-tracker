@@ -36,7 +36,6 @@ class Help extends Base
             if (isset($command['duplicate']) && $command['duplicate']) {
                 continue;
             }
-            $count++;
             $helpText = '';
             $class = $command['class'];
             try {
@@ -46,6 +45,7 @@ class Help extends Base
                 }
             } catch (DiscordErrorException $e) {}
             if ($helpText) {
+                $count++;
                 $message .= $helpText . PHP_EOL;
             }
 
