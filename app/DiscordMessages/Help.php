@@ -33,6 +33,9 @@ class Help extends Base
 
         $count = 0;
         foreach ($commands as $start => $command) {
+            if (isset($command['duplicate']) && $command['duplicate']) {
+                continue;
+            }
             $count++;
             $helpText = '';
             $class = $command['class'];
@@ -46,7 +49,7 @@ class Help extends Base
                 $message .= $helpText . PHP_EOL;
             }
 
-            if ($count > 20) {
+            if ($count > 19) {
                 $messages[] = $message . '```';
                 $message = '```' . PHP_EOL;
                 $count = 0;

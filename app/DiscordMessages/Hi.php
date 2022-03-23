@@ -7,9 +7,4 @@ class Hi extends Base
     {
         return 'Hello <@' . $this->authorId . '>!';
     }
-
-    public function help(): string
-    {
-        return 'Just say hi.';
-    }
 }

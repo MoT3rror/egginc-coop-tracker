@@ -91,15 +91,24 @@ class AppServiceProvider extends ServiceProvider
             return [
                 'add'                    => ['class' => Add::class],
                 'add-member'             => ['class' => AddMember::class],
-                'atrisk'                 => ['class' => BootWarning::class],
+                'atrisk'                 => [
+                    'class'     => BootWarning::class,
+                    'duplicate' => true,
+                ],
                 'available'              => ['class' => Available::class],
                 'available-by-roles'     => ['class' => AvailableByRoles::class],
                 'available-by-roles-count' => ['class' => AvailableByRolesCount::class],
                 'boot-warning'           => ['class' => BootWarning::class],
                 'contracts'              => ['class' => Contracts::class],
                 'contributions'          => ['class' => Contributions::class],
-                'coopless'               => ['class' => PlayersNotInCoop::class],
-                'coop-leaderboard'       => ['class' => CoopLeaderBoard::class],
+                'coopless'               => [
+                    'class'     => PlayersNotInCoop::class,
+                    'duplicate' => true,
+                ],
+                'coop-leaderboard'       => [
+                    'class' => CoopLeaderBoard::class,
+                    'duplicate' => true,
+                ],
                 'delete'                 => ['class' => Delete::class],
                 'delete-all'             => ['class' => DeleteAll::class],
                 'delete-channels'        => ['class' => DeleteChannels::class],
