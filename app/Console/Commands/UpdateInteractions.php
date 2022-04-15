@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -108,7 +109,11 @@ class UpdateInteractions extends Command
             $commands[] = $commandData;
         }
 
-        $this->httpClient()->put('/guilds/' . $guildId . '/commands', array_values($commands))->json();
+        try {
+            $this->httpClient()->put('/guilds/' . $guildId . '/commands', array_values($commands))->json();
+        } catch (RequestException $e) {
+            dd($e->getResponse()->getBody()->getContents(), $commands);
+        }
 
         foreach ($currentlySetKeyed as $command) {
             $this->httpClient()->delete('/guilds/' . $guildId . '/commands/' . $command['id']);
