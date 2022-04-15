@@ -2,11 +2,13 @@
 namespace App\DiscordMessages;
 
 use App\Jobs\RemindCoopStatus;
-use Arr;
+use Illuminate\Support\Arr;
 
 class Remind extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
+
+    public $guildOnly = true;
 
     public function message(): array
     {
@@ -50,5 +52,37 @@ class Remind extends Base
     public function help(): string
     {
         return '{Contract ID} {Hours} {Minutes}';
+    }
+
+    public function description(): string
+    {
+        return 'Coop status message on repeat';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+            [
+                'type'       => 4,
+                'name'       => 'hours',
+                'description' => 'Hours',
+                'required'   => true,
+            ],
+            [
+                'type'        => 4,
+                'name'        => 'minutes',
+                'description' => 'Minutes',
+                'required'    => true,
+            ]
+        ];
     }
 }
