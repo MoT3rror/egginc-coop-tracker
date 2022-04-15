@@ -100,7 +100,7 @@ class Rates extends Base
         $contract = $this->getContractInfo($parts[1]);
 
         $table = new Table();
-        $table->addColumn('name', new Column('Coop ' . $contract->getMaxCoopSize() . '', Column::ALIGN_LEFT));
+        $table->addColumn('name', new Column('Coop', Column::ALIGN_LEFT));
         $table->addColumn('rate', new Column('Rate', Column::ALIGN_LEFT));
 
         $coopsData = $this->coopData($coops, false);
