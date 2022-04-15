@@ -8,6 +8,8 @@ class DeleteAll extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         $parts = $this->parts;
@@ -30,6 +32,26 @@ class DeleteAll extends Base
 
     public function help(): string
     {
-        return '{contractID} - Remove all coop from tracking for contract.';
+        return '{contractID} - Remove all coops from tracking for contract.';
+    }
+
+    public function description(): string
+    {
+        return 'Remove all coops from tracking for contract';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+        ];
     }
 }
