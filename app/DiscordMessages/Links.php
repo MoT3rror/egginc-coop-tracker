@@ -25,12 +25,14 @@ class Links extends Base
         });
 
         if (Arr::get($this->parts, 1)) {
-            $this->isAdmin();
-
             $discordId = str_replace(['<@!', '<@', '>'], '', $this->parts[1]);
-            $user = $this->guild->members->firstWhere('discord_id', $discordId);
-            if (!$user) {
-                return 'User not found';
+            if ($discordId != $this->authorId) {
+                $this->isAdmin();
+    
+                $user = $this->guild->members->firstWhere('discord_id', $discordId);
+                if (!$user) {
+                    return 'User not found';
+                }
             }
         }
 
@@ -67,5 +69,17 @@ class Links extends Base
     public function description(): string
     {
         return $this->help();
+    }
+
+    public function options(): array
+    {
+        return [
+            [
+                'type'        => 6,
+                'name'        => 'user',
+                'description' => 'User. (Leave blank to get for self)',
+                'required'    => false,
+            ],
+        ];
     }
 }
