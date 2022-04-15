@@ -39,7 +39,7 @@ class User extends Authenticatable
     {
         if ($this->discord_token_expires->lt(now())) {
             $client = new Client;
-            $response = $client->request('POST', 'https://discord.com/api/v6/oauth2/token', [
+            $response = $client->request('POST', 'https://discord.com/api/v9/oauth2/token', [
                 'form_params' => [
                     'client_id'     => config('services.discord.client_id'),
                     'client_secret' => config('services.discord.client_secret'),
