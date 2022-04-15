@@ -32,6 +32,7 @@ use App\DiscordMessages\Ping;
 use App\DiscordMessages\Players;
 use App\DiscordMessages\PlayersNotInCoop;
 use App\DiscordMessages\Rank;
+use App\DiscordMessages\Rates;
 use App\DiscordMessages\Remind;
 use App\DiscordMessages\RemindUnfilled;
 use App\DiscordMessages\RemoveMember;
@@ -130,6 +131,7 @@ class AppServiceProvider extends ServiceProvider
                 'players'                => ['class' => Players::class],
                 'players-not-in-coop'    => ['class' => PlayersNotInCoop::class],
                 'rank'                   => ['class' => Rank::class],
+                'rates'                  => ['class' => Rates::class],
                 'remind'                 => ['class' => Remind::class],
                 'remind-unfilled'        => ['class' => RemindUnfilled::class],
                 'replace'                => ['class' => Replace::class],
