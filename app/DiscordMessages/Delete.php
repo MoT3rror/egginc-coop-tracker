@@ -2,11 +2,13 @@
 namespace App\DiscordMessages;
 
 use App\Models\Coop;
-use Arr;
+use Illuminate\Support\Arr;
 
 class Delete extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
+
+    public $guildOnly = true;
 
     public function message(): string
     {
@@ -42,5 +44,31 @@ class Delete extends Base
     public function help(): string
     {
         return '{contractID} {Coop} - Remove coop from tracking';
+    }
+
+    public function description(): string
+    {
+        return 'Remove coop from tracking.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+            [
+                'type'        => 3,
+                'name'        => 'coop',
+                'description' => 'Coop',
+                'required'    => true,
+            ],
+        ];
     }
 }
