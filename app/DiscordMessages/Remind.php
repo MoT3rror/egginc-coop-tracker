@@ -51,12 +51,12 @@ class Remind extends Base
 
     public function help(): string
     {
-        return '{Contract ID} {Hours} {Minutes}';
+        return '{Contract ID} {Hours} {Minutes} - Coop status message on repeat every x minutes';
     }
 
     public function description(): string
     {
-        return 'Coop status message on repeat';
+        return 'Coop status message on repeat every x minutes';
     }
 
     public function options(): array
