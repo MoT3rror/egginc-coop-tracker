@@ -14,7 +14,7 @@ const _ = require('lodash');
 require('dotenv').config();
 
 client.on('ready', () => {
-    console.log('bot is ready');
+    console.log('bot is ready')
 })
 
 client.on('interactionCreate', interaction => {
@@ -82,14 +82,13 @@ client.on('interactionCreate', interaction => {
 })
 
 client.on('message', message => {
-    
     let atBotUser = 'eb!';
     message.content = message.content.toLowerCase();
-    if (message.author.bot || !message.content.startsWith(atBotUser)) {
+    if (message.author.id == client.user.id || !message.content.startsWith(atBotUser)) {
         return;
     }
-    console.log('received: ' + message.id + ' ' + message.content.toLowerCase())
-    console.time(message.id + message.content.toLowerCase());
+    console.log('received: ' + message.channel.id  + ' message: ' + message.id + ' ' + message.content.toLowerCase())
+    console.time(message.id + ' ' + message.content.toLowerCase());
 
     message.channel.sendTyping().then(() => {
         let messageDetails = message.toJSON();
@@ -112,11 +111,11 @@ client.on('message', message => {
                 } else {
                     message.channel.send('I have nothing to say.');
                 }
-                console.timeEnd(message.id + message.content.toLowerCase())
+                console.timeEnd(message.id + ' ' + message.content.toLowerCase())
             })
             .catch(function (error) {
                 message.channel.send('An error has occurred.')
-                console.timeEnd(message.content.toLowerCase())
+                console.timeEnd(message.id + ' ' + message.content.toLowerCase())
             })
         ;
     });

@@ -18,6 +18,7 @@ class Guild extends Model
         'role_to_add_to_coop'          => 'array',
         'show_link_on_status'          => 'integer',
         'create_thread_on_new_channel' => 'boolean',
+        'admin_users'                  => 'json',
     ];
 
     protected $attributes = [

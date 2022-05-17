@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Api\EggInc;
 use App\DiscordMessages\Add;
+use App\DiscordMessages\AddAdminUser;
 use App\DiscordMessages\AddMember;
 use App\DiscordMessages\Available;
 use App\DiscordMessages\AvailableByRoles;
@@ -35,6 +36,7 @@ use App\DiscordMessages\Rank;
 use App\DiscordMessages\Rates;
 use App\DiscordMessages\Remind;
 use App\DiscordMessages\RemindUnfilled;
+use App\DiscordMessages\RemoveAdminUser;
 use App\DiscordMessages\RemoveMember;
 use App\DiscordMessages\Replace;
 use App\DiscordMessages\RocketTracker;
@@ -52,6 +54,7 @@ use App\DiscordMessages\Unavailable;
 use App\DiscordMessages\UnsubscribeToRockets;
 use App\DiscordMessages\Unfilled;
 use App\DiscordMessages\UpdateContracts;
+use App\DiscordMessages\ViewAdminUsers;
 use App\Formatters\EarningBonus;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
@@ -91,6 +94,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('DiscordMessages', function () {
             return [
                 'add'                    => ['class' => Add::class],
+                'add-admin-user'         => ['class' => AddAdminUser::class],
                 'add-member'             => ['class' => AddMember::class],
                 'atrisk'                 => [
                     'class'     => BootWarning::class,
@@ -136,6 +140,7 @@ class AppServiceProvider extends ServiceProvider
                 'remind-unfilled'        => ['class' => RemindUnfilled::class],
                 'replace'                => ['class' => Replace::class],
                 'rocket-tracker'         => ['class' => RocketTracker::class],
+                'remove-admin-user'      => ['class' => RemoveAdminUser::class],
                 'remove-member'          => ['class' => RemoveMember::class],
                 'send-initial-message'   => ['class' => SendInitialMessage::class],
                 'set-coop-channel-parent' => ['class' => SetCoopChannelParent::class],
@@ -151,6 +156,7 @@ class AppServiceProvider extends ServiceProvider
                 'unsubscribe-to-rockets' => ['class' => UnsubscribeToRockets::class],
                 'unfilled'               => ['class' => Unfilled::class],
                 'update-contracts'       => ['class' => UpdateContracts::class],
+                'view-admin-users'       => ['class' => ViewAdminUsers::class],
             ];
         });
     }

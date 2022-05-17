@@ -79,7 +79,12 @@ class Base
         $this->requiresGuild();
         
         $this->guild->sync();
+
         $admin = false;
+        if ($this->guild->admin_users) {
+            $admin = in_array($this->authorId, $this->guild->admin_users);
+        }
+
         foreach ($this->guild->roles as $role) {
             if ($role->is_admin && $role->members->contains('discord_id', $this->authorId))  {
                 $admin = true;
