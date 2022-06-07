@@ -152,7 +152,7 @@ class User extends Authenticatable
         if ($time === 0) {
             return 'Never';
         }
-        return Carbon::createFromTimestamp($time)->toDateTimeString();
+        return Carbon::createFromTimestamp($time)->format('Y-m-d H:i:s e');
     }
 
     public function getCurrentContracts(): array

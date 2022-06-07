@@ -45,6 +45,7 @@ class Rank extends Base
         }
 
         $username = $user->getEggPlayerInfo()->userName;
+        $backupTime = $user->getBackupTimeFormatted();
         $soulEggs = $user->getSoulEggsFormattedAttribute();
         $goldenEggs = $user->getEggsOfProphecyAttribute();
         $earningBonus = $user->getPlayerEarningBonusFormatted();
@@ -68,6 +69,7 @@ class Rank extends Base
         return <<<RANK
 ```
 $username
+Backup Time: $backupTime
 Soul Eggs: $soulEggs
 Prophecy Eggs: $goldenEggs
 Earning Bonus: $earningBonus
