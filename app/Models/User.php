@@ -137,6 +137,24 @@ class User extends Authenticatable
         }
     }
 
+    public function getBackupTime(): int
+    {
+        $info = $this->getEggPlayerInfo();
+        if (!$info) {
+            return 0;
+        }
+        return $info->approxTimestamp;
+    }
+
+    public function getBackupTimeFormatted(): string
+    {
+        $time = $this->getBackupTime();
+        if ($time === 0) {
+            return 'Never';
+        }
+        return Carbon::createFromTimestamp($time)->toDateTimeString();
+    }
+
     public function getCurrentContracts(): array
     {
         return $this->getEggPlayerInfo()->contracts->contractsList;

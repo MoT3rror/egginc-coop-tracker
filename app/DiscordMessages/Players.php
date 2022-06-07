@@ -2,6 +2,7 @@
 namespace App\DiscordMessages;
 
 use App\Formatters\Egg;
+use App\Models\User;
 use kbATeam\MarkdownTable\Column;
 use kbATeam\MarkdownTable\Table;
 use Illuminate\Support\Arr;
@@ -21,7 +22,7 @@ class Players extends Base
             ->withEggIncId()
             ->inShowRoles($this->guild)
             ->get()
-            ->sortBy(function ($user) use ($parts) {
+            ->sortBy(function (User $user) use ($parts) {
                 switch (Arr::get($parts, 1)) {
                     case 'egg_id':
                         return $user->egg_inc_player_id;
@@ -39,6 +40,8 @@ class Players extends Base
                         return $user->getSoulEggsAttribute() / $user->getPrestigesAttribute();
                     case 'legendary_artifacts':
                         return $user->getLegendaryArtifactsCount();
+                    case 'backup_time':
+                        return $user->getBackupTime();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -83,6 +86,9 @@ class Players extends Base
                 case 'legendary_artifacts':
                     $table->addColumn('legendary_artifacts', new Column('LA', Column::ALIGN_RIGHT));
                     break;
+                case 'backup_time':
+                    $table->addColumn('backup_time', new Column('Backup', Column::ALIGN_LEFT));
+                    break;
             }
         }
 
@@ -111,6 +117,7 @@ class Players extends Base
                     'prestiges'              => $user->getPrestigesAttribute(),
                     'se_divide_by_prestiges' => $seDivideByPrestiges,
                     'legendary_artifacts'    => $user->getLegendaryArtifactsCount(),
+                    'backup_time'            => $user->getBackupTimeFormatted(),
                 ];
             }
 
