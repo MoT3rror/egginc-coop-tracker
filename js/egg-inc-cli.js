@@ -15,7 +15,7 @@ require('yargs')
             .positional('coop', {type: 'string'})
     }, (argv) => {
         EggIncApi.getCoopStatus(argv.contract, argv.coop).then((data) => {
-            console.log(JSON.stringify(data.status))
+            console.log(JSON.stringify(data))
         })
     })
     .command('getPlayerInfo', 'Get Player Info', (yargs) => {
@@ -23,7 +23,7 @@ require('yargs')
             .positional('playerId', {type: 'string'})
     }, (argv) => {
             EggIncApi.getPlayerInfo(argv.playerId).then((data) => {
-            console.log(JSON.stringify(data.payload.data))
+            console.log(JSON.stringify(data), argv.playerId)
         })
     })
     .command('getPlayerInfos', 'Get Player Infos', (yargs) => {

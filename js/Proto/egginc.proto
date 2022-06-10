@@ -16,6 +16,12 @@ message FirstContactRequestPayload {
   Platform platform = 3;
 }
 
+message EggIncFirstContactRequest {
+  optional string ei_user_id = 4;
+  optional string bot_name = 5;
+ 
+}
+
 message BasicRequestInfo {
   string ei_user_id = 1;
   uint64 client_version = 2;

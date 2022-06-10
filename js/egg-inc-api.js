@@ -65,23 +65,15 @@ class EggIncApi {
 
     static getPlayerInfo(playerId) {
         var payload = {
-            clientVersion: 40,
-            platform: 2,
+            botName: 'EggBert',
             eiUserId: playerId,
-            username: '',
-            rinfo: {
-                eiUserId: playerId,
-                clientVersion: 40,
-                version: '1.22.2',
-                platform: 'ANDROID'
-            }
         }
 
         return ei_request(
-            'ei/first_contact',
+            'ei/bot_first_contact',
             payload,
-            root.lookupType('FirstContactRequestPayload'),
-            root.lookupType('FirstContactResponsePayload')
+            root.lookupType('EggIncFirstContactRequest'),
+            root.lookupType('FirstContact')
         );
     }
 

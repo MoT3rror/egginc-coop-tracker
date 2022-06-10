@@ -35,15 +35,15 @@ app.get('/getCoopStatus', (req, res, next) => {
 app.get('/getPlayerInfo', (req, res, next) => {
     EggIncApi.getPlayerInfo(req.query.playerId).then((data) => {
 
-        data.payload.data.contracts.activeContracts.forEach((contract) => {
+        data.data.contracts.activeContracts.forEach((contract) => {
             contract.props.description = ''
         })
 
-        data.payload.data.contracts.pastContracts.forEach((contract) => {
+        data.data.contracts.pastContracts.forEach((contract) => {
             contract.props.description = ''
         })
 
-        res.json(data.payload.data);
+        res.json(data.data);
     }).catch((error) => {
         console.error(error);
         return next(new createError.InternalServerError(error));
