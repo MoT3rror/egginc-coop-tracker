@@ -6,7 +6,7 @@ use Closure;
 
 class OnlyLocal
 {
-    private $whiteIPs = ['127.0.0.1'];
+    private $whiteIPs = ['127.0.0.1', '104.131.42.208'];
 
     /**
      * Handle an incoming request.
