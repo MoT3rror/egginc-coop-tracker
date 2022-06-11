@@ -406,7 +406,7 @@ class User extends Authenticatable
 
     public function hasCompletedContract($contractId): bool
     {
-        return in_array($this->getCompleteContractsAttribute(), $contractId);
+        return in_array($contractId, $this->getCompleteContractsAttribute());
     }
 
     public function getHighestDeflectorWithoutPercentAttribute(): int
