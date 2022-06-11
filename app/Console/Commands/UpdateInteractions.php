@@ -29,10 +29,14 @@ class UpdateInteractions extends Command
      */
     public function handle()
     {
+        $this->info('Setting global commands');
         $this->setGlobalCommands();
+        $this->info('Done setting global commands');
         foreach ($this->botGuilds() as $guild) {
             sleep(15);
+            $this->info('Start guild ' . $guild->id);
             $this->setGuildCommands($guild->id);
+            $this->info('end guild ' . $guild->id);
         }
     }
 
@@ -122,7 +126,7 @@ class UpdateInteractions extends Command
 
     private function httpClient()
     {
-        return $currentlySet = Http::withHeaders([
+        return Http::withHeaders([
             'Authorization' => 'Bot ' . config('services.discord.token'),
         ])
             ->withOptions([
