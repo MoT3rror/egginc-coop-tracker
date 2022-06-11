@@ -82,8 +82,10 @@ class Guild extends Model
                 $currentRole->guild_id = $this->id;
                 $currentRole->discord_id = $role->id;
             }
-            $currentRole->name = $role['name'];
-            $currentRole->save();
+            if ($currentRole->name !== $role['name']) {
+                $currentRole->name = $role['name'];
+                $currentRole->save();
+            }
             $currentRolesIds[] = $currentRole->id;
         }
 
@@ -104,11 +106,15 @@ class Guild extends Model
             }
 
             $user = User::unguarded(function () use ($member) {
-                return User::updateOrCreate(
+                return User::firstOrNew(
                     ['discord_id' => $member['user']['id']],
-                    ['username' => $member['user']['username']]
                 );
             });
+
+            if ($user->username !== $member['user']['username']) {
+                $user->username = $member['user']['username'];
+                $user->save();
+            }
 
             $user->roles()->sync($this->roles->whereIn('discord_id', $member['roles']));
             $users[] = $user;
@@ -118,7 +124,7 @@ class Guild extends Model
 
     public function getChannelCategories(): array
     {
-        $channels = $this->getDiscordClient()->guild->getGuildChannels(['guild.id' => (int) $this->discord_id]);
+        $channels = $this->getDiscordClient()->guild->getGuildChannels(['guild.id' => (int) $this->discord_id])->toArray();
         return collect($channels)
             ->where('type', 4)
             ->map(function ($channel) {

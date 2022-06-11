@@ -287,7 +287,7 @@ class Coop extends Model
             throw $e;
         }
 
-        $this->channel_id = $result->id;
+        $this->channel_id = $result['id'];
         $this->save();
 
         $this->sendInitialMessage();
