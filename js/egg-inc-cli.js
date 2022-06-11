@@ -1,4 +1,5 @@
 const EggIncApi = require('./egg-inc-api');
+const _ = require('lodash')
 
 // cli around the API
 require('yargs')
@@ -22,8 +23,20 @@ require('yargs')
         yargs
             .positional('playerId', {type: 'string'})
     }, (argv) => {
-            EggIncApi.getPlayerInfo(argv.playerId).then((data) => {
-            console.log(JSON.stringify(data), argv.playerId)
+        EggIncApi.getPlayerInfo(argv.playerId).then((data) => {   
+            data.data.contracts.completeContracts = _.chain(data.data.contracts.pastContracts)
+                .filter((activeContract) => {
+                    return activeContract.numGoalsCompleted == activeContract.props.rewards.length
+                })
+                .map((activeContract) => {
+                    return activeContract.props.id
+                })
+                .toJSON()
+            ;
+            
+            data.data.contracts.activeContracts = null;
+            data.data.contracts.pastContracts = null
+            console.log(JSON.stringify(data.data))
         })
     })
     .command('getPlayerInfos', 'Get Player Infos', (yargs) => {

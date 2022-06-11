@@ -401,44 +401,12 @@ class User extends Authenticatable
     {
         $info = $this->getEggPlayerInfo(); 
 
-        if (!$info || !object_get($info, 'contracts.pastContracts')) {
-            return [];
-        }
-
-        $previousContracts = $info->contracts->pastContracts;
-        $complete = [];
-        foreach ($previousContracts as $previousContract) {
-            $goalsCompleted = object_get($previousContract, 'numGoalsCompleted', 0);
-            $goals = count($previousContract->props->rewards);
-            if ($goalsCompleted < $goals) {
-                continue;
-            }
-            $complete[]  = $previousContract->props->id;
-        }
-
-        return $complete;
+        return object_get($info, 'contracts.completeContracts', []);
     }
 
     public function hasCompletedContract($contractId): bool
     {
-        $info = $this->getEggPlayerInfo();
-
-        if (!$info || !object_get($info, 'contracts.pastContracts')) {
-            return false;
-        }
-
-        $previousContracts = $info->contracts->pastContracts;
-        foreach ($previousContracts as $previousContract) {
-            if ($previousContract->props->id != $contractId) {
-                continue;
-            }
-
-            $goalsCompleted = object_get($previousContract, 'numGoalsCompleted', 0);
-            $goals = count($previousContract->props->rewards);
-            return $goalsCompleted == $goals;
-        }
-
-        return false;
+        return in_array($this->getCompleteContractsAttribute(), $contractId);
     }
 
     public function getHighestDeflectorWithoutPercentAttribute(): int

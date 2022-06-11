@@ -43,7 +43,7 @@ client.on('interactionCreate', interaction => {
                     id: interaction.guildId,
                 }
             },
-            content: content,
+            content: content.toLowerCase(),
             author: {
                 id: interaction.user.id,
                 username: interaction.user.username,

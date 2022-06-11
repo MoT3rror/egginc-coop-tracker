@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const createError = require('http-errors');
 
 require('dotenv').config();
+let _ = require('lodash')
 
 const EggIncApi = require('./egg-inc-api');
 
@@ -34,14 +35,18 @@ app.get('/getCoopStatus', (req, res, next) => {
 
 app.get('/getPlayerInfo', (req, res, next) => {
     EggIncApi.getPlayerInfo(req.query.playerId).then((data) => {
-
-        data.data.contracts.activeContracts.forEach((contract) => {
-            contract.props.description = ''
-        })
-
-        data.data.contracts.pastContracts.forEach((contract) => {
-            contract.props.description = ''
-        })
+        data.data.contracts.completeContracts = _.chain(data.data.contracts.pastContracts)
+            .filter((activeContract) => {
+                return activeContract.numGoalsCompleted == activeContract.props.rewards.length
+            })
+            .map((activeContract) => {
+                return activeContract.props.id;
+            })
+            .toJSON()
+        ;
+        
+        data.data.contracts.activeContracts = null;
+        data.data.contracts.pastContracts = null;
 
         res.json(data.data);
     }).catch((error) => {

@@ -93,7 +93,7 @@ message FirstContact {
         string id = 1;
         int64 count = 2;
       }
-      repeated Boost boosts = 30;
+      // repeated Boost boosts = 30;
       double soul_eggs = 34;
     }
     Progress progress = 7;

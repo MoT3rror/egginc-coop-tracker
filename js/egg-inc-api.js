@@ -21,7 +21,11 @@ const ei_request = (path, payload, requestPB, responsePB) => {
             let byteArray = new Array(0)
             protobuf.util.base64.decode(response.data, byteArray, 0)
 
-            resolve(responsePB.decode(byteArray))
+            resolve(responsePB.toObject(responsePB.decode(byteArray), {
+                longs: String,
+                enums: String,
+                bytes: String,
+            }))
         }).catch(err => {
             reject(err);
         })
