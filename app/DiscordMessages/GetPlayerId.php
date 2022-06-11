@@ -7,6 +7,8 @@ class GetPlayerId extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         $user = $discordId = str_replace(['<@!', '<@', '>'], '', $this->parts[1]);
@@ -29,5 +31,19 @@ class GetPlayerId extends Base
     public function description(): string
     {
         return 'Get current set Egg Player ID of user.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 6,
+                'name'        => 'user',
+                'description' => 'User',
+                'required'    => true,
+            ],
+        ];
     }
 }
