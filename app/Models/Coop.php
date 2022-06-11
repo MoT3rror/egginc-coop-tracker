@@ -5,7 +5,10 @@ namespace App\Models;
 use App\Api\EggInc;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
+use Exception;
 use GuzzleHttp\Command\Exception\CommandClientException;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
 
 class Coop extends Model
 {
@@ -215,6 +218,9 @@ class Coop extends Model
 
         if ($this->guild()->role_to_add_to_coop) {
             foreach ($this->guild()->role_to_add_to_coop as $role) {
+                if (!trim($role)) {
+                    continue;
+                }
                 $permissions[] = [
                     'id'    => $role,
                     'allow' => $allow,
@@ -268,13 +274,18 @@ class Coop extends Model
             return;
         }
 
-        $result = $this->getDiscordClient()->guild->createGuildChannel([
-            'guild.id'              => (int) $this->guild_id,
-            'name'                  => $this->coop,
-            'permission_overwrites' => $this->getChannelPermissions(),
-            'parent_id'             => (int) $this->guild()->coop_channel_parent,
-            'position'              => $this->position,
-        ]);
+        try {
+            $result = $this->getDiscordClient()->guild->createGuildChannel([
+                'guild.id'              => (int) $this->guild_id,
+                'name'                  => $this->coop,
+                'permission_overwrites' => $this->getChannelPermissions(),
+                'parent_id'             => (int) $this->guild()->coop_channel_parent,
+                'position'              => $this->position,
+            ]);
+        } catch (ClientException $e) {
+            Log::info('failed to create channel', ['request' => $e->getRequest(), 'response' => $e->getResponse()]);
+            throw $e;
+        }
 
         $this->channel_id = $result->id;
         $this->save();
