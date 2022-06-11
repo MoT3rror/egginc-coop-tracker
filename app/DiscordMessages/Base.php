@@ -80,20 +80,24 @@ class Base
         
         $this->guild->sync();
 
-        $admin = false;
         if ($this->guild->admin_users) {
-            $admin = in_array($this->authorId, $this->guild->admin_users);
-        }
-
-        foreach ($this->guild->roles as $role) {
-            if ($role->is_admin && $role->members->contains('discord_id', $this->authorId))  {
-                $admin = true;
-                break;
+            if (in_array($this->authorId, $this->guild->admin_users)) {
+                return;
             }
         }
-        if (!$admin) {
-            throw new DiscordErrorException('You are not allowed to do that.');
+
+        $adminRoles = $this->guild->roles()
+            ->where('is_admin', 1)
+            ->whereHas('members', function ($query) {
+                return $query->where('discord_id', $this->authorId);   
+            })
+            ->get()
+            ->count() > 0
+        ;
+        if ($adminRoles) {
+            return;
         }
+        throw new DiscordErrorException('You are not allowed to do that.');
     }
 
     private function requiresGuild()

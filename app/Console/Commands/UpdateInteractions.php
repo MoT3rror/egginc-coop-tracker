@@ -136,8 +136,8 @@ class UpdateInteractions extends Command
         ;
     }
 
-    private function botGuilds()
+    private function botGuilds(): array
     {
-        return app()->make('DiscordBotGuilds');
+        return app()->make('DiscordBotGuilds')->toArray();
     }
 }

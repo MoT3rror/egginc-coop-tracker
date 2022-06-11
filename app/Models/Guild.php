@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 
 class Guild extends Model
 {
@@ -28,7 +29,7 @@ class Guild extends Model
 
     private function getBotGuilds(): array
     {
-        return app()->make('DiscordBotGuilds');
+        return app()->make('DiscordBotGuilds')->toArray();
     }
 
     public function getIsBotMemberOfAttribute(): bool
@@ -75,13 +76,13 @@ class Guild extends Model
         $currentRoles = $this->roles;
         $currentRolesIds = [];
         foreach ($roles as $role) {
-            $currentRole = $currentRoles->firstWhere('discord_id', $role->id);
+            $currentRole = $currentRoles->firstWhere('discord_id', $role['id']);
             if (!$currentRole) {
                 $currentRole = new Role;
                 $currentRole->guild_id = $this->id;
                 $currentRole->discord_id = $role->id;
             }
-            $currentRole->name = $role->name;
+            $currentRole->name = $role['name'];
             $currentRole->save();
             $currentRolesIds[] = $currentRole->id;
         }
@@ -98,20 +99,18 @@ class Guild extends Model
         $users = collect();
 
         foreach ($members as $member) {
-            if ($member->user->bot) {
+            if (Arr::get('user.bot', $member)) {
                 continue;
             }
 
             $user = User::unguarded(function () use ($member) {
                 return User::updateOrCreate(
-                    ['discord_id' => $member->user->id],
-                    ['username' => $member->user->username]
+                    ['discord_id' => $member['user']['id']],
+                    ['username' => $member['user']['username']]
                 );
             });
 
-            $currentRoles = $user->roles->where('guild_id', $this->id);
-            $user->roles()->detach($currentRoles);
-            $user->roles()->attach($this->roles->whereIn('discord_id', $member->roles));
+            $user->roles()->sync($this->roles->whereIn('discord_id', $member['roles']));
             $users[] = $user;
         }
         $this->members()->sync($users->pluck('id'));
@@ -134,7 +133,7 @@ class Guild extends Model
     // need to setup this to run when new server is added and add webhook to monitor members
     public function getGuildMembers(): array
     {
-        return $this->getDiscordClient()->guild->listGuildMembers(['guild.id' => (int) $this->discord_id, 'limit' => 100]);
+        return $this->getDiscordClient()->guild->listGuildMembers(['guild.id' => (int) $this->discord_id, 'limit' => 100])->toArray();
     }
 
     public function roles()
@@ -164,7 +163,7 @@ class Guild extends Model
             }
 
             $guildInfo = $guild->getDiscordClient()->guild->getGuild(['guild.id' => $guildId]);
-            $guild->name = $guildInfo->name;
+            $guild->name = $guildInfo['name'];
             $guild->save();
             return $guild;
         });

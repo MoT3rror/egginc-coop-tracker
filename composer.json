@@ -12,7 +12,7 @@
         "doctrine/dbal": "^3.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0",
         "inertiajs/inertia-laravel": "^0.2.5",
         "kba-team/markdown-table": "^1.1",
         "laravel/framework": "^8.0",
@@ -21,7 +21,7 @@
         "laravel/ui": "^2.1",
         "litipk/php-bignumbers": "^0.8.6",
         "mikehaertl/php-shellcommand": "^1.6",
-        "restcord/restcord": "^0.4.0",
+        "restcord/restcord": "v9.x-dev",
         "rollbar/rollbar-laravel": "^7.0",
         "socialiteproviders/discord": "^2.0",
         "tightenco/ziggy": "^0.9.4"
