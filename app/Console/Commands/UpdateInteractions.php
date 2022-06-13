@@ -34,9 +34,9 @@ class UpdateInteractions extends Command
         $this->info('Done setting global commands');
         foreach ($this->botGuilds() as $guild) {
             sleep(15);
-            $this->info('Start guild ' . $guild->id);
-            $this->setGuildCommands($guild->id);
-            $this->info('end guild ' . $guild->id);
+            $this->info('Start guild ' . $guild['id']);
+            $this->setGuildCommands($guild['id']);
+            $this->info('end guild ' . $guild['id']);
         }
     }
 
