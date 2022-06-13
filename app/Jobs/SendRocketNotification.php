@@ -43,7 +43,7 @@ class SendRocketNotification implements ShouldQueue
         ]);
 
         app()->make('DiscordClientBot')->channel->createMessage([
-            'channel.id' => $channel->id,
+            'channel.id' => (int) $channel['id'],
             'content'    => $this->mission->ship . ' has returned.  Use `eb!unsubscribe-to-rockets` to be removed.',
         ]);
     }
