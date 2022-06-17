@@ -68,17 +68,17 @@ class User extends Authenticatable
                     'token'     => $this->getCurrentDiscordToken(),
                     'tokenType' => 'OAuth',
                 ]);
-                $guilds = $discord->user->getCurrentUserGuilds();
+                $guilds = $discord->user->getCurrentUserGuilds()->toArray();
                 $guildModels = Guild::query()
                     ->whereIn('discord_id', Arr::pluck($guilds, 'id'))
                     ->get()
                 ;
     
                 foreach ($guilds as $key => $guild) {
-                    $guild->isAdmin = ($guild->permissions & 8) == 8;
+                    $guild['isAdmin'] = ($guild['permissions'] & 8) == 8;
                     // weird bug with vue or something that causes this number to change
-                    $guild->id = (string) $guild->id;
-                    $guildModel = $guildModels->where('discord_id', $guild->id)->first();
+                    $guild['id'] = (string) $guild['id'];
+                    $guildModel = $guildModels->where('discord_id', $guild['id'])->first();
                     
                     if (!$guildModel) {
                         $guildModel = Guild::findByDiscordGuild($guild);
@@ -90,8 +90,8 @@ class User extends Authenticatable
                     }
                     $guildModel->sync();
                     
-                    if (!$guild->isAdmin) {
-                        $guild->isAdmin = $this->roles
+                    if (!$guild['isAdmin']) {
+                        $guild['isAdmin'] = $this->roles
                             ->where('is_admin', true)
                             ->where('guild_id', $guildModel->id)
                             ->count() >= 1

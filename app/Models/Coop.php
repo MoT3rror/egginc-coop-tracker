@@ -7,6 +7,7 @@ use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
 use Exception;
 use GuzzleHttp\Command\Exception\CommandClientException;
+use GuzzleHttp\Command\Exception\CommandException;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 
@@ -266,11 +267,30 @@ class Coop extends Model
     {
         $this->load('members');
         if ($this->channel_id) {
-            $this->getDiscordClient()->channel->modifyChannel([
-                'channel.id'            => (int) $this->channel_id,
-                'name'                  => $this->coop,
-                'permission_overwrites' => $this->getChannelPermissions(),
-            ]);
+            try {
+                $channelInfo = [
+                    'channel.id'            => (int) $this->channel_id,
+                    'name'                  => $this->coop,
+                    'permission_overwrites' => $this->getChannelPermissions(),
+                ];
+                $this->getDiscordClient()->channel->modifyChannel($channelInfo);
+            } catch (ClientException $e) {
+                Log::info(
+                    'failed to update channel 1',
+                    ['request' => (string) $e->getRequest()->getBody(), 'response' => (string) $e->getResponse()->getBody()]
+                );
+                throw $e;
+            } catch (CommandException $e) {
+                Log::info(
+                    'failed to update channel 2',
+                    [
+                        'channelInfo' => $channelInfo,
+                        'request' => var_export($e->getRequest(), true),
+                        'response' => (string) $e->getResponse()->getBody()
+                    ]
+                );
+                throw $e;
+            }
             return;
         }
 
@@ -283,7 +303,7 @@ class Coop extends Model
                 'position'              => $this->position,
             ]);
         } catch (ClientException $e) {
-            Log::info('failed to create channel', ['request' => $e->getRequest(), 'response' => $e->getResponse()]);
+            Log::info('failed to create channel', ['request' => $e->getRequest(), 'response' => (string) $e->getResponse()->getBody()]);
             throw $e;
         }
 

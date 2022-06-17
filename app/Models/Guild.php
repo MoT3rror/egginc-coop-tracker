@@ -52,7 +52,7 @@ class Guild extends Model
 
         $this->syncRoles();
         $this->syncMembers();
-        $this->cleanUpOldMembers();
+        // $this->cleanUpOldMembers();
         $this->last_sync = now();
         $this->save();
         $this->refresh();
@@ -80,7 +80,7 @@ class Guild extends Model
             if (!$currentRole) {
                 $currentRole = new Role;
                 $currentRole->guild_id = $this->id;
-                $currentRole->discord_id = $role->id;
+                $currentRole->discord_id = $role['id'];
             }
             if ($currentRole->name !== $role['name']) {
                 $currentRole->name = $role['name'];
@@ -98,7 +98,7 @@ class Guild extends Model
     public function syncMembers()
     {
         $members = $this->getGuildMembers();
-        $users = collect();
+        $users = [];
 
         foreach ($members as $member) {
             if (Arr::get('user.bot', $member)) {
@@ -117,9 +117,10 @@ class Guild extends Model
             }
 
             $user->roles()->sync($this->roles->whereIn('discord_id', $member['roles']));
-            $users[] = $user;
+            $users[] = $user->id;
+            unset($user);
         }
-        $this->members()->sync($users->pluck('id'));
+        $this->members()->sync($users);
     }
 
     public function getChannelCategories(): array
@@ -155,7 +156,7 @@ class Guild extends Model
     public static function findByDiscordGuild($guild): Guild
     {
         return self::unguarded(function () use ($guild) {
-            return self::updateOrCreate(['discord_id' => $guild->id], ['name' => $guild->name]);
+            return self::updateOrCreate(['discord_id' => $guild['id']], ['name' => $guild['name']]);
         });
     }
 

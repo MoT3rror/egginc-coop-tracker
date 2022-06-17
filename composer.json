@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "cweagans/composer-patches": "^1.7",
         "doctrine/dbal": "^3.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -38,11 +39,19 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     },
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "patches": {
+            "restcord/restcord": {
+                "Modify Channel fix": "https://patch-diff.githubusercontent.com/raw/restcord/restcord/pull/181.patch"
+            }
         }
     },
     "autoload": {
