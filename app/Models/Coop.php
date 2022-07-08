@@ -177,6 +177,18 @@ class Coop extends Model
         ;
     }
 
+    public function getDeflectorTotal(): int
+    {
+        $deflector = 0;
+        foreach ($this->getCoopInfo()->members as $member) {
+            $buffs = object_get($member, 'buffHistory');
+            if ($buffs && object_get($buffs[count($buffs) - 1], 'eggLayingRate')) {
+                $deflector += (object_get($buffs[count($buffs) - 1], 'eggLayingRate') - 1) * 100;
+            }
+        }
+        return $deflector;
+    }
+
     public function getMembers(): int
     {
         return count($this->getCoopInfo()->members);

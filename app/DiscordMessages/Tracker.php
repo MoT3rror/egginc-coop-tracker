@@ -82,6 +82,7 @@ class Tracker extends Base
         $messages[] = 'Estimate/Time Left: ' . $this->coop->getEstimateCompletion() . '/' . $this->coop->getTimeLeftFormatted();
         $messages[] = 'Members: ' . $this->coop->getMembers() . '/' . $this->contract->getMaxCoopSize();
         $messages[] = 'Creator: `' . $this->coop->getCreator() . '`';
+        $messages[] = 'Deflector: ' . $this->coop->getDeflectorTotal() . '%';
 
         return $messages;
     }
