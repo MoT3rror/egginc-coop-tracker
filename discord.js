@@ -22,6 +22,9 @@ client.on('interactionCreate', interaction => {
         return
     }
 
+    console.log('received: ' + interaction.createdAt + ' interaction: ' + interaction.id + ' ' + interaction.commandName)
+    console.time(interaction.id + ' ' + interaction.commandName)
+
     interaction.deferReply().then(() => {
         let content = interaction.commandName
 
@@ -75,6 +78,7 @@ client.on('interactionCreate', interaction => {
                 reply = 'An error has occurred.';
             })
             .then(() => {
+                console.timeEnd(interaction.id + ' ' + interaction.commandName)
                 interaction.editReply(reply)
             })
     })
@@ -87,7 +91,7 @@ client.on('message', message => {
     if (message.author.id == client.user.id || !message.content.startsWith(atBotUser)) {
         return;
     }
-    console.log('received: ' + message.channel.id  + ' message: ' + message.id + ' ' + message.content.toLowerCase())
+    console.log('received: ' + message.createdAt + ' message: ' + message.id + ' ' + message.content.toLowerCase())
     console.time(message.id + ' ' + message.content.toLowerCase());
 
     message.channel.sendTyping().then(() => {
