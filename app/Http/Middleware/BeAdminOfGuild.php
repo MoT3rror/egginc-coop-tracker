@@ -22,7 +22,7 @@ class BeAdminOfGuild
             ->first()
         ;
 
-        if (!$guild || !$guild->isAdmin) {
+        if (!$guild || !$guild['isAdmin']) {
             return redirect()
                 ->route('home')
                 ->with('error', 'You are not an admin of this server.')

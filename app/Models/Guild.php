@@ -25,6 +25,7 @@ class Guild extends Model
     protected $attributes = [
         'tracker_sort_by'     => 'earning_bonus',
         'show_link_on_status' => true,
+        'admin_users'         => '[]',
     ];
 
     private function getBotGuilds(): array

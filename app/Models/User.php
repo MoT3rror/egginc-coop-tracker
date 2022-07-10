@@ -61,7 +61,6 @@ class User extends Authenticatable
     public function discordGuilds()
     {
         if (!$this->discordGuildsCache) {
-            Cache::forget('user-discord-guilds-' . $this->id);
             $this->discordGuildsCache = Cache::remember('user-discord-guilds-' . $this->id, 60 * 5, function () {
                 // just in case we keep calling it
                 $discord = new DiscordClient([
@@ -75,9 +74,9 @@ class User extends Authenticatable
                 ;
     
                 foreach ($guilds as $key => $guild) {
-                    $guild['isAdmin'] = ($guild['permissions'] & 8) == 8;
+                    $guilds[$key]['isAdmin'] = $guild['permissions'] & 8 === 8;
                     // weird bug with vue or something that causes this number to change
-                    $guild['id'] = (string) $guild['id'];
+                    $guilds[$key]['id'] = (string) $guild['id'];
                     $guildModel = $guildModels->where('discord_id', $guild['id'])->first();
                     
                     if (!$guildModel) {
@@ -90,8 +89,8 @@ class User extends Authenticatable
                     }
                     $guildModel->sync();
                     
-                    if (!$guild['isAdmin']) {
-                        $guild['isAdmin'] = $this->roles
+                    if (!$guilds[$key]['isAdmin']) {
+                        $guilds[$key]['isAdmin'] = $this->roles
                             ->where('is_admin', true)
                             ->where('guild_id', $guildModel->id)
                             ->count() >= 1
@@ -99,6 +98,7 @@ class User extends Authenticatable
                     }
                 }
 
+                
                 return $guilds;
             });
         }
