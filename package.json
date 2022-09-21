@@ -45,7 +45,7 @@
         "vue-loader": "^15.9.6",
         "vue-simple-progress": "^1.1.1",
         "vue-template-compiler": "^2.6.12",
-        "vuetify": "^2.5.7",
+        "vuetify": "^2.6.10",
         "vuetify-loader": "^1.7.2",
         "vuetifyjs-mix-extension": "^0.0.20",
         "yargs": "^15.4.1"
