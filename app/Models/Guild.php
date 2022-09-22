@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\CleanUpMembers;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
@@ -56,6 +57,8 @@ class Guild extends Model
         $this->last_sync = now();
         $this->save();
         $this->refresh();
+        
+        CleanUpMembers::dispatch($this);
     }
 
     public function syncRoles()
@@ -123,6 +126,17 @@ class Guild extends Model
             unset($user);
         }
         $this->members()->sync($users);
+    }
+
+    public function cleanUpOldMembers()
+    {
+        foreach ($this->roles as $role) {
+            foreach ($role->members as $member) {
+                if (!in_array($role->guild_id, $member->guilds->pluck('id')->all())) {
+                    $role->members()->detach($member);
+                }
+            }
+        }
     }
 
     public function getChannelCategories(): array
