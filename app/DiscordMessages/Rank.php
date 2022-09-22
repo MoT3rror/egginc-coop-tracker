@@ -59,6 +59,8 @@ class Rank extends Base
         $liftTimeGoldenEggs = number_format($user->getLifeTimeGoldenEggsAttribute());
         $currentGoldenEggs = number_format($user->getCurrentGoldenEggs());
         $soulEggsPerPrestige = $user->getSoulEggsPerPrestigeFormatted();
+        $craftingXp = $user->getCraftingXpAttribute();
+        $craftingLevel = $user->getCraftingLevelAttribute();
         $roles = $user
             ->roles
             ->where('show_role')
@@ -70,19 +72,20 @@ class Rank extends Base
 ```
 $username
 Backup Time: $backupTime
-Soul Eggs: $soulEggs
-Prophecy Eggs: $goldenEggs
+Soul Eggs (SE): $soulEggs
+Prophecy Eggs (PE): $goldenEggs
 Earning Bonus: $earningBonus
 Farmer Role: $farmerRole
 Group Role: $roles
-Total Soul Eggs Needed for Next Rank: $soulEggsNeeded
-Total Prophecy Eggs Needed for Next Rank: $goldenEggsNeeded
-Current Golden Eggs: $currentGoldenEggs
-Total Golden Eggs: $liftTimeGoldenEggs
+Total SE Needed for Next Rank: $soulEggsNeeded
+Total PE Needed for Next Rank: $goldenEggsNeeded
+Current GE: $currentGoldenEggs
+Total GE: $liftTimeGoldenEggs
 Drones/Elite: {$drones}/{$eliteDrones}
 Prestiges: $prestiges
 Boosts Used: $boostsUsed
-Soul Eggs Per Prestige: $soulEggsPerPrestige
+SE Per Prestige: $soulEggsPerPrestige
+Crafting XP: $craftingXp LVL: $craftingLevel
 ```
 RANK;
     }

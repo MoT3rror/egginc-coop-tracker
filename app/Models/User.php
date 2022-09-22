@@ -6,6 +6,7 @@ use App\Api\EggInc;
 use App\Formatters\EarningBonus;
 use App\Formatters\Egg;
 use App\Exceptions\UserNotFoundException;
+use App\Formatters\CraftingLevel;
 use Cache;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -227,6 +228,22 @@ class User extends Authenticatable
         }
 
         return $info->progress->soulEggs;
+    }
+
+    public function getCraftingXpAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+
+        if (!$info || !object_get($info, 'artifacts.craftingXp')) {
+            return 0;
+        }
+
+        return $info->artifacts->craftingXp;
+    }
+
+    public function getCraftingLevelAttribute(): int
+    {
+        return (new CraftingLevel)->xpToLevel($this->getCraftingXpAttribute());
     }
 
     public function getSoulEggsFormattedAttribute(): string

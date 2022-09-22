@@ -108,6 +108,11 @@ message FirstContact {
     }
     Contracts contracts = 13;
 
+    message Artifacts {
+      double crafting_xp = 17;
+    }
+    Artifacts artifacts = 14;
+
     ArtifactsDB artifacts_db = 15;
   }
   Payload data = 1;

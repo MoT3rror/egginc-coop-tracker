@@ -42,6 +42,9 @@ class Players extends Base
                         return $user->getLegendaryArtifactsCount();
                     case 'backup_time':
                         return $user->getBackupTime();
+                    case 'crafting_xp':
+                    case 'crafting_level':
+                        return $user->getCraftingXpAttribute();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -89,6 +92,12 @@ class Players extends Base
                 case 'backup_time':
                     $table->addColumn('backup_time', new Column('Backup', Column::ALIGN_LEFT));
                     break;
+                case 'crafting_xp':
+                    $table->addColumn('crafting_xp', new Column('Crafting XP', Column::ALIGN_RIGHT));
+                    break;
+                case 'crafting_level':
+                    $table->addColumn('crafting_level', new Column('Crafting Level', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -118,6 +127,8 @@ class Players extends Base
                     'se_divide_by_prestiges' => $seDivideByPrestiges,
                     'legendary_artifacts'    => $user->getLegendaryArtifactsCount(),
                     'backup_time'            => $user->getBackupTimeFormatted(),
+                    'crafting_xp'            => $user->getCraftingXpAttribute(),
+                    'crafting_level'         => $user->getCraftingLevelAttribute(),
                 ];
             }
 

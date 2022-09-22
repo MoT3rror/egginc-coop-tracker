@@ -50,10 +50,10 @@ class EggIncApi {
     static getPeriodicals() {
         const payload = {
             userId: 'EI6411720689451008',
-            currentClientVersion: 40,
+            currentClientVersion: 45,
             rinfo: {
                 // eiUserId: 'EI6411720689451008',
-                clientVersion: 40,
+                clientVersion: 45,
                 version: '1.22.2',
                 platform: 'ANDROID'
             }
