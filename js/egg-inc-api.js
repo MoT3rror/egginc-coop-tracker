@@ -11,15 +11,22 @@ const ei_request = (path, payload, requestPB, responsePB) => {
 
         var buffer = requestPB.encode(requestPB.create(payload)).finish()
 
+        console.log(payload)
+
         let options = {
-            url: `http://afx-2-dot-auxbrainhome.appspot.com/${path}`,
+            // url: 'https://afx-2-dot-auxbrainhome.appspot.com/' + path,
+            url: `https://www.auxbrain.com/${path}`,
             method: 'post',
             data: 'data=' + b.encode(buffer),
         }
+        console.log(options.data)
 
         axios(options).then((response) => {
+            console.log(response.data)
+
             let byteArray = new Array(0)
             protobuf.util.base64.decode(response.data, byteArray, 0)
+            console.log(responsePB.decode(byteArray))
 
             resolve(responsePB.toObject(responsePB.decode(byteArray), {
                 longs: String,
@@ -35,15 +42,22 @@ const ei_request = (path, payload, requestPB, responsePB) => {
 class EggIncApi {
     static getCoopStatus(contract, coop) {
         const payload = {
-            contractId: contract,
-            code: coop
+            contractIdentifier: contract,
+            coopIdentifier: coop,
+            userId: 'EI6411720689451008',
+            rinfo: {
+                eiUserId: 'EI6411720689451008',
+                clientVersion: 45,
+                version: '1.25.4',
+                platform: 'ANDROID',
+            }
         }
 
         return ei_request(
             'ei/coop_status',
             payload,
-            root.lookupType('CoopStatusRequestPayload'),
-            root.lookupType('CoopStatusResponsePayload')
+            root.lookupType('ContractCoopStatusRequest'),
+            root.lookupType('ContractCoopStatusResponseData')
         );
     }
 
@@ -52,18 +66,18 @@ class EggIncApi {
             userId: 'EI6411720689451008',
             currentClientVersion: 45,
             rinfo: {
-                // eiUserId: 'EI6411720689451008',
+                eiUserId: 'EI6411720689451008',
                 clientVersion: 45,
-                version: '1.22.2',
-                platform: 'ANDROID'
+                version: '1.25.4',
+                platform: 'ANDROID',
             }
         }
 
         return ei_request(
             'ei/get_periodicals',
             payload,
-            root.lookupType('GetPeriodicalsRequestPayload'),
-            root.lookupType('GetPeriodicalsResponsePayload')
+            root.lookupType('GetPeriodicalsRequest'),
+            root.lookupType('PeriodicalsResponseData')
         );
     }
 
@@ -77,7 +91,7 @@ class EggIncApi {
             'ei/bot_first_contact',
             payload,
             root.lookupType('EggIncFirstContactRequest'),
-            root.lookupType('FirstContact')
+            root.lookupType('EggIncFirstContactResponse')
         );
     }
 

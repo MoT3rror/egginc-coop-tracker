@@ -26,9 +26,10 @@ app.get('/Periodicals', (req, res, next) => {
 
 app.get('/getCoopStatus', (req, res, next) => {
     EggIncApi.getCoopStatus(req.query.contract, req.query.coop).then((data) => {
-        res.send(data.status);
+        res.send(data.data);
     }).catch((error) => {
-        console.error(error);
+        // console.error(error);
+        // console.log(error.toJSON())
         return next(new createError.InternalServerError(error));
     });
 });

@@ -7,7 +7,8 @@ require('yargs')
     .usage('$0 <cmd> [args]')
     .command('getAllActiveContracts', 'Get All Active Contracts', (yargs) => {}, (argv) => {
         EggIncApi.getPeriodicals().then((data) => {
-            console.log(JSON.stringify(data.periodicals.contracts))
+            console.log(data)
+            console.log(JSON.stringify(data.contracts))
         })
     })
     .command('getCoopStatus', 'Get Coop Status', (yargs) => {
@@ -23,8 +24,8 @@ require('yargs')
         yargs
             .positional('playerId', {type: 'string'})
     }, (argv) => {
-        EggIncApi.getPlayerInfo(argv.playerId).then((data) => {   
-            data.data.contracts.completeContracts = _.chain(data.data.contracts.pastContracts)
+        EggIncApi.getPlayerInfo(argv.playerId).then((data) => {
+            data.backup.contracts.completeContracts = _.chain(data.backup.contracts.pastContracts)
                 .filter((activeContract) => {
                     return activeContract.numGoalsCompleted == activeContract.props.rewards.length
                 })
@@ -34,9 +35,9 @@ require('yargs')
                 .toJSON()
             ;
             
-            data.data.contracts.activeContracts = null;
-            data.data.contracts.pastContracts = null
-            console.log(JSON.stringify(data.data))
+            data.backup.contracts.activeContracts = null;
+            data.backup.contracts.pastContracts = null
+            console.log(JSON.stringify(data.backup))
         })
     })
     .command('getPlayerInfos', 'Get Player Infos', (yargs) => {
