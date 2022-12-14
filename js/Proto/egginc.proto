@@ -1,8 +1,8 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package ei;
 
-//import "common.proto";
+import "common.proto";
 
 message Backup {
     optional string user_id = 1;
@@ -606,7 +606,7 @@ message ContractCoopStatusResponse {
     optional double total_amount = 2;
     optional string coop_identifier = 3;
 
-    // repeated ContributionInfo contributors = 4;
+    repeated ContributionInfo contributors = 4;
     message ContributionInfo {
         optional string user_id = 1;
         optional string user_name = 2;
@@ -620,7 +620,7 @@ message ContractCoopStatusResponse {
         optional bool active = 4;
         optional bool leech = 16;
         optional bool time_cheat_detected = 7;
-        optional string platform = 5;
+        optional int32 platform = 5;
         optional string push_id = 9;
         optional uint32 ban_votes = 10;
         optional bool autojoined = 17;
