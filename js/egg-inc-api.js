@@ -51,7 +51,7 @@ class EggIncApi {
             'ei/coop_status',
             payload,
             root.lookupType('ContractCoopStatusRequest'),
-            root.lookupType('PeriodicalsResponseData')
+            root.lookupType('ContractCoopStatusResponseData')
         );
     }
 
