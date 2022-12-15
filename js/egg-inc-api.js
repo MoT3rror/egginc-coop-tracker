@@ -2,6 +2,7 @@ const b = require('base64-arraybuffer')
 const axios = require('axios')
 const protobuf = require("protobufjs");
 const pako = require('pako');
+const fernet = require('fernet');
 const root = protobuf.loadSync('js/Proto/egginc.proto');
 
 const ei_request = (path, payload, requestPB, responsePB) => {
@@ -73,6 +74,20 @@ class EggIncApi {
             root.lookupType('GetPeriodicalsRequest'),
             root.lookupType('AuthenticatedMessage')
         ).then(data => {
+            let example = 'gAAAAABjmp_g_g5sxbNDhhKSoLQDBAZ0os1a5-Av4VR8ci1vA1jflOPYY0rGS9ZwVlrl1m8Hk2KBnJroQgpXiSO8Wir0aluXU10GWmAi9IzTsO_3qqPbN-8='
+            // var secretString = Buffer.from('THE SECRETS OF THE UNIVERSE WILL').toString('base64url')
+            var secretString = 'CNj4uO/kp27pDj2SnqqOACFtp8bTnME9Gdcsf+idVn0='
+            var secret = new fernet.Secret(secretString)
+            console.log(secretString, secret)
+            var token = new fernet.Token({
+                secret: secret,
+                token: example,
+                ttl: 0
+            })
+            console.log(token.decode());
+
+
+            
             let strData = Buffer.from(data.message, 'base64')
 
             var binData = new Uint8Array(strData);

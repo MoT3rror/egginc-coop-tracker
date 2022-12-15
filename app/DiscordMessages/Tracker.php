@@ -107,10 +107,10 @@ class Tracker extends Base
         }
 
         if ($this->coop->id) {
-            $coopMembersIn = collect($this->coop->getCoopInfo()->contributors)->pluck('id')->all();
+            $coopMembersIn = collect($this->coop->getCoopInfo()->contributors)->pluck('userName')->all();
             $usersNotIn = collect([]);
             foreach ($this->coop->members as $member) {
-                if (!in_array(strtoupper($member->user->egg_inc_player_id), $coopMembersIn)) {
+                if (!in_array($member->user->getEggIncUsernameAttribute(), $coopMembersIn)) {
                     $usersNotIn[] = $member->user;
                 }
             }

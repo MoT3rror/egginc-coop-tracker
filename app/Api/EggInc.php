@@ -56,7 +56,7 @@ class EggInc
                 $player = null;
             }    
 
-            if (!$player || !isset($player->approxTimestamp) || !$player->approxTimestamp) {
+            if (!$player || !isset($player->approxTime) || !$player->approxTime) {
                 throw new UserNotFoundException('User not found');
             }
 

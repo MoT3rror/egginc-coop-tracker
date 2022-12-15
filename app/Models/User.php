@@ -62,7 +62,7 @@ class User extends Authenticatable
     public function discordGuilds()
     {
         if (!$this->discordGuildsCache) {
-            $this->discordGuildsCache = Cache::remember('user-discord-guilds-' . $this->id, 60 * 5, function () {
+            $this->discordGuildsCache = Cache::remember('user-discord-guildst-' . $this->id, 60 * 5, function () {
                 // just in case we keep calling it
                 $discord = new DiscordClient([
                     'token'     => $this->getCurrentDiscordToken(),
@@ -73,9 +73,11 @@ class User extends Authenticatable
                     ->whereIn('discord_id', Arr::pluck($guilds, 'id'))
                     ->get()
                 ;
-    
+                if ($_SERVER['REMOTE_ADDR'] === '71.86.48.76') {
+                    // dd($guilds);
+                }
                 foreach ($guilds as $key => $guild) {
-                    $guilds[$key]['isAdmin'] = $guild['permissions'] & 8 === 8;
+                    $guilds[$key]['isAdmin'] = $guild['owner'];
                     // weird bug with vue or something that causes this number to change
                     $guilds[$key]['id'] = (string) $guild['id'];
                     $guildModel = $guildModels->where('discord_id', $guild['id'])->first();
@@ -144,7 +146,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->approxTimestamp;
+        return $info->approxTime;
     }
 
     public function getBackupTimeFormatted(): string
@@ -168,7 +170,7 @@ class User extends Authenticatable
             return 0;
         }
 
-        return $info->progress->prophecyEggs;
+        return $info->game->eggsOfProphecy;
     }
 
     public function getEachSoulEggBonus(): int
@@ -206,7 +208,7 @@ class User extends Authenticatable
             return [];
         }
 
-        return $info->progress->epicResearches;
+        return $info->game->epicResearch;
     }
 
     public function getPlayerEarningBonus(): float
@@ -227,7 +229,7 @@ class User extends Authenticatable
             return 0;
         }
 
-        return $info->progress->soulEggs;
+        return $info->game->soulEggsD;
     }
 
     public function getCraftingXpAttribute(): int
@@ -316,7 +318,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->stats->eliteDroneTakedowns;
+        return $info->stats->droneTakedownsElite;
     }
 
     public function getPrestigesAttribute(): int
@@ -325,7 +327,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->stats->prestiges;
+        return $info->stats->numPrestiges;
     }
 
     public function getBoostsUsedAttribute(): int
@@ -343,7 +345,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->progress->lifefimeGoldenEggs;
+        return $info->game->goldenEggsEarned;
     }
 
     public function getLiftTimeSpentGoldenEggsAttribute(): int
@@ -352,7 +354,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->progress->lifetimeGoldenEggsSpent;
+        return $info->game->goldenEggsSpent;
     }
 
     public function getCurrentGoldenEggs(): int
