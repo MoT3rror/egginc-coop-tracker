@@ -44,10 +44,10 @@ class Tracker extends Base
     public function coopData(): array
     {
         $data = [];
-        $members = collect($this->coop->getCoopInfo()->members)->sortByDesc($this->guildSortBy());
+        $members = collect($this->coop->getCoopInfo()->contributors)->sortByDesc($this->guildSortBy());
         foreach ($members as $member) {
-            $showDecimals = $member->eggsPerSecond * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
-            $boosted = $member->eggsPerSecond * 60 * 60 > (1.2 * pow(10, 15));
+            $showDecimals = $member->contributionRate * 60 * 60 > (1 * pow(10, 15)) ? 2 : 0;
+            $boosted = $member->contributionRate * 60 * 60 > (1.2 * pow(10, 15));
             $status = 'A';
             if (!object_get($member, 'active')) {
                 $status = 'Z';
@@ -61,9 +61,9 @@ class Tracker extends Base
                 $deflector = (object_get($buffs[count($buffs) - 1], 'eggLayingRate') - 1) * 100;
             }
             $data[] = [
-                'name'    => ($boosted ? 'X ' : '  ') .  e(substr($member->name, 0, 20)),
-                'rate'    => resolve(Egg::class)->format($member->eggsPerSecond * 60 * 60, $showDecimals),
-                'tokens'  => object_get($member, 'tokens', 0),
+                'name'    => ($boosted ? 'X ' : '  ') .  e(substr($member->userName, 0, 20)),
+                'rate'    => resolve(Egg::class)->format($member->contributionRate * 60 * 60, $showDecimals),
+                'tokens'  => object_get($member, 'boostTokens', 0),
                 'status'  => $status,
                 'deflector' => $deflector . '%',
             ];
@@ -107,7 +107,7 @@ class Tracker extends Base
         }
 
         if ($this->coop->id) {
-            $coopMembersIn = collect($this->coop->getCoopInfo()->members)->pluck('id')->all();
+            $coopMembersIn = collect($this->coop->getCoopInfo()->contributors)->pluck('id')->all();
             $usersNotIn = collect([]);
             foreach ($this->coop->members as $member) {
                 if (!in_array(strtoupper($member->user->egg_inc_player_id), $coopMembersIn)) {
@@ -151,8 +151,9 @@ class Tracker extends Base
             $cacheKey = $this->contract->identifier . '-' . $this->parts['2'];
 
             Cache::forget($cacheKey);
-            $this->coop->getCoopInfo()->members;
+            $this->coop->getCoopInfo()->contributors;
         } catch (\Exception $e) {
+            report($e);
             return ['Coop not created'];
         }
 

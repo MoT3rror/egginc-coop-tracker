@@ -38,6 +38,10 @@ class Contract extends Model
 
     public function getEggsNeeded(): int
     {
+        if (isset($this->raw_data->goals)) {
+            return end($this->raw_data->goals)->targetAmount;
+        }
+        
         if (isset($this->raw_data->goalsList)) {
             return end($this->raw_data->goalsList)->targetAmount;
         }

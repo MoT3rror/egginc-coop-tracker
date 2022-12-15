@@ -26,7 +26,7 @@ class EggInc
             }
             // Log::channel('coop')->info(json_encode($output));
 
-            if (!isset($output->members)) {
+            if (!isset($output->contributors)) {
                 throw new CoopNotFoundException;
             }
 

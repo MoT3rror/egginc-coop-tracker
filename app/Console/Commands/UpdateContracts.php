@@ -48,11 +48,11 @@ class UpdateContracts extends Command
         foreach ($contracts as $contract) {
             Contract::unguarded(function () use ($contract) {
                 Contract::updateOrCreate(
-                    ['identifier' => $contract->id],
+                    ['identifier' => $contract->identifier],
                     [
                         'name'       => $contract->name,
                         'raw_data'   => $contract,
-                        'expiration' => Carbon::createFromTimestamp($contract->expiryTimestamp),
+                        'expiration' => Carbon::createFromTimestamp($contract->expirationTime),
                     ]
                 );
             });

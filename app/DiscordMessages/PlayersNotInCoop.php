@@ -17,7 +17,7 @@ class PlayersNotInCoop extends Status
         $players = [];
         foreach ($coops as $coop) {
             try {
-                $players = array_merge($players, collect($coop->getCoopInfo()->members)->pluck('id')->all());
+                $players = array_merge($players, collect($coop->getCoopInfo()->contributors)->pluck('id')->all());
             } catch (\App\Exceptions\CoopNotFoundException $e) {
                 // just catch error
             }

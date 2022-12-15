@@ -59,7 +59,7 @@ class Coop extends Model
 
     public function getCurrentEggs(): float
     {
-        return $this->getCoopInfo()->eggsLaid;
+        return $this->getCoopInfo()->totalAmount;
     }
 
     public function getEggsNeeded(): int
@@ -145,8 +145,8 @@ class Coop extends Model
     {
         $rate = 0;
 
-        foreach ($this->getCoopInfo()->members as $member) {
-            $rate += $member->eggsPerSecond;
+        foreach ($this->getCoopInfo()->contributors as $member) {
+            $rate += $member->contributionRate;
         }
 
         return $rate;
@@ -163,7 +163,7 @@ class Coop extends Model
 
     public function getTimeLeft(): int
     {
-        return $this->getCoopInfo()->secondsUntilProductionDeadline;
+        return $this->getCoopInfo()->secondsRemaining;
     }
 
     public function getTimeLeftFormatted(): string
@@ -180,7 +180,7 @@ class Coop extends Model
     public function getDeflectorTotal(): int
     {
         $deflector = 0;
-        foreach ($this->getCoopInfo()->members as $member) {
+        foreach ($this->getCoopInfo()->contributors as $member) {
             $buffs = object_get($member, 'buffHistory');
             if ($buffs && object_get($buffs[count($buffs) - 1], 'eggLayingRate')) {
                 $deflector += (object_get($buffs[count($buffs) - 1], 'eggLayingRate') - 1) * 100;
@@ -191,7 +191,7 @@ class Coop extends Model
 
     public function getMembers(): int
     {
-        return count($this->getCoopInfo()->members);
+        return count($this->getCoopInfo()->contributors);
     }
 
     public function getCreator(): string
@@ -199,7 +199,7 @@ class Coop extends Model
         return str_replace(
             '_',
             '', 
-            object_get(collect($this->getCoopInfo()->members)
+            object_get(collect($this->getCoopInfo()->contributors)
                 ->where('id', $this->getCoopInfo()->creatorId)
                 ->first(), 'name', '')
             )
