@@ -78,3 +78,6 @@ or
 ``php artisan test``
 
 without sail
+
+### Proto Changes
+- ContractCoopStatusResponse.contributioninfo.platform from string to int32

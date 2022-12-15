@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // define end points
 app.get('/Periodicals', (req, res, next) => {
     EggIncApi.getPeriodicals().then((data) => {
-        res.send(data.periodicals);
+        res.send(data);
     }).catch((error) => {
         console.error(error);
         return next(new createError.InternalServerError(error));
