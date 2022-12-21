@@ -21,22 +21,22 @@ class CoopLeaderBoard extends Status
 
     public function memberData(Collection $coops, bool $hideSimilarText = false): array
     {
-        $membersIds = $this->guild->members->pluck('egg_inc_player_id')->map(function ($id) {
+        $membersIds = $this->guild->members->pluck('egg_inc_username')->map(function ($id) {
             return strtolower($id);
         })->all();
 
         $data = [];
         foreach ($coops as $coop) {
             try {
-                foreach ($coop->getCoopInfo()->members as $member) {
-                    if (!in_array(strtolower($member->id), $membersIds)) {
+                foreach ($coop->getCoopInfo()->contributors as $member) {
+                    if (!in_array(strtolower($member->userName), $membersIds)) {
                         continue;
                     }
 
                     $data[] = [
-                        'name'      => $member->name,
-                        'rate'      => round($member->eggsPerSecond * 60 * 60),
-                        'eggs_laid' => round($member->eggsLaid),
+                        'name'      => $member->userName,
+                        'rate'      => round($member->contributionRate * 60 * 60),
+                        'eggs_laid' => round($member->contributionAmount),
                     ];
                 }
             } catch (CoopNotFoundException $e) {}
