@@ -420,7 +420,7 @@ class User extends Authenticatable
     {
         $info = $this->getEggPlayerInfo(); 
 
-        return object_get($info, 'contracts.completeContracts', []);
+        return object_get($info, 'contracts.archive', []);
     }
 
     public function hasCompletedContract($contractId): bool

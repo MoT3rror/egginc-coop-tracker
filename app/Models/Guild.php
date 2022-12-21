@@ -199,10 +199,10 @@ class Guild extends Model
             ->withEggIncId()
             ->inShowRoles($this)
             ->get()
-            ->sortBy(function ($user) {
+            ->sortBy(function (User $user) {
                 return $user->getPlayerEarningBonus();
             }, SORT_REGULAR, true)
-            ->filter(function ($user) use ($contractId) {
+            ->filter(function (User $user) use ($contractId) {
                 return !$user->hasCompletedContract($contractId);
             })
         ;
