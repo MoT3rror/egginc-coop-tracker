@@ -21,15 +21,15 @@ class Contributions extends Status
 
     public function memberData(Collection $coops, bool $hideSimilarText = false): array
     {
-        $membersIds = $this->guild->members->pluck('egg_inc_player_id')->map(function ($id) {
+        $membersIds = $this->guild->members->pluck('egg_inc_username')->map(function ($id) {
             return strtolower($id);
         })->all();
 
         $data = [];
         foreach ($coops as $coop) {
             try {
-                foreach ($coop->getCoopInfo()->members as $member) {
-                    if (!in_array(strtolower($member->id), $membersIds)) {
+                foreach ($coop->getCoopInfo()->contributors as $member) {
+                    if (!in_array(strtolower($member->userName), $membersIds)) {
                         continue;
                     }
                     $status = 'A';
@@ -45,12 +45,12 @@ class Contributions extends Status
 
                     $coopEggsLaid = $coop->getCurrentEggs() ?: 1;
                     $data[] = [
-                        'name'                 => $member->name,
-                        'rate'                 => round($member->eggsPerSecond * 60 * 60),
-                        'eggs_laid'            => round($member->eggsLaid),
-                        'contribution'         => round($member->eggsLaid / $coopEggsLaid * 100) . '%',
+                        'name'                 => $member->userName,
+                        'rate'                 => round($member->contributionRate * 60 * 60),
+                        'eggs_laid'            => round($member->contributionAmount),
+                        'contribution'         => round($member->contributionAmount / $coopEggsLaid * 100) . '%',
                         'status'               => $status,
-                        'contribution_percent' => round($member->eggsLaid / $coopEggsLaid * 100),
+                        'contribution_percent' => round($member->contributionAmount / $coopEggsLaid * 100),
                     ];
                 }
             } catch (CoopNotFoundException $e) {}
