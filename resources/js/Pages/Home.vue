@@ -20,12 +20,12 @@
                     <div class="list-group-item" v-if="playerInfo">
                         <p>
                             Soul Eggs:
-                            <EggFormater :eggs="playerInfo.progress.soulEggs" />
+                            <EggFormater :eggs="playerInfo.game.soulEggsD" />
                         </p>
 
                         <p>
                             Prestige Eggs:
-                            {{ playerInfo.progress.prophecyEggs }}
+                            {{ playerInfo.game.eggsOfProphecy }}
                         </p>
 
                         <p>
