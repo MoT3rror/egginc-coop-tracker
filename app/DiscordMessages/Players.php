@@ -113,6 +113,12 @@ class Players extends Base
                 case 'elite_drones':
                     $table->addColumn('elite_drones', new Column('E.Drones', Column::ALIGN_RIGHT));
                     break;
+                case 'contract_grade':
+                    $table->addColumn('contract_grade', new Column('C.Grade', Column::ALIGN_RIGHT));
+                    break;
+                case 'contract_cxp':
+                    $table->addColumn('contract_cxp', new Column('C.Exp', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -150,6 +156,8 @@ class Players extends Base
                     'videos'                 => $user->getVideoDoubleUsesAttribute(),
                     'drones'                 => $user->getDronesAttribute(),
                     'elite_drones'           => $user->getEliteDronesAttribute(),
+                    'contract_grade'         => $user->getContractGradeAttribute(),
+                    'contract_cxp'           => $user->getContractTotalCxpAttribute(),
                 ];
             }
 

@@ -438,6 +438,20 @@ class User extends Authenticatable
         return in_array($contractId, $this->getCompleteContractsAttribute());
     }
 
+    public function getContractGradeAttribute(): string
+    {
+        $info = $this->getEggPlayerInfo(); 
+
+        return object_get($info, 'contracts.lastCpi.grade', '');
+    }
+
+    public function getContractTotalCxpAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo(); 
+
+        return object_get($info, 'contracts.lastCpi.totalCxp', 0);
+    }
+
     public function getHighestDeflectorWithoutPercentAttribute(): int
     {
         $info = $this->getEggPlayerInfo(); 

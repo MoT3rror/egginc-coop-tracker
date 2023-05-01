@@ -14,6 +14,9 @@ class Rank extends Base
 
     public function message(): string
     {
+        /**
+         * @var User
+         */
         $user = User::unguarded(function () {
             return User::firstOrCreate(
                 [
@@ -61,6 +64,8 @@ class Rank extends Base
         $soulEggsPerPrestige = $user->getSoulEggsPerPrestigeFormatted();
         $craftingXp = $user->getCraftingXpAttribute();
         $craftingLevel = $user->getCraftingLevelAttribute();
+        $contractGrade = $user->getContractGradeAttribute();
+        $contractExp = $user->getContractTotalCxpAttribute();
         $roles = $user
             ->roles
             ->where('show_role')
@@ -86,6 +91,8 @@ Prestiges: $prestiges
 Boosts Used: $boostsUsed
 SE Per Prestige: $soulEggsPerPrestige
 Crafting XP: $craftingXp LVL: $craftingLevel
+C. Grade: $contractGrade
+C. Exp: $contractExp
 ```
 RANK;
     }

@@ -41,8 +41,8 @@ class EggIncApi {
             userId: 'EI6411720689451008',
             rinfo: {
                 eiUserId: 'EI6411720689451008',
-                clientVersion: 45,
-                version: '1.25.4',
+                clientVersion: 46,
+                version: '1.26.0',
                 platform: 'ANDROID',
             }
         }
@@ -58,11 +58,11 @@ class EggIncApi {
     static getPeriodicals() {
         const payload = {
             userId: 'EI6411720689451008',
-            currentClientVersion: 45,
+            currentClientVersion: 46,
             rinfo: {
                 eiUserId: 'EI6411720689451008',
-                clientVersion: 45,
-                version: '1.25.4',
+                clientVersion: 46,
+                version: '1.26.0',
                 platform: 'ANDROID',
             }
         }
