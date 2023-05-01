@@ -45,6 +45,8 @@ class Players extends Base
                     case 'crafting_xp':
                     case 'crafting_level':
                         return $user->getCraftingXpAttribute();
+                    case 'videos':
+                        return $user->getVideoDoubleUsesAttribute();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -98,6 +100,9 @@ class Players extends Base
                 case 'crafting_level':
                     $table->addColumn('crafting_level', new Column('Crafting Level', Column::ALIGN_RIGHT));
                     break;
+                case 'videos':
+                    $table->addColumn('videos', new Column('Videos', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -108,6 +113,9 @@ class Players extends Base
         $groupOfMessages = [];
         foreach ($chuckOfUsers as $users) {
             $data = [];
+            /**
+             * @var User
+             */
             foreach ($users as $user) {
                 if (!$user->getEggPlayerInfo()) {
                     continue;
@@ -129,6 +137,7 @@ class Players extends Base
                     'backup_time'            => $user->getBackupTimeFormatted(),
                     'crafting_xp'            => $user->getCraftingXpAttribute(),
                     'crafting_level'         => $user->getCraftingLevelAttribute(),
+                    'videos'                 => $user->getVideoDoubleUsesAttribute(),
                 ];
             }
 

@@ -232,6 +232,16 @@ class User extends Authenticatable
         return $info->game->soulEggsD;
     }
 
+    public function getVideoDoubleUsesAttribute(): int
+    {
+        $info = $this->getEggPlayerInfo();
+
+        if (!$info) {
+            return 0;
+        }
+        return $info->stats->videoDoublerUses;
+    }
+
     public function getCraftingXpAttribute(): int
     {
         $info = $this->getEggPlayerInfo();
