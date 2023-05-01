@@ -47,6 +47,10 @@ class Players extends Base
                         return $user->getCraftingXpAttribute();
                     case 'videos':
                         return $user->getVideoDoubleUsesAttribute();
+                    case 'drones':
+                        return $user->getDronesAttribute();
+                    case 'elite_drones':
+                        return $user->getEliteDronesAttribute();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -103,6 +107,12 @@ class Players extends Base
                 case 'videos':
                     $table->addColumn('videos', new Column('Videos', Column::ALIGN_RIGHT));
                     break;
+                case 'drones':
+                    $table->addColumn('drones', new Column('Drones', Column::ALIGN_RIGHT));
+                    break;
+                case 'elite_drones':
+                    $table->addColumn('elite_drones', new Column('E.Drones', Column::ALIGN_RIGHT));
+                    break;
             }
         }
 
@@ -138,6 +148,8 @@ class Players extends Base
                     'crafting_xp'            => $user->getCraftingXpAttribute(),
                     'crafting_level'         => $user->getCraftingLevelAttribute(),
                     'videos'                 => $user->getVideoDoubleUsesAttribute(),
+                    'drones'                 => $user->getDronesAttribute(),
+                    'elite_drones'           => $user->getEliteDronesAttribute(),
                 ];
             }
 
@@ -156,6 +168,6 @@ class Players extends Base
 
     public function help(): string
     {
-        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges, se_divide_by_prestiges. Sorts by the first column.';
+        return '{columns} - List players with columns requested. Example columns: egg_id, rank, earning_bonus, highest_deflector, eb_player, pe, soul_eggs, prestiges, se_divide_by_prestiges, legendary_artifacts, backup_time, crafting_xp, crafting_level, videos, drones, elite_drones. Sorts by the first column.';
     }
 }
