@@ -2191,3 +2191,28 @@ enum LeaderboardScope {
     ALL_TIME = 0;
     CURRENT_SEASON = 1;
 }
+
+enum GameDimension {
+    EARNINGS = 1;
+    AWAY_EARNINGS = 3;
+}
+
+
+/* Optionals for !? */
+
+message EggIncFirstContactResponseData {
+    optional EggIncFirstContactResponse data = 1;
+}
+
+message ContractCoopStatusResponseData {
+    optional ContractCoopStatusResponse data = 1;
+}
+
+message PeriodicalsResponseData {
+    // optional string data = 1;
+    optional PeriodicalsResponse data = 1;
+}
+
+message CompleteMissionResponseData {
+    optional CompleteMissionResponse data = 1;
+}

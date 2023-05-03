@@ -43,7 +43,7 @@ class EggInc
 
     public function getPlayerInfo(string $playerId): \StdClass
     {
-        if (!$playerId || substr($playerId, 0, 2) != 'ei') {
+        if (!$playerId || substr(strtolower($playerId), 0, 2) != 'ei') {
             throw new UserNotFoundException('User not found');
         }
 

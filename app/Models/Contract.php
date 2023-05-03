@@ -31,21 +31,18 @@ class Contract extends Model
         return $this->raw_data->maxCoopSize;
     }
 
-    public function getEggsNeededFormatted(): string
+    public function getEggsNeededFormatted(string $grade): string
     {
-        return resolve(Egg::class)->format($this->getEggsNeeded());
+        return resolve(Egg::class)->format($this->getEggsNeeded($grade));
     }
 
-    public function getEggsNeeded(): int
+    public function getEggsNeeded(string $grade): int
     {
-        if (isset($this->raw_data->goals)) {
-            return end($this->raw_data->goals)->targetAmount;
-        }
+        $goals = collect($this->raw_data->gradeSpecs)
+            ->where('grade', $grade)
+            ->first()
+        ;
         
-        if (isset($this->raw_data->goalsList)) {
-            return end($this->raw_data->goalsList)->targetAmount;
-        }
-
-        return end($this->raw_data->rewards)->goal;
+        return end($goals->goals)->targetAmount;
     }
 }

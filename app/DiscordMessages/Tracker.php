@@ -83,6 +83,7 @@ class Tracker extends Base
         $messages[] = 'Members: ' . $this->coop->getMembers() . '/' . $this->contract->getMaxCoopSize();
         $messages[] = 'Creator: `' . $this->coop->getCreator() . '`';
         $messages[] = 'Deflector: ' . $this->coop->getDeflectorTotal() . '%';
+        $messages[] = 'Grade: ' . $this->coop->getGrade();
 
         return $messages;
     }

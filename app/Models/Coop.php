@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Api\EggInc;
+use App\Exceptions\UserNotFoundException;
 use App\Formatters\Egg;
 use App\Formatters\TimeLeft;
 use Exception;
@@ -62,9 +63,28 @@ class Coop extends Model
         return $this->getCoopInfo()->totalAmount;
     }
 
+    public function getGrade(): string
+    {
+        $creator = null;
+        try {
+            $creator = resolve(EggInc::class)
+                ->getPlayerInfo($this->getCoopInfo()->creatorId)
+            ;
+        } catch (UserNotFoundException $e) {}
+        
+        $grade = 'GRADE_C';
+        if ($creator) {
+            $grade = object_get($creator, 'contracts.lastCpi.grade', 'GRADE_C');
+        }
+
+        return $grade;
+    }
+
     public function getEggsNeeded(): int
     {
-        return $this->contractModel()->getEggsNeeded();
+        $grade = $this->getGrade();
+        
+        return $this->contractModel()->getEggsNeeded($grade);
     }
 
     public function getProjectedEggs(): float
@@ -91,7 +111,7 @@ class Coop extends Model
     }
 
     public function getEggsNeededFormatted(): string
-    {
+    { 
         return resolve(Egg::class)->format($this->getEggsNeeded());
     }
 
