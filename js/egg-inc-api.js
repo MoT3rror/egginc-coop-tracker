@@ -13,7 +13,7 @@ const ei_request = (path, payload, requestPB, responsePB) => {
         var buffer = requestPB.encode(requestPB.create(payload)).finish()
 
         let options = {
-            url: `https://www.auxbrain.com/${path}`,
+            url: `https://ctx-dot-auxbrainhome.appspot.com/${path}`,
             method: 'post',
             data: 'data=' + b.encode(buffer),
         }
