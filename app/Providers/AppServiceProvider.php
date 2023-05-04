@@ -12,6 +12,7 @@ use App\DiscordMessages\AvailableByRolesCount;
 use App\DiscordMessages\BootWarning;
 use App\DiscordMessages\Contracts;
 use App\DiscordMessages\Contributions;
+use App\DiscordMessages\Coopad;
 use App\DiscordMessages\CoopLeaderBoard;
 use App\DiscordMessages\Delete;
 use App\DiscordMessages\DeleteAll;
@@ -106,6 +107,7 @@ class AppServiceProvider extends ServiceProvider
                 'boot-warning'           => ['class' => BootWarning::class],
                 'contracts'              => ['class' => Contracts::class],
                 'contributions'          => ['class' => Contributions::class],
+                'coopad'                 => ['class' => Coopad::class],
                 'coopless'               => [
                     'class'     => PlayersNotInCoop::class,
                     'duplicate' => true,
