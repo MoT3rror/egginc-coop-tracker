@@ -134,7 +134,7 @@ class Status extends Base
 
         $table = new Table();
         $table->addColumn('name', new Column('Coop ' . $contract->getMaxCoopSize() . '', Column::ALIGN_LEFT));
-        $table->addColumn('progress', new Column($contract->getEggsNeededFormatted(), Column::ALIGN_LEFT));
+        $table->addColumn('progress', new Column('Progress', Column::ALIGN_LEFT));
         $table->addColumn('time-left', new Column('E Time', Column::ALIGN_LEFT));
         $table->addColumn('projected', new Column('Proj/T', Column::ALIGN_LEFT));
 
