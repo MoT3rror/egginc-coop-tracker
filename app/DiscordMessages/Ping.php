@@ -18,12 +18,12 @@ class Ping extends Status
         $players = [];
         foreach ($coops as $coop) {
             try {
-                $players = array_merge($players, collect($coop->getCoopInfo()->members)->pluck('id')->all());
+                $players = array_merge($players, collect($coop->getCoopInfo()->contributors)->pluck('userName')->all());
             } catch (\App\Exceptions\CoopNotFoundException $e) {
                 // just catch error
             }
         }
-        $players = array_map('strtolower', $players);
+        // $players = array_map('strtolower', $players);
         $contract = $this->getContractInfo($this->parts[1]);
 
         $this->guild->sync();
@@ -36,7 +36,7 @@ class Ping extends Status
                 return !$user->hasCompletedContract($this->parts[1]);
             })
             ->filter(function($user) use ($players) {
-                return !in_array($user->egg_inc_player_id, $players);
+                return !in_array($user->getEggIncUsernameAttribute(), $players);
             })
         ;
 
