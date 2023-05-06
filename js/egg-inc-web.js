@@ -39,7 +39,9 @@ app.get('/getPlayerInfo', (req, res, next) => {
         console.log(data.backup.contracts)
         data.backup.contracts.archive = _.chain(data.backup.contracts.archive)
             .filter((activeContract) => {
-                return activeContract.numGoalsAchieved == activeContract.contract.goals.length
+                let goals = activeContract.contract.goals ? activeContract.contract.goals : activeContract.contract.gradeSpecs[0]
+
+                return activeContract.numGoalsAchieved == goals.length
             })
             .map((activeContract) => {
                 return activeContract.contract.identifier;
