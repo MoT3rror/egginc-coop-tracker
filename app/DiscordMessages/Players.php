@@ -51,6 +51,10 @@ class Players extends Base
                         return $user->getDronesAttribute();
                     case 'elite_drones':
                         return $user->getEliteDronesAttribute();
+                    case 'contract_cxp':
+                        return $user->getContractTotalCxpAttribute();
+                    case 'contract_grade':
+                        return $user->getContractGradeAttribute();
                     case 'rank':
                     case 'earning_bonus':
                     default:
