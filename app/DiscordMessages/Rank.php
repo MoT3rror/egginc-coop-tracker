@@ -66,12 +66,7 @@ class Rank extends Base
         $craftingLevel = $user->getCraftingLevelAttribute();
         $contractGrade = $user->getContractGradeAttribute();
         $contractExp = $user->getContractTotalCxpAttribute();
-        $roles = $user
-            ->roles
-            ->where('show_role')
-            ->pluck('name')
-            ->join(', ')
-        ;
+        $roles = $user->getRolesAsList();
 
         return <<<RANK
 ```

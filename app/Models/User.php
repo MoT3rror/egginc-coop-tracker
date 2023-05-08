@@ -531,14 +531,19 @@ class User extends Authenticatable
 
     public function getUsernameWithRolesAttribute()
     {
-        $roles = $this
+        $roles = $this->getRolesAsList();
+
+        return $this->username . ($roles ? ' (' . $roles . ')' : '');
+    }
+
+    public function getRolesAsList(): string
+    {
+        return $this
             ->roles
             ->where('show_role')
             ->pluck('name')
             ->join(', ')
         ;
-
-        return $this->username . ($roles ? ' (' . $roles . ')' : '');
     }
 
     public function createUserStat()

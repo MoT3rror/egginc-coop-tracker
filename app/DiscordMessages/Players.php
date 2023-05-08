@@ -55,6 +55,8 @@ class Players extends Base
                         return $user->getContractTotalCxpAttribute();
                     case 'contract_grade':
                         return $user->getContractGradeAttribute();
+                    case 'roles':
+                        return $user->getRolesAsList();
                     case 'rank':
                     case 'earning_bonus':
                     default:
@@ -123,6 +125,9 @@ class Players extends Base
                 case 'contract_cxp':
                     $table->addColumn('contract_cxp', new Column('C.Exp', Column::ALIGN_RIGHT));
                     break;
+                case 'roles':
+                    $table->addColumn('roles', new Column('D. Roles', Column::ALIGN_LEFT));
+                    break;
             }
         }
 
@@ -162,6 +167,7 @@ class Players extends Base
                     'elite_drones'           => $user->getEliteDronesAttribute(),
                     'contract_grade'         => $user->getContractGradeAttribute(),
                     'contract_cxp'           => $user->getContractTotalCxpAttribute(),
+                    'roles'                  => $user->getRolesAsList(),
                 ];
             }
 
