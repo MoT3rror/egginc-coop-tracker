@@ -66,15 +66,13 @@ class Coop extends Model
     public function getGrade(): string
     {
         $creator = null;
-        try {
-            $creator = resolve(EggInc::class)
-                ->getPlayerInfo($this->getCoopInfo()->creatorId)
-            ;
-        } catch (UserNotFoundException $e) {}
+        if ($this->members && $this->members->first()) {
+            $creator = $this->members->first()->user->getEggPlayerInfo();
+        }
         
-        $grade = 'GRADE_C';
+        $grade = 'GRADE_AAA';
         if ($creator) {
-            $grade = object_get($creator, 'contracts.lastCpi.grade', 'GRADE_C');
+            $grade = object_get($creator, 'contracts.lastCpi.grade', 'GRADE_AAA');
         }
 
         return $grade;
