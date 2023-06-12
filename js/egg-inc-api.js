@@ -41,8 +41,8 @@ class EggIncApi {
             userId: 'EI6411720689451008',
             rinfo: {
                 eiUserId: 'EI6411720689451008',
-                clientVersion: 47,
-                version: '1.26.1',
+                clientVersion: 48,
+                version: '1.26.2',
                 platform: 'ANDROID',
             }
         }
@@ -55,14 +55,38 @@ class EggIncApi {
         );
     }
 
+    static getCoopQuery(contract, coop) {
+        const payload = {
+            contractIdentifier: contract,
+            coopIdentifier: coop,
+            userId: 'EI6411720689451008',
+            league: 4,
+            grade: 4,
+            clientVersion: 48,
+            rinfo: {
+                eiUserId: 'EI6411720689451008',
+                clientVersion: 48,
+                version: '1.26.2',
+                platform: 'ANDROID',
+            }
+        }
+
+        return ei_request(
+            'ei/query_coop',
+            payload,
+            root.lookupType('QueryCoopRequest'),
+            root.lookupType('QueryCoopResponse')
+        );
+    }
+
     static getPeriodicals() {
         const payload = {
             userId: 'EI6411720689451008',
-            currentClientVersion: 47,
+            currentClientVersion: 48,
             rinfo: {
                 eiUserId: 'EI6411720689451008',
-                clientVersion: 47,
-                version: '1.26.1',
+                clientVersion: 48,
+                version: '1.26.2',
                 platform: 'ANDROID',
             }
         }

@@ -36,10 +36,13 @@ app.get('/getCoopStatus', (req, res, next) => {
 
 app.get('/getPlayerInfo', (req, res, next) => {
     EggIncApi.getPlayerInfo(req.query.playerId).then((data) => {
-        console.log(data.backup.contracts)
         data.backup.contracts.archive = _.chain(data.backup.contracts.archive)
             .filter((activeContract) => {
-                let goals = activeContract.contract.goals ? activeContract.contract.goals : activeContract.contract.gradeSpecs[0]
+                let goals = activeContract.contract.goals ? activeContract.contract.goals : activeContract.contract.gradeSpecs[0].goals
+
+                if (activeContract.contract.identifier == 'f1-trs-2023') {
+                    console.log(activeContract, goals)
+                }
 
                 return activeContract.numGoalsAchieved == goals.length
             })
@@ -47,8 +50,17 @@ app.get('/getPlayerInfo', (req, res, next) => {
                 return activeContract.contract.identifier;
             })
             .toJSON()
-        ;
-        
+
+        if (data.backup.contracts.contracts) {
+            data.backup.contracts.contracts.forEach(activeContract => {
+                let goals = activeContract.contract.goals ? activeContract.contract.goals : activeContract.contract.gradeSpecs[0].goals
+
+                if (activeContract.numGoalsAchieved == goals.length) {
+                    data.backup.contracts.archive.push(activeContract.contract.identifier)
+                }
+            })
+        }
+
         data.backup.contracts.activeContracts = null;
         data.backup.contracts.contractIdsSeen = null;
         data.backup.farms = null
