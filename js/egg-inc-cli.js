@@ -5,18 +5,26 @@ const _ = require('lodash')
 require('yargs')
     .scriptName('Egg Inc API')
     .usage('$0 <cmd> [args]')
-    .command('getAllActiveContracts', 'Get All Active Contracts', (yargs) => {}, (argv) => {
-        EggIncApi.getPeriodicals().then((data) => {
-            console.log(data)
-            console.log(JSON.stringify(data.contracts))
+    .command('getAllActiveContracts', 'Get All Active Contracts', (yargs) => {
+        yargs
+            .positional('clientVersion', {type: 'integer'})
+            .positional('appVersion', {type: 'string'})
+    }, (argv) => {
+        EggIncApi.getPeriodicals(argv.clientVersion, argv.appVersion).then((data) => {
+            console.log(data.contracts.contracts.length);
+            console.log(data.contracts.contracts.map(contract => contract.identifier));
+            // console.log(data)
+            // console.log(JSON.stringify(data.contracts))
         })
     })
     .command('getCoopStatus', 'Get Coop Status', (yargs) => {
         yargs
             .positional('contract', {type: 'string'})
             .positional('coop', {type: 'string'})
+            .positional('clientVersion', {type: 'integer'})
+            .positional('appVersion', {type: 'string'})
     }, (argv) => {
-        EggIncApi.getCoopStatus(argv.contract, argv.coop).then((data) => {
+        EggIncApi.getCoopStatus(argv.contract, argv.coop, argv.clientVersion, argv.appVersion).then((data) => {
             console.log(JSON.stringify(data))
         })
     })
@@ -48,9 +56,13 @@ require('yargs')
             console.log(JSON.stringify(data))
         })
     })
-    .command('events', 'Get Current Events', (yargs) => {}, (argv) => {
-        return EggIncApi.getPeriodicals().then((data) => {
-            console.log(JSON.stringify(data.periodicals.events))
+    .command('events', 'Get Current Events', (yargs) => {
+        yargs
+            .positional('clientVersion', {type: 'integer'})
+            .positional('appVersion', {type: 'string'})
+    }, (argv) => {
+        return EggIncApi.getPeriodicals(argv.clientVersion, argv.appVersion).then((data) => {
+            console.log(JSON.stringify(data.events.events))
         })
     })
     .help()

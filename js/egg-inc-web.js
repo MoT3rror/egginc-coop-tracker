@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // define end points
 app.get('/Periodicals', (req, res, next) => {
-    EggIncApi.getPeriodicals().then((data) => {
+    EggIncApi.getPeriodicals(req.query.clientVersion, req.query.appVersion).then((data) => {
         res.send(data);
     }).catch((error) => {
         console.error(error);
@@ -25,7 +25,7 @@ app.get('/Periodicals', (req, res, next) => {
 });
 
 app.get('/getCoopStatus', (req, res, next) => {
-    EggIncApi.getCoopStatus(req.query.contract, req.query.coop).then((data) => {
+    EggIncApi.getCoopStatus(req.query.contract, req.query.coop, req.query.clientVersion, req.query.appVersion).then((data) => {
         res.send(data.data);
     }).catch((error) => {
         // console.error(error);
@@ -115,6 +115,8 @@ module.exports = app;
 Usage examples:
 npm run start-ei-web
 http://localhost:6001/Periodicals
+http://localhost:19000/Periodicals?clientVersion=48&appVersion=1.26.2
+http://localhost:19000/Periodicals?clientVersion=50&appVersion=1.27.0
 http://localhost:6001/getCoopStatus?contract=new-moon&coop=dmv
 http://localhost:6001/getPlayerInfo?playerId=EI6411720689451008
 http://localhost:6001/getPlayerInfos?playerIdsJoined=EI6411720689451008,EI6411720689451008

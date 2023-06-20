@@ -17,6 +17,26 @@
 		{
 			"type": "pwa-node",
 			"request": "launch",
+			"name": "Launch EI CLI getAllActiveContracts",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/js/egg-inc-cli.js",
+			"args": ["getAllActiveContracts", "--clientVersion", "50"]
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "Launch EI CLI events",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/js/egg-inc-cli.js",
+			"args": ["events"]
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
 			"name": "Launch EI web server",
 			"skipFiles": [
 				"<node_internals>/**"

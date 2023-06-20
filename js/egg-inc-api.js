@@ -4,6 +4,11 @@ const protobuf = require("protobufjs");
 const pako = require('pako');
 const root = protobuf.loadSync('js/Proto/egginc.proto');
 
+// default values and consts
+const EI_USER_ID = 'EI6411720689451008';
+const CLIENT_VERSION = 50
+const APP_VERSION = '1.27.0';
+
 const ei_request = (path, payload, requestPB, responsePB) => {
     return new Promise((resolve, reject) => {
         var errMsg = requestPB.verify(payload);
@@ -34,15 +39,15 @@ const ei_request = (path, payload, requestPB, responsePB) => {
 }
 
 class EggIncApi {
-    static getCoopStatus(contract, coop) {
+    static getCoopStatus(contract, coop, clientVersion, appVersion) {
         const payload = {
             contractIdentifier: contract,
             coopIdentifier: coop,
-            userId: 'EI6411720689451008',
+            userId: EI_USER_ID,
             rinfo: {
-                eiUserId: 'EI6411720689451008',
-                clientVersion: 50,
-                version: '1.27.0',
+                eiUserId: EI_USER_ID,
+                clientVersion: parseInt(clientVersion) || CLIENT_VERSION,
+                version: appVersion || APP_VERSION,
                 platform: 'ANDROID',
             }
         }
@@ -55,18 +60,18 @@ class EggIncApi {
         );
     }
 
-    static getCoopQuery(contract, coop) {
+    static getCoopQuery(contract, coop, clientVersion, appVersion) {
         const payload = {
             contractIdentifier: contract,
             coopIdentifier: coop,
-            userId: 'EI6411720689451008',
+            userId: EI_USER_ID,
             league: 4,
             grade: 4,
-            clientVersion: 50,
+            clientVersion: parseInt(clientVersion) || CLIENT_VERSION,
             rinfo: {
-                eiUserId: 'EI6411720689451008',
-                clientVersion: 50,
-                version: '1.27.0',
+                eiUserId: EI_USER_ID,
+                clientVersion: parseInt(clientVersion) || CLIENT_VERSION,
+                version: appVersion || APP_VERSION,
                 platform: 'ANDROID',
             }
         }
@@ -79,14 +84,14 @@ class EggIncApi {
         );
     }
 
-    static getPeriodicals() {
+    static getPeriodicals(clientVersion, appVersion) {
         const payload = {
-            userId: 'EI6411720689451008',
-            currentClientVersion: 50,
+            userId: EI_USER_ID,
+            currentClientVersion: parseInt(clientVersion) || CLIENT_VERSION,
             rinfo: {
-                eiUserId: 'EI6411720689451008',
-                clientVersion: 50,
-                version: '1.27.0',
+                eiUserId: EI_USER_ID,
+                clientVersion: parseInt(clientVersion) || CLIENT_VERSION,
+                version: appVersion || APP_VERSION,
                 platform: 'ANDROID',
             }
         }
