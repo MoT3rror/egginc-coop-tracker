@@ -34,6 +34,13 @@ class EggInc
         });
     }
 
+    public function getCurrentVersion(): \StdClass
+    {
+        $response = $this->getHttpClient()->get('current-version');
+        $json = json_decode($response->body());
+        return $json;
+    }
+
     public function getCurrentContracts(): array
     {
         $response = $this->getHttpClient()->get('Periodicals');

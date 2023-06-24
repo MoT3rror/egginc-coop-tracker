@@ -19,6 +19,7 @@ use App\DiscordMessages\DeleteAll;
 use App\DiscordMessages\DeleteChannels;
 use App\DiscordMessages\DeleteCompleteChannels;
 use App\DiscordMessages\Ge;
+use App\DiscordMessages\GetCurrentEggVersion;
 use App\DiscordMessages\GetMyId;
 use App\DiscordMessages\GetPlayerId;
 use App\DiscordMessages\Help;
@@ -121,6 +122,7 @@ class AppServiceProvider extends ServiceProvider
                 'delete-channels'        => ['class' => DeleteChannels::class],
                 'delete-complete-channels' => ['class' => DeleteCompleteChannels::class],
                 'ge'                     => ['class' => Ge::class],
+                'get-current-egg-version' => ['class' => GetCurrentEggVersion::class],
                 'get-my-id'              => ['class' => GetMyId::class],
                 'get-player-id'          => ['class' => GetPlayerId::class],
                 'help'                   => ['class' => Help::class],
