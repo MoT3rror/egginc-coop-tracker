@@ -135,6 +135,13 @@ class EggIncApi {
         const tasks = playerIds.map(playerId => this.getPlayerInfo(playerId));
         return Promise.all(tasks);
     }
+
+    static getCurrentVersion() {
+        return {
+            currentClientVersion: CLIENT_VERSION,
+            appVersion: APP_VERSION,
+        }
+    }
 }
 
 module.exports = EggIncApi;

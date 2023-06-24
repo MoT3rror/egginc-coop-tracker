@@ -96,6 +96,10 @@ app.get('/getPlayerInfos', (req, res, next) => {
     });
 });
 
+app.get('/current-version', (req, res, next) => {
+    return res.send(EggIncApi.getCurrentVersion())
+});
+
 app.get('/notFound', (/*req, res, next*/) => {
     throw new createError.NotFound();
 });
@@ -122,4 +126,5 @@ http://localhost:6001/getPlayerInfo?playerId=EI6411720689451008
 http://localhost:6001/getPlayerInfos?playerIdsJoined=EI6411720689451008,EI6411720689451008
 http://localhost:6001/getPlayerInfos?playerIds[]=EI6411720689451008&playerIds[]=EI6411720689451008
 http://localhost:6001/getPlayerInfos?playerIdsJoined=EI5426893308821504,EI6006465308917760,EI6622592762380288,EI6243749694275584,EI6670048183189504,EI5293412581900288,EI5889385330900992,EI4950801673355264
+http://localhost:6001/current-version
 */
