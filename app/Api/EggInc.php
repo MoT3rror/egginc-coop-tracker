@@ -41,11 +41,19 @@ class EggInc
         return $json;
     }
 
-    public function getCurrentContracts(): array
+    public function getCurrentContracts(?string $clientVersion = null, ?string $appVersion = null): \StdClass
     {
-        $response = $this->getHttpClient()->get('Periodicals');
+        $response = $this->getHttpClient()
+            ->get(
+                'Periodicals',
+                [
+                    'clientVersion' => $clientVersion,
+                    'appVersion'    => $appVersion,
+                ],
+            )
+        ;
         $json = json_decode($response->body());
-        return $json->contracts->contracts;
+        return $json;
     }
 
     public function getPlayerInfo(string $playerId): \StdClass

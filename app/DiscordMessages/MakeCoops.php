@@ -37,6 +37,9 @@ class MakeCoops extends Base
             return 'Figure out your math. You are attempting to make ' . $coops . ' that has size restrion of ' . ($coops * $contract->getMaxCoopSize()) . ' for ' . $users->count() . ' players.';
         }
 
+        /**
+         * @var Coop[]
+         */
         $coopsAdded = [];
         for ($i = 1; $i <= $coops; $i++) { 
             $coop = new Coop();

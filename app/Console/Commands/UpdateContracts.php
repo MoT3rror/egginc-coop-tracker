@@ -14,7 +14,7 @@ class UpdateContracts extends Command
      *
      * @var string
      */
-    protected $signature = 'contracts:update';
+    protected $signature = 'contracts:update {clientVersion?} {appVersion?}';
 
     /**
      * The console command description.
@@ -43,8 +43,13 @@ class UpdateContracts extends Command
      */
     public function handle()
     {
-        $contracts = $this->eggInc->getCurrentContracts();
+        $contractData = $this->eggInc->getCurrentContracts(
+            $this->argument('clientVersion'),
+            $this->argument('appVersion'),
+        );
 
+        $contracts = $contractData->contracts->contracts;
+        
         foreach ($contracts as $contract) {
             Contract::unguarded(function () use ($contract) {
                 Contract::updateOrCreate(
@@ -56,6 +61,10 @@ class UpdateContracts extends Command
                     ]
                 );
             });
+        }
+
+        if ($contractData->contracts->warningMessage) {
+            throw new \Exception($contractData->contracts->warningMessage);
         }
     }
 }
