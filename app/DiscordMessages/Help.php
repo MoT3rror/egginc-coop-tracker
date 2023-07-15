@@ -41,15 +41,17 @@ class Help extends Base
             try {
                 $commandObject = new $class($this->authorId, $this->authorName, $this->guildId, $this->channelId, $this->parts);
                 if ($commandObject->help()) {
-                    $helpText = 'eb!' . $start . ' ' .  $commandObject->help(); 
+                    $helpText = 'eb!' . $start . ' ' .  $commandObject->help();
                 }
-            } catch (DiscordErrorException $e) {}
+            } catch (DiscordErrorException $e) {
+                $helpText = null;
+            }
             if ($helpText) {
                 $count++;
                 $message .= $helpText . PHP_EOL;
             }
 
-            if ($count > 19) {
+            if ($count > 18) {
                 $messages[] = $message . '```';
                 $message = '```' . PHP_EOL;
                 $count = 0;

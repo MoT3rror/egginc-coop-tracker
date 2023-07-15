@@ -355,7 +355,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->game->goldenEggsEarned;
+        return (int) $info->game->goldenEggsEarned;
     }
 
     public function getLiftTimeSpentGoldenEggsAttribute(): int
@@ -364,7 +364,7 @@ class User extends Authenticatable
         if (!$info) {
             return 0;
         }
-        return $info->game->goldenEggsSpent;
+        return (int) $info->game->goldenEggsSpent;
     }
 
     public function getCurrentGoldenEggs(): int
