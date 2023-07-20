@@ -382,6 +382,11 @@ class User extends Authenticatable
         return $info->userName;
     }
 
+    public function getUsernameWithEggNameAttribute(): string
+    {
+        return $this->username . ' (' . $this->getEggIncUsernameAttribute() . ')';
+    }
+
     public function getPENeededForNextRankAttribute(): int
     {
         if (!$this->getEggPlayerInfo()) {
