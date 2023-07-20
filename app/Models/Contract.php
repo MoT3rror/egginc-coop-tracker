@@ -17,6 +17,7 @@ class Contract extends Model
     {
         return self::query()
             ->whereDate('expiration', '>', now()->subDays($additionalDays))
+            ->orderBy('updated_at', 'DESC')
             ->get()
         ;
     }
