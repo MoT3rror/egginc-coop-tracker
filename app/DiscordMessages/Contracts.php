@@ -14,7 +14,7 @@ class Contracts extends Base
         $message[] = '```';
 
         foreach ($contracts as $contract) {
-            $message[] = $contract->identifier . ' (' . $contract->name . ')';
+            $message[] = $contract->identifier . ' (' . $contract->raw_data->name . ') ' . $contract->expiration->format('m-d-Y');
         }
         $message[] = '```';
 
@@ -23,18 +23,16 @@ class Contracts extends Base
 
     public function getContractsInfo()
     {
-        return Contract::getAllActiveContracts()
-            ->getInRawFormat()
-        ;
+        return Contract::getAllActiveContracts();
     }
 
     public function help(): string
     {
-        return '- Display current contracts with IDs.';
+        return '- Display current contracts with IDs and expiration.';
     }
 
     public function description(): string
     {
-        return 'Display current contract with IDs.';
+        return 'Display current contract with IDs and expiration.';
     }
 }
