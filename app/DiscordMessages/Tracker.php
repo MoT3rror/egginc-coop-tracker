@@ -117,7 +117,7 @@ class Tracker extends Base
             }
 
             if (count($usersNotIn) > 0) {
-                $groupOfMessages[$index] .= PHP_EOL . 'Missing:' . PHP_EOL . '- ' . $usersNotIn->implode('username', PHP_EOL . '- ');
+                $groupOfMessages[$index] .= PHP_EOL . 'Missing:' . PHP_EOL . '- ' . $usersNotIn->implode('username_with_egg_name', PHP_EOL . '- ');
             }
         } 
 

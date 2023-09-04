@@ -63,7 +63,7 @@ class UpdateContracts extends Command
             });
         }
 
-        if ($contractData->contracts->warningMessage) {
+        if (isset($contractData->contracts->warningMessage) && $contractData->contracts->warningMessage) {
             throw new \Exception($contractData->contracts->warningMessage);
         }
     }
