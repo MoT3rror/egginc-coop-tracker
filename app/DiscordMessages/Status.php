@@ -82,11 +82,6 @@ class Status extends Base
     {
         $parts = $this->parts;
         $contract = $this->getContractInfo($parts[1]);
-        $url = URL::signedRoute('contract-status', ['guildId' => $this->guildId, 'contractId' => $parts[1]], 60 * 60);
-        $shortLink = ShortLink::create([
-            'link'   => $url,
-            'expire' => now()->addHour(),
-        ]);
 
         $messages = [
             $contract ? $contract->name : $parts[1],
@@ -99,7 +94,7 @@ class Status extends Base
                 'link'   => $url,
                 'expire' => now()->addHour(),
             ]);
-            $messages[] = route('short-link', ['code' => $shortLink->code]);
+            $messages[] = '[Status Page](' . route('short-link', ['code' => $shortLink->code]) . ')';
         }
 
         return $messages;
