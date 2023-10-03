@@ -83,13 +83,4 @@ class MakeCoops extends Base
     {
         return '{Contract ID} {Number of Coops} {Coop Prefix} - Make coops with all members available. Will add members by EB rating till all coops made.';
     }
-
-    private function getCoopName($prefix, $number): string
-    {
-        $randomCharacters = 'abcdefghjkmnpqrstuvwy';
-
-        $randomIndex = mt_rand(0, strlen($randomCharacters) - 1);
-
-        return $prefix . $number . $randomCharacters[$randomIndex];
-    }
 }

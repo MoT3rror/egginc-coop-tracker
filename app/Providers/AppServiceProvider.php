@@ -24,6 +24,7 @@ use App\DiscordMessages\GetMyId;
 use App\DiscordMessages\GetPlayerId;
 use App\DiscordMessages\Help;
 use App\DiscordMessages\Hi;
+use App\DiscordMessages\JoinCoop;
 use App\DiscordMessages\LinkToRocketTracker;
 use App\DiscordMessages\Links;
 use App\DiscordMessages\Love;
@@ -127,6 +128,7 @@ class AppServiceProvider extends ServiceProvider
                 'get-player-id'          => ['class' => GetPlayerId::class],
                 'help'                   => ['class' => Help::class],
                 'hi'                     => ['class' => Hi::class],
+                'join-coop'              => ['class' => JoinCoop::class],
                 'leaders'                => ['class' => CoopLeaderBoard::class],
                 'link-to-rocket-tracker' => ['class' => LinkToRocketTracker::class],
                 'links'                  => ['class' => Links::class],

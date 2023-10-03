@@ -18,7 +18,7 @@ class Base
 
     public $channelId;
 
-    public $guild = null;
+    public ?Guild $guild = null;
 
     protected $middlewares = [];
 
@@ -159,5 +159,14 @@ class Base
     public function setChannelParent(string $parent)
     {
         $this->channelParent = $parent;
+    }
+
+    public function getCoopName($prefix, $number): string
+    {
+        $randomCharacters = 'abcdefghjkmnpqrstuvwy';
+
+        $randomIndex = mt_rand(0, strlen($randomCharacters) - 1);
+
+        return $prefix . $number . $randomCharacters[$randomIndex];
     }
 }
