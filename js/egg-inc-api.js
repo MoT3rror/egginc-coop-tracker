@@ -6,8 +6,8 @@ const root = protobuf.loadSync('js/Proto/egginc.proto');
 
 // default values and consts
 const EI_USER_ID = 'EI6411720689451008';
-const CLIENT_VERSION = 59
-const APP_VERSION = '1.28.2';
+const CLIENT_VERSION = 65
+const APP_VERSION = '1.32';
 
 const ei_request = (path, payload, requestPB, responsePB) => {
     return new Promise((resolve, reject) => {
@@ -23,7 +23,8 @@ const ei_request = (path, payload, requestPB, responsePB) => {
             data: 'data=' + b.encode(buffer),
         }
 
-        axios(options).then((response) => {
+        axios(options)
+        .then((response) => {
             let byteArray = new Array(0)
             protobuf.util.base64.decode(response.data, byteArray, 0)
 
@@ -103,13 +104,15 @@ class EggIncApi {
             root.lookupType('AuthenticatedMessage')
         ).then(data => {
             let strData = Buffer.from(data.message, 'base64')
-
-            var binData = new Uint8Array(strData);
-            var data        = pako.inflate(binData);
+            
+            var messageData = new Uint8Array(strData);
+            if (data.compressed || true) {
+                messageData = pako.inflate(messageData);
+            }
 
             let responsePB = root.lookupType('PeriodicalsResponse')
 
-            return responsePB.toObject(responsePB.decode(data), {
+            return responsePB.toObject(responsePB.decode(messageData), {
                 longs: String,
                 enums: String,
                 bytes: String,
