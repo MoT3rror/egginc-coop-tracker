@@ -38,7 +38,7 @@
         "google-protobuf": "^3.14.0",
         "http-errors": "^1.7.2",
         "long": "^4.0.0",
-        "protobufjs": "^6.10.2",
+        "protobufjs": "^6.11.3",
         "resolve-url-loader": "^3.1.2",
         "vue": "^2.6.12",
         "vue-chartjs": "^3.5.1",
