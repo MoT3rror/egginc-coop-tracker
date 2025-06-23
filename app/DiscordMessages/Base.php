@@ -160,13 +160,4 @@ class Base
     {
         $this->channelParent = $parent;
     }
-
-    public function getCoopName($prefix, $number): string
-    {
-        $randomCharacters = 'abcdefghjkmnpqrstuvwy';
-
-        $randomIndex = mt_rand(0, strlen($randomCharacters) - 1);
-
-        return $prefix . $number . $randomCharacters[$randomIndex];
-    }
 }

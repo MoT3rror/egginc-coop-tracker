@@ -85,6 +85,7 @@ class AppServiceProvider extends ServiceProvider
             return $app->makeWith(DiscordClient::class, [
                 'token'     => config('services.discord.token'),
                 'tokenType' => 'Bot',
+                'logger'  => $app->make('log'),
             ]);
         });
 
