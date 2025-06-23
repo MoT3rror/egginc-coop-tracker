@@ -6,8 +6,8 @@ const root = protobuf.loadSync('js/Proto/egginc.proto');
 
 // default values and consts
 const EI_USER_ID = 'EI6411720689451008';
-const CLIENT_VERSION = 65
-const APP_VERSION = '1.32';
+const CLIENT_VERSION = 69;
+const APP_VERSION = '1.34.3';
 
 const ei_request = (path, payload, requestPB, responsePB) => {
     return new Promise((resolve, reject) => {

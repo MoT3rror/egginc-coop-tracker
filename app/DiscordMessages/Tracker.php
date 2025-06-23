@@ -76,6 +76,7 @@ class Tracker extends Base
     {
         $messages = [];
         $messages[] = $this->contract->name . '(' . $this->contract->identifier . ') - ' . $this->coop->coop;
+        $messages[] = 'https://eicoop-carpet.netlify.app/' . $this->contract->identifier . '/' . $this->coop->coop;
         $messages[] = 'Eggs: ' . $this->coop->getCurrentEggsFormatted();
         $messages[] = 'Rate: ' . $this->coop->getTotalRateFormatted() . '/hr Need: '. $this->coop->getNeededRateFormatted();
         $messages[] = 'Projected Eggs: ' . $this->coop->getProjectedEggsFormatted() . '/' . $this->coop->getEggsNeededFormatted();
@@ -119,6 +120,8 @@ class Tracker extends Base
             if (count($usersNotIn) > 0) {
                 $groupOfMessages[$index] .= PHP_EOL . 'Missing:' . PHP_EOL . '- ' . $usersNotIn->implode('username_with_egg_name', PHP_EOL . '- ');
             }
+
+            // $this->coop->makeChannel();
         } 
 
         return $groupOfMessages;

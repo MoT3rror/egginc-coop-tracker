@@ -116,7 +116,7 @@ class UpdateInteractions extends Command
         try {
             $this->httpClient()->put('/guilds/' . $guildId . '/commands', array_values($commands))->json();
         } catch (RequestException $e) {
-            dd($e->getResponse()->getBody()->getContents(), $commands);
+            // dd($e->getResponse()->getBody()->getContents(), $commands);
         }
 
         foreach ($currentlySetKeyed as $command) {

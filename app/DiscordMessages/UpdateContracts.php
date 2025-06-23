@@ -8,6 +8,8 @@ class UpdateContracts extends Base
 {
     protected $middlewares = ['requiresGuild', 'isAdmin'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         try {

@@ -70,15 +70,22 @@ class Coop extends Model
             $creator = $this->members->first()->user->getEggPlayerInfo();
         }
         
+        /*$creator = null;
+        try {
+            $creator = resolve(EggInc::class)
+                ->getPlayerInfo($this->getCoopInfo()->creatorId)
+            ;
+        } catch (UserNotFoundException $e) {}*/
+        
         $grade = 'GRADE_AAA';
         if ($creator) {
-            $grade = object_get($creator, 'contracts.lastCpi.grade', 'GRADE_AAA');
+            $grade = object_get($creator, 'contracts.lastCpi.grade', 'GRADE_C');
         }
 
         return $grade;
     }
 
-    public function getEggsNeeded(): int
+    public function getEggsNeeded()
     {
         $grade = $this->getGrade();
         
@@ -242,7 +249,8 @@ class Coop extends Model
         $permissions = [
             [
                 'id'    => config('services.discord.client_id'),
-                'allow' => 3088,
+                'allow' => 3072,
+                // 'deny'  => 16384,
                 'type'  => 1,
             ]
         ];
@@ -253,18 +261,20 @@ class Coop extends Model
                     continue;
                 }
                 $permissions[] = [
-                    'id'    => $role,
+                    'id'    => (int) $role,
                     'allow' => $allow,
+                    'type'  => 0,
                 ];
             }
         }
 
-        if ($this->guild()->roles->where('name', '@everyone')->first()) {
+        /*if ($this->guild()->roles->where('name', '@everyone')->first()) {
             $permissions[] = [
-                'id'   => $this->guild()->roles->where('name', '@everyone')->first()->discord_id,
+                'id'   => (int) $this->guild()->roles->where('name', '@everyone')->first()->discord_id,
                 'deny' => $deny,
+                'type' => 0,
             ];
-        }
+        }*/
 
         foreach ($this->members as $member) {
             $permissions[] = [

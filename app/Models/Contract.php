@@ -37,7 +37,7 @@ class Contract extends Model
         return resolve(Egg::class)->format($this->getEggsNeeded($grade));
     }
 
-    public function getEggsNeeded(string $grade): int
+    public function getEggsNeeded(string $grade)
     {
         $goals = collect($this->raw_data->gradeSpecs)
             ->where('grade', $grade)

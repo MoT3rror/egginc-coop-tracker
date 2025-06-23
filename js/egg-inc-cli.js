@@ -10,10 +10,9 @@ require('yargs')
             .positional('clientVersion', {type: 'integer'})
             .positional('appVersion', {type: 'string'})
     }, (argv) => {
-        EggIncApi.getPeriodicals(argv.clientVersion, argv.appVersion).then((data) => {
+        EggIncApi.getPeriodicals(argv.clientVersion, argv.appVersion).then(data => {
             console.log(data.contracts.contracts.length);
             console.log(data.contracts.contracts.map(contract => contract.identifier));
-            // console.log(data)
             // console.log(JSON.stringify(data.contracts))
         })
     })
