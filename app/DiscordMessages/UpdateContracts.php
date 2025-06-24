@@ -31,4 +31,9 @@ class UpdateContracts extends Base
     {
         return '{Client Version} {App Version} - Update contracts the bot knows about.';
     }
+
+    public function description(): string
+    {
+        return 'Update contracts the bot knows about.';
+    }
 }
