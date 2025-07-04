@@ -250,7 +250,6 @@ class Coop extends Model
             [
                 'id'    => config('services.discord.client_id'),
                 'allow' => 3072,
-                'deny'  => 16384,
                 'type'  => 1,
             ]
         ];

@@ -1,6 +1,6 @@
 'use strict';
 
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, MessageFlags } = require('discord.js');
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_TYPING,
@@ -25,7 +25,7 @@ client.on('interactionCreate', interaction => {
     console.log('received: ' + interaction.createdAt + ' interaction: ' + interaction.id + ' ' + interaction.commandName)
     console.time(interaction.id + ' ' + interaction.commandName)
 
-    interaction.deferReply().then(() => {
+    interaction.deferReply({ flags: MessageFlags.SuppressEmbeds }).then(() => {
         let content = interaction.commandName
 
         if (interaction.options) {
@@ -50,7 +50,7 @@ client.on('interactionCreate', interaction => {
             author: {
                 id: interaction.user.id,
                 username: interaction.user.username,
-            }
+            },
         }
 
         let reply = ''
@@ -79,7 +79,10 @@ client.on('interactionCreate', interaction => {
             })
             .then(() => {
                 console.timeEnd(interaction.id + ' ' + interaction.commandName)
-                interaction.editReply(reply)
+                interaction.editReply({
+                    content: reply,
+                    flags: MessageFlags.SuppressEmbeds,
+                })
             })
     })
 
@@ -110,7 +113,10 @@ client.on('message', message => {
                             message.channel.send(messageToSend)
                         })
                     } else {
-                        message.channel.send(response.data.message)
+                        message.channel.send({
+                            content: response.data.message,
+                            flags: MessageFlags.SuppressEmbeds,
+                        })
                     }
                 } else {
                     message.channel.send('I have nothing to say.');
