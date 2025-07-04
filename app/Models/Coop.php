@@ -250,7 +250,7 @@ class Coop extends Model
             [
                 'id'    => config('services.discord.client_id'),
                 'allow' => 3072,
-                // 'deny'  => 16384,
+                'deny'  => 16384,
                 'type'  => 1,
             ]
         ];
@@ -268,13 +268,13 @@ class Coop extends Model
             }
         }
 
-        /*if ($this->guild()->roles->where('name', '@everyone')->first()) {
+        if ($this->guild()->roles->where('name', '@everyone')->first()) {
             $permissions[] = [
                 'id'   => (int) $this->guild()->roles->where('name', '@everyone')->first()->discord_id,
                 'deny' => $deny,
                 'type' => 0,
             ];
-        }*/
+        }
 
         foreach ($this->members as $member) {
             $permissions[] = [
