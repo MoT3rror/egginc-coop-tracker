@@ -5,8 +5,8 @@ const pako = require('pako');
 const root = protobuf.loadSync('js/Proto/egginc.proto');
 
 // default values and consts
-const EI_USER_ID = 'EI6411720689451008';
-const CLIENT_VERSION = 69;
+const EI_USER_ID = 'EI6291940968235008';
+const CLIENT_VERSION = 71;
 const APP_VERSION = '1.34.3';
 
 const ei_request = (path, payload, requestPB, responsePB) => {
@@ -54,7 +54,7 @@ class EggIncApi {
         }
 
         return ei_request(
-            'ei/coop_status',
+            'ei/coop_status_bot',
             payload,
             root.lookupType('ContractCoopStatusRequest'),
             root.lookupType('ContractCoopStatusResponseData')
