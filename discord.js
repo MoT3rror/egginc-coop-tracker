@@ -25,7 +25,7 @@ client.on('interactionCreate', interaction => {
     console.log('received: ' + interaction.createdAt + ' interaction: ' + interaction.id + ' ' + interaction.commandName)
     console.time(interaction.id + ' ' + interaction.commandName)
 
-    interaction.deferReply({ flags: MessageFlags.SuppressEmbeds }).then(() => {
+    interaction.deferReply({ flags: MessageFlags.SuppressEmbeds }).then(async () => {
         let content = interaction.commandName
 
         if (interaction.options) {
@@ -36,12 +36,14 @@ client.on('interactionCreate', interaction => {
             })
         }
 
+        const channel = interaction.channel || await client.channels.fetch(interaction.channelId).catch(() => null);
+
         let message = {
             atBotUser: 'eb',
             channel: {
                 id: interaction.channelId,
-                type: interaction.channel.type,
-                parentId: interaction.channel.parentId,
+                type: channel ? channel.type : null,
+                parentId: channel ? channel.parentId : null,
                 guild: {
                     id: interaction.guildId,
                 }
@@ -88,7 +90,7 @@ client.on('interactionCreate', interaction => {
 
 })
 
-client.on('message', message => {
+client.on('messageCreate', message => {
     let atBotUser = 'eb!';
     message.content = message.content.toLowerCase();
     if (message.author.id == client.user.id || !message.content.startsWith(atBotUser)) {
