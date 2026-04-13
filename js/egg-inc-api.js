@@ -6,8 +6,8 @@ const root = protobuf.loadSync('js/Proto/egginc.proto');
 
 // default values and consts
 const EI_USER_ID = 'EI6291940968235008';
-const CLIENT_VERSION = 71;
-const APP_VERSION = '1.34.3';
+const CLIENT_VERSION = 70;
+const APP_VERSION = '1.35';
 
 const ei_request = (path, payload, requestPB, responsePB) => {
     return new Promise((resolve, reject) => {
@@ -46,10 +46,11 @@ class EggIncApi {
             coopIdentifier: coop,
             userId: EI_USER_ID,
             rinfo: {
+                build: "111313",
                 eiUserId: EI_USER_ID,
                 clientVersion: parseInt(clientVersion) || CLIENT_VERSION,
                 version: appVersion || APP_VERSION,
-                platform: 'ANDROID',
+                platform: 'IOS',
             }
         }
 

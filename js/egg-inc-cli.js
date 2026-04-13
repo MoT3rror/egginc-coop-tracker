@@ -25,7 +25,10 @@ require('yargs')
     }, (argv) => {
         EggIncApi.getCoopStatus(argv.contract, argv.coop, argv.clientVersion, argv.appVersion).then((data) => {
             console.log(JSON.stringify(data))
-        })
+        }).catch((err) => {
+            console.error(err);
+        });
+
     })
     .command('getPlayerInfo', 'Get Player Info', (yargs) => {
         yargs
