@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily', 'rollbar'],
             'ignore_exceptions' => false,
         ],
         'coop' =>[
@@ -110,7 +110,12 @@ return [
             'handler' => \Rollbar\Laravel\MonologHandler::class,
             'access_token' => env('ROLLBAR_TOKEN'),
             'level' => 'debug',
-        ]
+        ],
+        'discord' => [
+            'driver' => 'daily',
+            'path'   => storage_path('logs/discord.log'),
+            'days'   => 14,
+        ],
     ],
 
 ];
