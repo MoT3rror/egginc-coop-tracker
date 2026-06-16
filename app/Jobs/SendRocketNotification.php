@@ -38,6 +38,7 @@ class SendRocketNotification implements ShouldQueue
      */
     public function handle()
     {
+        return;
         $channel = app()->make('DiscordClientBot')->user->createDm([
             'recipient_id' => $this->user->discord_id,
         ]);
