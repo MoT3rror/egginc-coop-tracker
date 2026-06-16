@@ -35,16 +35,14 @@ require('yargs')
             .positional('playerId', {type: 'string'})
     }, (argv) => {
         EggIncApi.getPlayerInfo(argv.playerId).then((data) => {
-            data.backup.contracts.completeContracts = _.chain(data.backup.contracts.pastContracts)
-                .filter((activeContract) => {
-                    return activeContract.numGoalsCompleted == activeContract.props.rewards.length
-                })
+            data.backup.contracts.completeContracts = _.chain(data.backup.contracts.archive)
                 .map((activeContract) => {
-                    return activeContract.props.id
+                    return activeContract.contractIdentifier
                 })
                 .toJSON()
             ;
             
+            data.backup.contracts.archive = null;
             data.backup.contracts.activeContracts = null;
             data.backup.contracts.pastContracts = null
             console.log(JSON.stringify(data.backup))

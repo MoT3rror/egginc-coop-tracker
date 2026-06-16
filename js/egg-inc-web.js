@@ -36,26 +36,12 @@ app.get('/getCoopStatus', (req, res, next) => {
 
 app.get('/getPlayerInfo', (req, res, next) => {
     EggIncApi.getPlayerInfo(req.query.playerId).then((data) => {
-        //data.backup.contracts.archive = _.chain(data.backup.contracts.archive)
-            /*.filter((activeContract) => {
-                let goals = activeContract.contract.goals ? activeContract.contract.goals : activeContract.contract.gradeSpecs[0].goals
-
-                return activeContract.numGoalsAchieved == goals.length
-            })*/
-            /*.map((activeContract) => {
-                return activeContract.contract.identifier;
+        data.backup.contracts.archive = _.chain(data.backup.contracts.archive)
+            .map((activeContract) => {
+                return activeContract.contractIdentifier
             })
             .toJSON()
-
-        if (data.backup.contracts.contracts) {
-            data.backup.contracts.contracts.forEach(activeContract => {
-                let goals = activeContract.contract.goals ? activeContract.contract.goals : activeContract.contract.gradeSpecs[0].goals
-
-                if (activeContract.numGoalsAchieved == goals.length) {
-                    data.backup.contracts.archive.push(activeContract.contract.identifier)
-                }
-            })
-        }*/
+        ;
 
         data.backup.contracts.activeContracts = null;
         data.backup.contracts.contractIdsSeen = null;
