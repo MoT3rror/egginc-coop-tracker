@@ -127,13 +127,4 @@ class MakeCoopsByRoles extends Base
     {
         return '{Contract ID} {Number of Coops} {Coop Prefix} - Make coops with roles specified. The command will check if the user has the contract available.';
     }
-
-    private function getCoopName($prefix, $number): string
-    {
-        $randomCharacters = 'abcdefghjkmnpqrstuvwy';
-
-        $randomIndex = mt_rand(0, strlen($randomCharacters) - 1);
-
-        return $prefix . $number . $randomCharacters[$randomIndex];
-    }
 }

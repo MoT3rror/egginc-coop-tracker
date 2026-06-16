@@ -8,6 +8,8 @@ class AvailableByRolesCount extends Base
 {
     protected $middlewares = ['requiresGuild'];
 
+    public $guildOnly = true;
+
     public function message(): string
     {
         $parts = $this->parts;
@@ -49,5 +51,20 @@ class AvailableByRolesCount extends Base
     public function description(): string
     {
         return 'Get who has not complete contract by roles.';
+    }
+
+    public function options(): array
+    {
+        $contracts = $this->getAvailableContractOptions();
+
+        return [
+            [
+                'type'        => 3,
+                'name'        => 'contract_id',
+                'description' => 'Contract ID',
+                'required'    => true,
+                'choices'     => $contracts,
+            ],
+        ];
     }
 }

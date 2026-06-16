@@ -46,4 +46,9 @@ class Contract extends Model
         
         return end($goals->goals)->targetAmount;
     }
+
+    public function scopeIdentifier($query, $identifier)
+    {
+        return $query->where('identifier', $identifier);
+    }
 }

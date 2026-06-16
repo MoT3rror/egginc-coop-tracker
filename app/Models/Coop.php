@@ -58,6 +58,12 @@ class Coop extends Model
         return resolve(EggInc::class)->getCoopInfo($this->contract, $this->coop);
     }
 
+    public function clearCache(): void
+    {
+        $cacheKey = $this->contract . '-' . $this->coop;
+        \Cache::forget($cacheKey);
+    }
+
     public function getCurrentEggs(): float
     {
         return $this->getCoopInfo()->totalAmount;

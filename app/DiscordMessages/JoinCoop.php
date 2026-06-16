@@ -31,7 +31,12 @@ class JoinCoop extends Base
 
         $coop = null;
         foreach ($coops as $createdCoop) {
-            $coopMembersIn = collect($createdCoop->getCoopInfo()->contributors)->pluck('userName')->all();
+            try {
+                $contributors = $createdCoop->getCoopInfo()->contributors;
+            } catch (\Exception $e) {
+                $contributors = [];
+            }
+            $coopMembersIn = collect($contributors)->pluck('userName')->all();
             $usersNotIn = [];
             foreach ($createdCoop->members as $member) {
                 if (!in_array($member->user->getEggIncUsernameAttribute(), $coopMembersIn)) {
@@ -39,9 +44,9 @@ class JoinCoop extends Base
                 }
             }
 
-            $currentMemberCount = count($createdCoop->getCoopInfo()->contributors) + count($usersNotIn);
-
-            if ($currentMemberCount <= $coopMaxSize) {
+            $currentMemberCount = count($contributors) + count($usersNotIn);
+            // \Log::info('join Coop ' . $createdCoop->coop . ' has ' . $currentMemberCount . ' members (max ' . $coopMaxSize . ')');
+            if ($currentMemberCount < $coopMaxSize) {
                 $coop = $createdCoop;
                 break;
             }
@@ -71,6 +76,7 @@ class JoinCoop extends Base
         }
 
         $coop->addMember($user);
+        $coop->clearCache();
 
         $coop->makeChannel();
 
