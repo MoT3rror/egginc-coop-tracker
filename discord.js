@@ -36,7 +36,7 @@ client.on('interactionCreate', interaction => {
             })
         }
 
-        const channel = interaction.channel || await client.channels.fetch(interaction.channelId).catch(() => null);
+        const channel = interaction.channel || await client.channels.fetch(interaction.channelId ?? '').catch(() => null);
 
         let message = {
             atBotUser: 'eb',
@@ -65,7 +65,10 @@ client.on('interactionCreate', interaction => {
                             if (i == 0) {
                                 reply = messageToSend
                             } else {
-                                interaction.channel.send(messageToSend)
+                                interaction.followUp({
+                                    content: messageToSend,
+                                    flags: MessageFlags.SuppressEmbeds,
+                                })
                             }
                         })
                     } else {
